@@ -3,11 +3,13 @@ function getTree() {
 }
 
 function ApiService() {
-	$ = jQuery;
-	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/tree";
-	this.REAL_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/tree";
+	//$ = jQuery;
+	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/graph";
+	this.REAL_TREE_URL = "https://drawtwacom.herokuapp.com/get_graph";
 	this.getTree = function (onSuccess, onFail, isMock) {
-		let treeUrl = isMock ? this.MOCK_TREE_URL : this.REAL_TREE_URL;
+		onSuccess(getMockData());
+		return;
+		var treeUrl = isMock ? this.MOCK_TREE_URL : this.REAL_TREE_URL;
 		$.ajax(treeUrl)
 			.done(function (resp) {
 				onSuccess(resp);
@@ -20,47 +22,57 @@ function ApiService() {
 
 function getMockData() {
 	return {
-		name: 1,
-		user_id: 1,
-		parent_node: null,
-		drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
-		is_finished: true,
-		children: [
-			{
-				name: 2,
-				user_id: 2,
-				parent_node: null,
-				drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
-				is_finished: true,
-				children: []
-			},
-			{
-				name: 3,
-				user_id: 3,
-				parent_node: null,
-				drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
-				is_finished: true,
-				children: [
-					{
-						name: 4,
-						user_id: 2,
-						parent_node: null,
-						drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
-						is_finished: true,
-						children: []
-					},
-					{
-						name: 5,
-						user_id: 4,
-						parent_node: null,
-						drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
-						is_finished: true,
-						children: []
-					},
-				]
-			},
+  "node_id":0,
+  "user_id": null,
+  "graph": {
+	"node_id": 1,
+	"user_id": 1,
+	"state": "done",
+	"parent_node_id": null,
+	"drawing": "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
+	"is_finished": true,
+	"children": [
+	  {
+		"node_id": 2,
+		"user_id": 2,
+		"state": "done",
+		"parent_node_id": null,
+		"drawing": "https://i.ytimg.com/vi/ZOghdsWDHFc/maxresdefault.jpg",
+		"is_finished": true,
+		"children": []
+	  },
+	  {
+		"node_id": 3,
+		"user_id": 3,
+		"state": "done",
+		  "parent_node_id": null,
+		"drawing": "https://i0.wp.com/kirileonard.com/wp-content/uploads/2013/08/kiri_leonard_pumpkin_birdies_web.jpg",
+		"is_finished": true,
+		"children": [
+		  {
+			"node_id": 4,
+			"user_id": 2,
+			"state": "done",
+			"parent_node_id": null,
+			"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+			"is_finished": true,
+			"children": []
+		  },
+		  {
+			"node_id": 5,
+			"user_id": 4,
+			"state": "done",
+			"parent_node_id": null,
+			"drawing": "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
+			"is_finished": true,
+			"children": []
+		  }
 		]
-	};
+	  }
+	]
+  }
+}
+;
 }
 
 function getExampleMockData() {

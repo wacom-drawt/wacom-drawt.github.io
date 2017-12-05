@@ -50,11 +50,20 @@ function update() {
             return d.y;
         })
         .attr("r", function (d) {
-            return Math.sqrt(d.size) / 10 || 4.5;
+            return Math.sqrt(getSize(d)*50);
         })
-        .style("fill", color)
+		.attr("fill", function(d){
+		  return "url(#"+d.node_id+")";
+		})
+        // .style("fill", color)
         .on("click", click)
+        .on("mouseenter", handleMouseEnter)
+        .on("mouseout", handleMouseOut)
         .call(force.drag);
+}
+
+function getSize(d) {
+    if(d.children) {return d.children.length > 0 ? d.children.length : 1 ;} else {return 1}
 }
 
 function tick() {
@@ -84,6 +93,39 @@ function color(d) {
     return d._children ? "#b7b7b7" : d.children ? "#b7b7b7" : "#b7b7b7";
 }
 
+// Makes sure all nodes drawings are available as patterns
+function saveImagesAsPatternsInCanvas(canvasObj, root) {
+	var data = flatten(root);
+	var svg = canvasObj;
+
+    svg.append("defs")
+		.selectAll("pattern")
+		.data(data)
+		.enter()
+		.append("pattern")
+		// This id will help finding the image later
+		.attr('id', function (d, i) {
+			return d.node_id;
+		})
+		// Image will start filling by this offset
+		.attr("viewBox", function(d, i){
+			return "0 10 100 100";
+		})
+		// This will make the image
+		.attr("patternContentUnits", function(d, i){
+			return "objectBoundingBox";
+		})
+		// Image size
+		.attr('width', '300%')
+		.attr('height', '300%')
+		.append("image")
+		.attr("xlink:href", function (d) {
+			return d.drawing;
+		})
+		.attr('width', 50)
+		.attr('height', 50);
+}
+
 // Toggle children on click.
 function click(d) {
     if (!d3.event.defaultPrevented) {
@@ -96,6 +138,21 @@ function click(d) {
         }
         update();
     }
+}
+
+function handleMouseEnter(d, i) {
+    d3.select(this).transition()
+        .ease("elastic")
+        .duration("500")
+        .attr("r", Math.sqrt(getSize(d)*50)*2);
+}
+
+function handleMouseOut(d, i) {
+    d3.select(this).transition()
+        .ease("quad")
+        .delay("100")
+        .duration("200")
+        .attr("r", Math.sqrt(getSize(d)*50));
 }
 
 // Returns a list of all nodes under the root.
