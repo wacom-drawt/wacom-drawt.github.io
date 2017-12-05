@@ -2,7 +2,7 @@ import random
 
 
 def get_random_id(num_bits=16):
-    return hex(random.randint(0, 2 ** num_bits))[2:].zfill(num_bits / 4)
+    return hex(random.randint(0, 2 ** num_bits))[2:].zfill(int(num_bits / 4))
 
 
 class User(object):
