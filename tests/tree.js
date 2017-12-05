@@ -2,6 +2,22 @@ function getTree() {
 	return getMockData();
 }
 
+function ApiService() {
+	$ = jQuery;
+	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/tree";
+	this.REAL_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/tree";
+	this.getTree = function (onSuccess, onFail, isMock) {
+		let treeUrl = isMock ? this.MOCK_TREE_URL : this.REAL_TREE_URL;
+		$.ajax(treeUrl)
+			.done(function (resp) {
+				onSuccess(resp);
+			})
+			.fail(function (resp) {
+				onFail(resp);
+			})
+	};
+}
+
 function getMockData() {
 	return {
 		name: 1,
