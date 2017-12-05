@@ -22,7 +22,10 @@ def get_graph():
     else:
         main_node_id = '0'
 
-    user_id = request.args.get('user_id')
+    if 'node_id' in request.args:
+        user_id = request.args.get('user_id')
+    else:
+        user_id = None
 
     if main_node_id not in G.nodes:
         main_node_id = '0'
