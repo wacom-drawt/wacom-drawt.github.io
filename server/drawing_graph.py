@@ -1,5 +1,6 @@
 import random
 import pickle
+from flask import make_response
 
 
 def get_random_id(num_bits=16):
@@ -8,7 +9,7 @@ def get_random_id(num_bits=16):
 
 class User(object):
     def __init__(self, user_id, mail=None):
-        self.user_id = get_random_id() if user_id is None else user_id
+        self.user_id = user_id
         self.mail = mail
         self.drawings_list = []
 
@@ -48,4 +49,4 @@ class Graph(object):
         return new_node
 
     def export_to_dict(self):
-        return {node_id : node.export_to_dict() for node_id, node in self.nodes.iteritems()}
+        return {node_id : node.export_to_dict() for node_id, node in self.nodes.items()}
