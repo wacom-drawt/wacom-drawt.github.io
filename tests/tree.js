@@ -21,6 +21,7 @@ function ApiService() {
 function getMockData() {
 	return {
 		name: 1,
+        size: 5534,
 		user_id: 1,
 		parent_node: null,
 		drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
@@ -28,6 +29,7 @@ function getMockData() {
 		children: [
 			{
 				name: 2,
+                size: 5534,
 				user_id: 2,
 				parent_node: null,
 				drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
@@ -36,6 +38,7 @@ function getMockData() {
 			},
 			{
 				name: 3,
+                size: 5534,
 				user_id: 3,
 				parent_node: null,
 				drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
@@ -43,6 +46,7 @@ function getMockData() {
 				children: [
 					{
 						name: 4,
+                        size: 5534,
 						user_id: 2,
 						parent_node: null,
 						drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
@@ -51,6 +55,7 @@ function getMockData() {
 					},
 					{
 						name: 5,
+                        size: 5534,
 						user_id: 4,
 						parent_node: null,
 						drawing: "https://img00.deviantart.net/7a8a/i/2008/223/8/0/1st_wacom_hand_drawing_by_0_ash_0.png",
