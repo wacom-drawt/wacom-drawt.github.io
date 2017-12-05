@@ -1,3 +1,34 @@
+function saveImagesAsPatternsInCanvas(canvasObj, root) {
+	var data = flatten(root);
+	var svg = canvasObj;
+	svg.append("defs")
+		.selectAll("pattern")
+		.data(data)
+		.enter()
+		.append("pattern")
+		.attr('id', function (d, i) {
+			return d.name;
+		})
+		.attr("viewBox", function(d, i){
+			return "0 10 100 100";
+		})
+		// .attr("preserveAspectRatio", function(d, i){
+		// 	return "none";
+		// })
+		.attr("patternContentUnits", function(d, i){
+			return "objectBoundingBox";
+		})
+		// .attr('patternUnits', 'userSpaceOnUse')
+		.attr('width', '300%')
+		.attr('height', '300%')
+		.append("image")
+		.attr("xlink:href", function (d) {
+			return d.drawing;
+		})
+		.attr('width', 50)
+		.attr('height', 50);
+}
+
 function update() {
     var nodes = flatten(root),
         links = d3.layout.tree().links(nodes);
@@ -50,9 +81,12 @@ function update() {
             return d.y;
         })
         .attr("r", function (d) {
-            return Math.sqrt(d.size) / 10 || 4.5;
+            return Math.sqrt(d.size) / 10 || 25;
         })
-        .style("fill", color)
+		.attr("fill", function(d){
+		  return "url(#"+d.name+")";
+		})
+        // .style("fill", color)
         .on("click", click)
         .call(force.drag);
 }

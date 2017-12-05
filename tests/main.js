@@ -18,7 +18,6 @@ svg.append("rect")
     .attr("height", height)
     .attr("fill", bgColor);
 
-
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 
@@ -28,6 +27,7 @@ api.getTree(
         console.log('success! got tree:');
         console.log(resp);
         root = resp;
+        saveImagesAsPatternsInCanvas(svg, root);
         update();
     },
     //on failure
