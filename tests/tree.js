@@ -2,15 +2,18 @@ function getTree() {
 	return getMockData();
 }
 
-// function ApiService(){
-// 	// $ = jQuery;
-// 	// this.getTree = function(){
-// 	// $.ajax( "example.php" )
-// 	// .done(function() { alert("success"); })
-// 	// .fail(function() { alert("error"); })
-// 	// .always(function() { alert("complete"); });
-// 	// };
-// }
+function ApiService() {
+	$ = jQuery;
+	this.getTree = function (onSuccess, onFail) {
+		$.ajax("https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/tree")
+			.done(function (resp) {
+				onSuccess(resp);
+			})
+			.fail(function (resp) {
+				onFail(resp);
+			})
+	};
+}
 
 function getMockData() {
 	return {
