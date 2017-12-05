@@ -46,8 +46,9 @@ def branch_from_node():
     return new_node.node_id
 
 
+G = Graph()
+node1 = G.add_node(user_id="u123", drawing="", parent_node_id=None, state="in progress")
+node2 = G.add_node(user_id="u123", drawing="", parent_node_id=node1.node_id, state="done")
 if __name__ == '__main__':
-    G = Graph()
-    node1 = G.add_node(user_id="u123", drawing="", parent_node_id=None, state="in progress")
-    node2 = G.add_node(user_id="u123", drawing="", parent_node_id=node1.node_id, state="done")
+
     app.run(port=5001, debug=True)

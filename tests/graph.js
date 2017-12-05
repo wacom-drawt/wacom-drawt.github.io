@@ -149,7 +149,6 @@ function handleMouseEnter(d, i) {
 
     // Use D3 to select element, change color and size
     d3.select(this).attr({
-        fill: "orange",
         r: d3.select(this).attr("r") * 2
     });
 
@@ -159,7 +158,6 @@ function handleMouseEnter(d, i) {
 function handleMouseOut(d, i) {
     // Use D3 to select element, change color back to normal
     d3.select(this).attr({
-        fill: "black",
         r: d.prevSize
     });
 }
