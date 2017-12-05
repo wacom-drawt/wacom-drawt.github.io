@@ -5,18 +5,18 @@
 
 	.node {
 		cursor: pointer;
-		stroke: #3182bd;
+		stroke: #636363;
 		stroke-width: 1.5px;
 	}
 
 	.link {
 		fill: none;
-		stroke: #9ecae1;
+		stroke: #636363;
 		stroke-width: 1.5px;
 	}
 
 </style>
-<body>
+<body style="background-color:#f1f1f1;">
 <script src="tree.js"></script>
 <script src="../libraries/d3-3.5/d3.js"></script>
 
@@ -33,7 +33,11 @@
     var svg = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height);
-        .attr("background-color", bgColor)
+
+    svg.append("rect")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", bgColor);
 
     var link = svg.selectAll(".link"),
         node = svg.selectAll(".node");
@@ -96,7 +100,7 @@
 
     // Color leaf nodes orange, and packages white or blue.
     function color(d) {
-        return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
+        return d._children ? "#b7b7b7" : d.children ? "#b7b7b7" : "#b7b7b7";
     }
 
     // Toggle children on click.
