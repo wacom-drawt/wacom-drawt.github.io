@@ -6,19 +6,19 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.data(data)
 		.enter()
 		.append("pattern")
+		// This id will help finding the image later
 		.attr('id', function (d, i) {
 			return d.name;
 		})
+		// Image will start filling by this offset
 		.attr("viewBox", function(d, i){
 			return "0 10 100 100";
 		})
-		// .attr("preserveAspectRatio", function(d, i){
-		// 	return "none";
-		// })
+		// This will make the image
 		.attr("patternContentUnits", function(d, i){
 			return "objectBoundingBox";
 		})
-		// .attr('patternUnits', 'userSpaceOnUse')
+		// Image size
 		.attr('width', '300%')
 		.attr('height', '300%')
 		.append("image")
