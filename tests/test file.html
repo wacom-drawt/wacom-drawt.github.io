@@ -23,6 +23,7 @@
 <script>
     var width = window.innerWidth,
         height = window.innerHeight,
+        bgColor= "#f1f1f1",
         root;
 
     var force = d3.layout.force()
@@ -32,6 +33,7 @@
     var svg = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height);
+        .attr("background-color", bgColor)
 
     var link = svg.selectAll(".link"),
         node = svg.selectAll(".node");
