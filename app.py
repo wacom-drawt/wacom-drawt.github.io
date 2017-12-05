@@ -1,8 +1,8 @@
 import json
 import pickle
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 
-from drawing_graph import Graph
+from drawing_graph import Graph, get_random_id
 from drawing_graph import User
 
 app = Flask(__name__)
@@ -15,22 +15,21 @@ def hello_world():
 
 @app.route('/get_graph', methods=['GET'])
 def get_graph():
-
     print ("in get_graph")
     if 'node_id' in request.args:
         main_node_id = request.args.get('node_id')
     else:
         main_node_id = '0'
 
-    if 'node_id' in request.args:
-        user_id = request.args.get('user_id')
-    else:
-        user_id = None
-
     if main_node_id not in G.nodes:
         main_node_id = '0'
 
-    return json.dumps([{'node': main_node_id}, {'user_id': user_id}, {'graph': G.export_to_dict()}])
+    resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
+    #check for cookie. if no cookie, set cookie.
+    if 'user_cookie' not in request.cookies:
+        resp.set_cookie('user_cookie', json.dumps({'user_id': get_random_id(), 'user_name': '', 'mail': ''}))
+
+    return resp
 
 
 @app.route('/branch', methods=['GET'])
@@ -42,9 +41,20 @@ def branch_from_node():
         new_node = G.add_node(user_id=user_id, drawing=None,
                    parent_node_id=parent_node_id, state="in progress")
     else:
-        return "missing node_id"
+        return "branch: missing node_id"
     return new_node.node_id
 
+@app.route('/submit', methods=['POST'])
+def submit_node():
+    print ("in submit_node")
+    user_id = request.args.get('user_id')
+    if 'node_id' in request.form:
+        parent_node_id = request.args.get('node_id')
+        new_node = G.add_node(user_id=user_id, drawing=None,
+                   parent_node_id=parent_node_id, state="in progress")
+    else:
+        return "submit: missing node_id"
+    return new_node.node_id
 
 G = Graph()
 node1 = G.add_node(user_id="u123", drawing="", parent_node_id=None, state="in progress")

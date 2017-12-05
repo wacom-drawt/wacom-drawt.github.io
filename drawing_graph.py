@@ -1,6 +1,4 @@
 import random
-import pickle
-from flask import make_response
 
 
 def get_random_id(num_bits=16):
@@ -20,7 +18,7 @@ class Node(object):
         self.user_id = user_id
         self.parent_node_id = parent_node_id
         self.drawing = drawing
-        self.state = state #options: "in_progress", "done", "cancelled"
+        self.state = state #options: "in_progress", "done"
         self.children_nodes_ids = []
 
     def export_to_dict(self):
