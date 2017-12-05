@@ -2,6 +2,16 @@ function getTree() {
 	return getMockData();
 }
 
+// function ApiService(){
+// 	// $ = jQuery;
+// 	// this.getTree = function(){
+// 	// $.ajax( "example.php" )
+// 	// .done(function() { alert("success"); })
+// 	// .fail(function() { alert("error"); })
+// 	// .always(function() { alert("complete"); });
+// 	// };
+// }
+
 function getMockData() {
 	return {
 		name: 1,

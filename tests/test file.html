@@ -18,6 +18,10 @@
 </style>
 <body>
 <script src="tree.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
 <script src="../libraries/d3-3.5/d3.js"></script>
 
 <script>
@@ -32,7 +36,7 @@
 
     var svg = d3.select("body").append("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
         .attr("background-color", bgColor)
 
     var link = svg.selectAll(".link"),
