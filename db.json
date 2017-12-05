@@ -6,7 +6,8 @@
     }
   ],
   "profile": {
-    "name": "typicode"
+    "name": "typicode",
+    "test": 7
   },
   "tree": {
     "name": "yo yo"
