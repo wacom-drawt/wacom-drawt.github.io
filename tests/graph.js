@@ -52,7 +52,10 @@ function update() {
         .attr("r", function (d) {
             return Math.sqrt(getSize(d)*50);
         })
-        .style("fill", color)
+		.attr("fill", function(d){
+		  return "url(#"+d.name+")";
+		})
+        // .style("fill", color)
         .on("click", click)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
@@ -90,6 +93,38 @@ function color(d) {
     return d._children ? "#b7b7b7" : d.children ? "#b7b7b7" : "#b7b7b7";
 }
 
+// Makes sure all nodes drawings are available as patterns
+function saveImagesAsPatternsInCanvas(canvasObj, root) {
+	var data = flatten(root);
+	var svg = canvasObj;
+	svg.append("defs")
+		.selectAll("pattern")
+		.data(data)
+		.enter()
+		.append("pattern")
+		// This id will help finding the image later
+		.attr('id', function (d, i) {
+			return d.name;
+		})
+		// Image will start filling by this offset
+		.attr("viewBox", function(d, i){
+			return "0 10 100 100";
+		})
+		// This will make the image
+		.attr("patternContentUnits", function(d, i){
+			return "objectBoundingBox";
+		})
+		// Image size
+		.attr('width', '300%')
+		.attr('height', '300%')
+		.append("image")
+		.attr("xlink:href", function (d) {
+			return d.drawing;
+		})
+		.attr('width', 50)
+		.attr('height', 50);
+}
+
 // Toggle children on click.
 function click(d) {
     if (!d3.event.defaultPrevented) {
@@ -114,7 +149,6 @@ function handleMouseEnter(d, i) {
 
     // Use D3 to select element, change color and size
     d3.select(this).attr({
-        //prevSize: d3.selectAll(".node").attr("r"),
         fill: "orange",
         r: d3.select(this).attr("r") * 2
     });
@@ -123,10 +157,6 @@ function handleMouseEnter(d, i) {
 }
 
 function handleMouseOut(d, i) {
-
-    console.log("out:");
-    console.log(d.prevSize);
-
     // Use D3 to select element, change color back to normal
     d3.select(this).attr({
         fill: "black",
@@ -147,4 +177,20 @@ function flatten(root) {
 
     recurse(root);
     return nodes;
+}
+
+function dragstarted(d) {
+	console.log(d);
+  d3.event.sourceEvent.stopPropagation();
+  d3.select(this).classed("dragging", true);
+}
+
+function dragged(d) {
+	console.log(d);
+  d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+}
+
+function dragended(d) {
+	console.log(d);
+  d3.select(this).classed("dragging", false);
 }
