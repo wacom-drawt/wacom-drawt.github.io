@@ -50,16 +50,20 @@ function update() {
             return d.y;
         })
         .attr("r", function (d) {
-            return Math.sqrt(d.size) / 10 || 25;
+            return Math.sqrt(getSize(d)*50);
         })
 		.attr("fill", function(d){
 		  return "url(#"+d.name+")";
 		})
         // .style("fill", color)
         .on("click", click)
-        .on("mouseover", handleMouseOver)
+        .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(force.drag);
+}
+
+function getSize(d) {
+    if(d.children) {return d.children.length > 0 ? d.children.length : 1 ;} else {return 1}
 }
 
 function tick() {
@@ -136,12 +140,16 @@ function click(d) {
 }
 
 // Event Handlers for hover
-function handleMouseOver(d, i) {
-    console.log(d);
+function handleMouseEnter(d, i) {
+
+    d.prevSize = d3.select(this).attr("r");
+
+    console.log("prev size: ");
+    console.log(d.prevSize);
+
     // Use D3 to select element, change color and size
     d3.select(this).attr({
-        fill: "orange",
-        r: d3.selectAll(".node").attr("r") * 2
+        r: d3.select(this).attr("r") * 2
     });
 
 
@@ -150,8 +158,7 @@ function handleMouseOver(d, i) {
 function handleMouseOut(d, i) {
     // Use D3 to select element, change color back to normal
     d3.select(this).attr({
-        fill: "black",
-        r: d3.selectAll(".node").attr("r")
+        r: d.prevSize
     });
 }
 
