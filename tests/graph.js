@@ -54,6 +54,8 @@ function update() {
         })
         .style("fill", color)
         .on("click", click)
+        .on("mouseover", handleMouseOver)
+        .on("mouseout", handleMouseOut)
         .call(force.drag);
 }
 
@@ -97,6 +99,27 @@ function click(d) {
         update();
     }
 }
+
+// Event Handlers for hover
+function handleMouseOver(d, i) {
+    console.log(d);
+    // Use D3 to select element, change color and size
+    d3.select(this).attr({
+        fill: "orange",
+        r: d3.selectAll(".node").attr("r") * 2
+    });
+
+
+}
+
+function handleMouseOut(d, i) {
+    // Use D3 to select element, change color back to normal
+    d3.select(this).attr({
+        fill: "black",
+        r: d3.selectAll(".node").attr("r")
+    });
+}
+
 
 // Returns a list of all nodes under the root.
 function flatten(root) {
