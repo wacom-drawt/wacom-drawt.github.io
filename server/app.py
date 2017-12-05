@@ -3,32 +3,40 @@ import pickle
 from flask import Flask, render_template, request
 
 from drawing_graph import Graph
+from drawing_graph import User
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return 'Welcome Inkathon!'
 
 
 @app.route('/get_graph', methods=['GET'])
 def get_graph():
-    print "in get_graph"
+
+    print ("in get_graph")
     if 'node_id' in request.args:
         main_node_id = request.args.get('node_id')
+    else:
+        main_node_id = '0'
+
+    user_id = request.args.get('user_id')
+
     if main_node_id not in G.nodes:
         main_node_id = '0'
 
-        return json.dumps([G.export_to_dict(), main_node_id])
+    return json.dumps([{'node': main_node_id}, {'user_id': user_id}, {'graph': G.export_to_dict()}])
 
 
 @app.route('/branch', methods=['GET'])
 def branch_from_node():
-    print "in branch_from_node"
+    print ("in branch_from_node")
+    user_id = request.args.get('user_id')
     if 'node_id' in request.args:
         parent_node_id = request.args.get('node_id')
-        new_node = G.add_node(user_id="a", drawing=None,
+        new_node = G.add_node(user_id=user_id, drawing=None,
                    parent_node_id=parent_node_id, state="in progress")
     else:
         return "missing node_id"
