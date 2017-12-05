@@ -4,10 +4,12 @@ function getTree() {
 
 function ApiService() {
 	$ = jQuery;
-	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/tree";
+	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/graph";
 	this.REAL_TREE_URL = "https://drawtwacom.herokuapp.com/get_graph";
 	this.getTree = function (onSuccess, onFail, isMock) {
-		let treeUrl = isMock ? this.MOCK_TREE_URL : this.REAL_TREE_URL;
+		onSuccess(getMockData());
+		return;
+		var treeUrl = isMock ? this.MOCK_TREE_URL : this.REAL_TREE_URL;
 		$.ajax(treeUrl)
 			.done(function (resp) {
 				onSuccess(resp);
