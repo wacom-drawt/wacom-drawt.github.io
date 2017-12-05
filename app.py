@@ -7,6 +7,11 @@ from drawing_graph import User
 
 app = Flask(__name__)
 
+def create_cookie(user_name = "", mail = ""):
+    return json.dumps({'user_id': get_random_id(), 'user_name': user_name, 'mail': mail})
+
+def parse_cookie(cookie_string):
+    return json.loads(cookie_string)
 
 @app.route('/')
 def hello_world():
@@ -27,7 +32,7 @@ def get_graph():
     resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
     #check for cookie. if no cookie, set cookie.
     if 'user_cookie' not in request.cookies:
-        resp.set_cookie('user_cookie', json.dumps({'user_id': get_random_id(), 'user_name': '', 'mail': ''}))
+        resp.set_cookie('user_cookie', create_cookie())
 
     return resp
 
@@ -35,26 +40,43 @@ def get_graph():
 @app.route('/branch', methods=['GET'])
 def branch_from_node():
     print ("in branch_from_node")
-    user_id = request.args.get('user_id')
+    user_data = parse_cookie(request.cookies.get('user_cookie'))
+    user_id = user_data['user_id']
     if 'node_id' in request.args:
         parent_node_id = request.args.get('node_id')
-        new_node = G.add_node(user_id=user_id, drawing=None,
-                   parent_node_id=parent_node_id, state="in progress")
+        new_node = G.add_node(user_id=user_id, drawing=None, parent_node_id=parent_node_id, state="in progress")
     else:
         return "branch: missing node_id"
     return new_node.node_id
 
+
 @app.route('/submit', methods=['POST'])
 def submit_node():
     print ("in submit_node")
-    user_id = request.args.get('user_id')
+    user_data = parse_cookie(request.cookies.get('user_cookie'))
+    user_id = user_data['user_id']
     if 'node_id' in request.form:
-        parent_node_id = request.args.get('node_id')
-        new_node = G.add_node(user_id=user_id, drawing=None,
-                   parent_node_id=parent_node_id, state="in progress")
+        node_id = request.form.get('node_id')
+        node = G.nodes[node_id]
+        if 'drawing' not in request.form:
+            return "submit: missing drawing"
+        node.drawing = request.form.get('drawing')
+        node.state = "done"
     else:
         return "submit: missing node_id"
-    return new_node.node_id
+    if 'user_name' in request.form:
+        user_name = request.form.get('user_name')
+    else:
+        user_name = user_data['user_name']
+    if 'mail' in request.form:
+        mail = request.form.get('mail')
+    else:
+        mail = user_data['mail']
+
+    resp = make_response("success")
+    resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
+    return resp
+
 
 G = Graph()
 node1 = G.add_node(user_id="u123", drawing="", parent_node_id=None, state="in progress")
