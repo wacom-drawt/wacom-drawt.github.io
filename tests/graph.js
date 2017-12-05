@@ -97,7 +97,8 @@ function color(d) {
 function saveImagesAsPatternsInCanvas(canvasObj, root) {
 	var data = flatten(root);
 	var svg = canvasObj;
-	svg.append("defs")
+
+    svg.append("defs")
 		.selectAll("pattern")
 		.data(data)
 		.enter()
@@ -139,29 +140,20 @@ function click(d) {
     }
 }
 
-// Event Handlers for hover
 function handleMouseEnter(d, i) {
-
-    d.prevSize = d3.select(this).attr("r");
-
-    console.log("prev size: ");
-    console.log(d.prevSize);
-
-    // Use D3 to select element, change color and size
-    d3.select(this).attr({
-        r: d3.select(this).attr("r") * 2
-    });
-
-
+    d3.select(this).transition()
+        .ease("elastic")
+        .duration("500")
+        .attr("r", Math.sqrt(getSize(d)*50)*2);
 }
 
 function handleMouseOut(d, i) {
-    // Use D3 to select element, change color back to normal
-    d3.select(this).attr({
-        r: d.prevSize
-    });
+    d3.select(this).transition()
+        .ease("quad")
+        .delay("100")
+        .duration("200")
+        .attr("r", Math.sqrt(getSize(d)*50));
 }
-
 
 // Returns a list of all nodes under the root.
 function flatten(root) {
