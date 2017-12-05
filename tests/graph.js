@@ -53,7 +53,7 @@ function update() {
             return Math.sqrt(getSize(d)*50);
         })
 		.attr("fill", function(d){
-		  return "url(#"+d.name+")";
+		  return "url(#"+d.node_id+")";
 		})
         // .style("fill", color)
         .on("click", click)
@@ -104,7 +104,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.append("pattern")
 		// This id will help finding the image later
 		.attr('id', function (d, i) {
-			return d.name;
+			return d.node_id;
 		})
 		// Image will start filling by this offset
 		.attr("viewBox", function(d, i){
@@ -175,20 +175,4 @@ function flatten(root) {
 
     recurse(root);
     return nodes;
-}
-
-function dragstarted(d) {
-	console.log(d);
-  d3.event.sourceEvent.stopPropagation();
-  d3.select(this).classed("dragging", true);
-}
-
-function dragged(d) {
-	console.log(d);
-  d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-}
-
-function dragended(d) {
-	console.log(d);
-  d3.select(this).classed("dragging", false);
 }
