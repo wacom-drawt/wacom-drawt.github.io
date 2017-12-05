@@ -24,7 +24,7 @@ var link = svg.selectAll(".link"),
 api.getTree(
     //on success
     function (resp) {
-        root = resp;
+        root = resp['graph'];
         saveImagesAsPatternsInCanvas(svg, root);
         update();
     },
