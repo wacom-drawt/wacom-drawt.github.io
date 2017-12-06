@@ -64,7 +64,7 @@ function ApiService() {
 		};
 		var strData = JSON.stringify(data);
 		console.log(strData);
-		xhr.send(strData);
+		xhr.send(data);
 	};
 
 
