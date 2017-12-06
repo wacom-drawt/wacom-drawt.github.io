@@ -57,17 +57,20 @@ svg.append("rect")
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 
-api.getTree(
-    //on success
-    function (resp) {
-        root = resp;
-        saveImagesAsPatternsInCanvas(svg, root);
-        update();
-    },
-    //on failure
-    function (resp) {
-        console.log('Request for tree failed :(');
-        console.log(resp);
-    }, false);
+function init() {
+    api.getTree(
+        //on success
+        function (resp) {
+            root = resp;
+            saveImagesAsPatternsInCanvas(svg, root);
+            update();
+        },
+        //on failure
+        function (resp) {
+            console.log('Request for tree failed :(');
+            console.log(resp);
+        }, false);
+}
 
 
+init();
