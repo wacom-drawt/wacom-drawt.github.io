@@ -19,7 +19,7 @@ class Node(object):
         self.parent_node_id = parent_node_id
         self.drawing = drawing
         self.state = state #options: "in_progress", "done"
-        self.children_nodes_ids = []
+        self.children = []
 
     def export_to_dict(self):
         return {
@@ -28,7 +28,7 @@ class Node(object):
             "parent_node_id": self.parent_node_id,
             "drawing": self.drawing,
             "state": self.state,
-            "children_nodes_ids": self.children_nodes_ids
+            "children_nodes_ids": self.children
             }
 
 
@@ -42,7 +42,7 @@ class Graph(object):
         node_id = str(len(self.nodes))
         new_node = Node(node_id, user_id, drawing, parent_node_id, state)
         if parent_node_id is not None:
-            self.nodes[parent_node_id].children_nodes_ids.append(node_id)
+            self.nodes[parent_node_id].children.append(node_id)
         self.nodes[node_id] = new_node
         return new_node
 

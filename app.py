@@ -1,5 +1,6 @@
 import json
 import pickle
+import urllib
 from flask import Flask, render_template, request, make_response
 
 from drawing_graph import Graph, get_random_id
@@ -7,11 +8,19 @@ from drawing_graph import User
 
 app = Flask(__name__)
 
-def create_cookie(user_name = "", mail = ""):
-    return json.dumps({'user_id': get_random_id(), 'user_name': user_name, 'mail': mail})
+
+def create_cookie(user_id="", user_name = "", mail = ""):
+    #coo = "user_id=%s;user_name=%s;mail=%s" % (user_id, user_name, mail)
+    return urllib.parse.quote(json.dumps({'user_id': get_random_id() if user_id == "" else user_id,
+                                           'user_name': user_name,
+                                           'mail': mail}))
+
 
 def parse_cookie(cookie_string):
-    return json.loads(cookie_string)
+    tmp = json.loads(urllib.parse.unquote(cookie_string))
+    print (type(tmp))
+    return tmp
+
 
 @app.route('/')
 def hello_world():
