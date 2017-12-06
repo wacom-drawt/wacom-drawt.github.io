@@ -136,7 +136,9 @@ function click(d) {
             d.children = d._children;
             d._children = null;
         }
-		modalOpener.openModal();
+		modalOpener.openModal({
+			type: modalOpener.types.EDITOR
+		});
         update();
     }
 
