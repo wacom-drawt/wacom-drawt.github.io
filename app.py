@@ -22,16 +22,6 @@ def parse_cookie(cookie_string):
     return tmp
 
 
-@app.route('/')
-def hello_world():
-    return 'Welcome Inkathon!'
-
-
-@app.route('/draw_canvas')
-def canvas():
-    return render_template('site/canvas/index.html')
-
-
 @app.route('/omerzaks')
 def omer_zaks_funk():
     return omer_zaks
@@ -56,15 +46,18 @@ def get_graph():
     return resp
 
 
-@app.route('/index.html', methods=['GET'])
+@app.route('/', methods=['GET'])
 def main_page():
     #check for cookie. if no cookie, set cookie.
-    resp = make_response(render_template("site/index.html"))
+    resp = send_from_directory("site", "index.html")
     if 'user_cookie' not in request.cookies:
         resp.set_cookie('user_cookie', create_cookie())
-    
+
     return resp
 
+@app.route('/index.html', methods=['GET'])
+def main_page2():
+    return main_page()
 
 @app.route('/get_node', methods=['GET'])
 def get_node():
@@ -87,7 +80,7 @@ def branch_from_node():
     user_id = user_data['user_id']
     if 'node_id' in request.args:
         parent_node_id = request.args.get('node_id')
-        new_node = G.add_node(user_id=user_id, drawing=None, parent_node_id=parent_node_id, state="in progress")
+        new_node = G.add_node(user_id=user_id, drawing=None, parent_node_id=parent_node_id, is_finished=False)
     else:
         return "branch: missing node_id"
     return new_node.node_id
@@ -104,7 +97,7 @@ def submit_node():
         if 'drawing' not in request.form:
             return "submit: missing drawing"
         G.nodes[node_id].drawing = request.form.get('drawing')
-        G.nodes[node_id].state = 'done'
+        G.nodes[node_id].is_finished = True
     else:
         return "submit: missing node_id"
     if 'user_name' in request.form and request.form.get('user_name') != '':
@@ -122,12 +115,14 @@ def submit_node():
 
 @app.route('/<path:path>')
 def send(path):
+    print (send_from_directory('site', path))
+    print (type(send_from_directory('site', path)))
     return send_from_directory('site', path)
 
 G = Graph()
-USERS_DICT = {}
 u1 = User("0000", "admin", "admin@drawt.com")
-node1 = G.add_node(user_id=u1.user_id, drawing="", parent_node_id=None, state="in progress")
-node2 = G.add_node(user_id=u1.user_id, drawing="", parent_node_id=node1.node_id, state="done")
+USERS_DICT = {u1.user_id : u1}
+node1 = G.add_node(user_id=u1.user_id, drawing="", parent_node_id=None, is_finished=True)
+node2 = G.add_node(user_id=u1.user_id, drawing="", parent_node_id=node1.node_id, is_finished=False)
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
