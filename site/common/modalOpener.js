@@ -19,6 +19,8 @@ ModalOpener = function(){
 				api.branchFrom(settings.node, function(response){
 					console.log('got branch response:');
 					console.log(response);
+					window.newNodesParent = settings.node;
+					window.newNodeId = response;
 					var $opener = $(this.MODAL_OPENER_ID);
 					$opener.click();
 				})
@@ -30,6 +32,6 @@ ModalOpener = function(){
 
 	}
 
-
+	
 
 }
