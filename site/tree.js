@@ -26,7 +26,7 @@ function ApiService() {
 		});
 		var url = "https://drawtwacom.herokuapp.com/branch?" + queryParams;
 		var xhr = createCORSRequest('GET', url);
-		xhr.withCredentials = true;
+		// xhr.withCredentials = true;
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
 			onSuccess(JSON.parse(responseText));
