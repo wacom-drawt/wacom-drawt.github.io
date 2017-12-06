@@ -2,12 +2,13 @@ import json
 import pickle
 import urllib
 from flask import Flask, render_template, request, make_response, send_from_directory
+from flask_cors import CORS, cross_origin
 
 from drawing_graph import Graph, get_random_id
 from drawing_graph import User
 
 app = Flask(__name__)
-
+CORS(app)
 
 def create_cookie(user_id="", user_name = "", mail = ""):
     #coo = "user_id=%s;user_name=%s;mail=%s" % (user_id, user_name, mail)
