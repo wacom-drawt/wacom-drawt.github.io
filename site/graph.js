@@ -148,12 +148,13 @@ function click(d) {
 			d.children = d._children;
 			d._children = null;
 		}
-		if (d.target) {
+		if (d.node_id) {
 			modalOpener.openModal({
 				type: modalOpener.types.EDITOR,
-				node: d.target
+				node: d
 			});
 		} else {
+			console.log(d);
 			console.log('didnt click node.');
 		}
 
