@@ -136,9 +136,15 @@ function click(d) {
             d.children = d._children;
             d._children = null;
         }
+		modalOpener.openModal({
+			type: modalOpener.types.EDITOR
+		});
         update();
     }
+
 }
+
+
 
 function handleMouseEnter(d, i) {
     d3.select(this).transition()
