@@ -147,13 +147,13 @@ function saveDrawingToPng() {
 	// var img = canvas.toDataURL("image/png");
 	var dataURL = canvas.toDataURL();
 	$.ajax({
-	type: "POST",
-	url: "https://drawtwacom.herokuapp.com/submit",
-	data: { 
-	 // drawing: dataURL,
-	 drawing: "dataURL",
-	 node_id: "0"
-	}
+        type: "POST",
+        url: "https://drawtwacom.herokuapp.com/submit",
+        data: {
+         drawing: dataURL,
+         //drawing: "dataURL",
+         node_id: "0"
+        }
 	}).done(function(o) {
 	console.log('saved'); 
 	// If you want the file to be visible in the browser 
