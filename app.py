@@ -86,7 +86,7 @@ def branch_from_node():
     if 'node_id' in request.args:
         parent_node_id = request.args.get('node_id')
         new_node = G.add_node(user_id=user_id, drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=parent_node_id, is_finished=False)
-        #print(G.export_to_dict())
+        print(G.nodes.keys())
     else:
         return "branch: missing node_id"
     return new_node.node_id

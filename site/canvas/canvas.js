@@ -197,6 +197,15 @@ Module.addPostScript(function() {
 
 
 function changeDrawColor() {
+    // var property = document.getElementById(button);
+    //     if (count == 0) {
+    //         property.style.backgroundColor = "#3f3f3f"
+    //         count = 1;        
+    //     }
+    //     else {
+    //         property.style.backgroundColor = "#ffffff"
+    //         count = 0;
+    //     }
 	WILL.changeColor();
 }
 

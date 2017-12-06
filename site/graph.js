@@ -9,7 +9,7 @@ function update() {
 		.links(links)
 	force.linkDistance(function (link) {
 		console.log(link);
-		return (link.source.weight + link.target.weight) * 30;
+		return (link.source.weight + link.target.weight) * 10;
 	})
 	//.distance(100)
 		.start();
@@ -164,14 +164,18 @@ function dblclicknode(d) {
 
 }
 
+var isZoomedAfterClick = false;
+
 function handleMouseEnter(d, i) {
+    if (isZoomedAfterClick) { return;}
     d3.select(this).transition()
         .ease("elastic")
         .duration("500")
-        .attr("r", Math.sqrt(getSize(d)*50)*3);
+        .attr("r", Math.sqrt(getSize(d)*50)*2);
 }
 
 function handleMouseOut(d, i) {
+    if (isZoomedAfterClick) { return;}
     d3.select(this).transition()
         .ease("quad")
         .delay("100")
@@ -193,8 +197,11 @@ function flatten(root) {
 	return nodes;
 }
 
+var scaleZoom = 100;
 
 function transition(svg, nodeToFocus) {
+
+    if (isZoomedAfterClick) {scaleZoom = 400};
 
     isZoomedAfterClick = true;
 
@@ -202,7 +209,7 @@ function transition(svg, nodeToFocus) {
     var svgH = $('svg').height();
 
     start = [svgW / 2, svgH / 2, 100];
-    end = [nodeToFocus.x, nodeToFocus.y, 400];
+    end = [nodeToFocus.x, nodeToFocus.y, scaleZoom];
 
 
     // change is zoomed to false
@@ -235,6 +242,9 @@ function transition(svg, nodeToFocus) {
     // show button
 
     // give center position: nodeToFocus.x, nodeToFocus.y
+
+    isZoomedAfterClick = false;
+
 }
 
 function centralizeRoot(d) {
