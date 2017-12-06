@@ -172,7 +172,6 @@ function handleMouseEnter(d, i) {
         .ease("elastic")
         .duration("500")
         .attr("r", Math.sqrt(getSize(d)*50)*2);
-
 }
 
 function handleMouseOut(d, i) {
@@ -251,8 +250,6 @@ function transition(svg, nodeToFocus) {
 function centralizeRoot(d) {
 
     d3.select('svg').call(transition, d);
-	$('#editButton').css('display', 'block');
-
 
 
 }
