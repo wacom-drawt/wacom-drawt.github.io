@@ -7,6 +7,7 @@ var WILL = {
 
     init: function(width, height, image) {
         console.log(image);
+        this.oldImage = image;
         this.initInkEngine(width, height);
         this.initEvents();
     },
@@ -35,8 +36,9 @@ var WILL = {
 
     initImageLayer: function() {
 		console.log('setting canvas bg image');
-        var url = location.toString();
-        url = url.substring(0, url.lastIndexOf("/")) + "/image.jpg";
+        var url = this.oldImage;
+        // var url = location.toString();
+        // url = url.substring(0, url.lastIndexOf("/")) + "/image.jpg";
 
         this.imageLayer = this.canvas.createLayer({width: 750, height: 600});
 
