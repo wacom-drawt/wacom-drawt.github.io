@@ -9,7 +9,8 @@ function update() {
 		.links(links)
 	force.linkDistance(function (link) {
 		console.log(link);
-		return (link.source.weight + link.target.weight) * 10;
+		var factor = isMock ? 7 : 10;
+		return (link.source.weight + link.target.weight) * factor;
 	})
 	//.distance(100)
 		.start();
