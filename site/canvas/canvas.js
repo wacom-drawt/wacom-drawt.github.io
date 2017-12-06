@@ -243,7 +243,7 @@ function saveDrawingToPng() {
 			"is_finished": true,
 			"children": []
 		};
-
+	$('#theModal').modal('toggle');
 
 	}, function () {
 		console.log('failed adding new picture..');
