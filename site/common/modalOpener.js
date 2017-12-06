@@ -8,10 +8,10 @@ ModalOpener = function(){
 	};
 	this.openModal = function(settings){
 		settings = settings || this.defaultSettings;
+		WILL.init(1600, 1000, settings.node.drawing);
+		console.log("will initiated");
 		switch(settings.type){
 			case this.types.EDITOR:
-			WILL.init(1600, 1000, settings.node.drawing);
-			console.log("will initiated");
 				console.log('openning editor modal');
 				api = api || new ApiService();
 				console.log('node is: ');
