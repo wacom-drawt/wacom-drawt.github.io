@@ -121,15 +121,15 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		})
 		// Image will start filling by this offset
 		.attr("viewBox", function (d, i) {
-			return "0 10 100 100";
+			return "0 20 100 100";
 		})
 		// This will make the image
 		.attr("patternContentUnits", function (d, i) {
 			return "objectBoundingBox";
 		})
 		// Image size
-		.attr('width', '300%')
-		.attr('height', '300%')
+		.attr('width', '350%')
+		.attr('height', '350%')
 		.append("image")
 		.attr("xlink:href", function (d) {
 			return d.drawing;
