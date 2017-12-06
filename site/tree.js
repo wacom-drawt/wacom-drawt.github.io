@@ -6,7 +6,7 @@ function ApiService() {
 	this.getTree = function (onSuccess, onFail, isMock) {
 		var treeUrl = isMock ? this.MOCK_TREE_URL : this.REAL_TREE_URL;
 		var xhr = createCORSRequest('GET', treeUrl);
-		xhr.withCredentials = true;
+		// xhr.withCredentials = true;
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
 			onSuccess(JSON.parse(responseText));
