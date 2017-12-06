@@ -56,7 +56,7 @@ def main_page():
         user_id = str( len(USERS_DICT)).zfill(4)
         # resp.set_cookie('user_cookie', create_cookie(user_id))
         USERS_DICT[user_id] = User(user_id=user_id, user_name="", mail="")
-        print(USERS_DICT)
+        #print(USERS_DICT)
 
     return resp
 
@@ -86,7 +86,7 @@ def branch_from_node():
     if 'node_id' in request.args:
         parent_node_id = request.args.get('node_id')
         new_node = G.add_node(user_id=user_id, drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=parent_node_id, is_finished=False)
-        print(G.export_to_dict())
+        #print(G.export_to_dict())
     else:
         return "branch: missing node_id"
     return new_node.node_id
@@ -102,8 +102,9 @@ def submit_node():
     user_data = parse_cookie(request.cookies.get('user_cookie'))
     user_id = user_data['user_id']
     #db_user_data = USERS_DICT[user_id]
+    print("printing data I got from POST request")
     print(request.form)
-    print(USERS_DICT)
+
     if 'node_id' in request.form:
         node_id = request.form.get('node_id')
         if 'drawing' not in request.form:
