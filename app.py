@@ -75,12 +75,15 @@ def submit_node():
     print ("in submit_node")
     user_data = parse_cookie(request.cookies.get('user_cookie'))
     user_id = user_data['user_id']
+    print(request.form)
     if 'node_id' in request.form:
         node_id = request.form.get('node_id')
+
         node = G.nodes[node_id]
         if 'drawing' not in request.form:
             return "submit: missing drawing"
         node.drawing = request.form.get('drawing')
+        print(node.drawing)
         node.state = "done"
     else:
         return "submit: missing node_id"
