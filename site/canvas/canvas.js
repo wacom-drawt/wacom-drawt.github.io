@@ -235,7 +235,11 @@ function saveDrawingToPng() {
 	
 	var id = window.newNodeId;
 	var parentId = window.newNodesParent.node_id;
+	$('#editor').fadeOut();
+	$('.spinner').fadeIn();
+	
 	api.submitDrawing(id, dataURL, function (resp) {
+		$('.spinner').fadeOut();
 		var newNode = {
 			"node_id": id,
 			"user_id": 2,
