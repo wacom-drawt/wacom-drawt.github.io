@@ -42,7 +42,7 @@ function ApiService() {
 	this.submitDrawing = function(newNodeId, imageURI, onSuccess, onFail){
 		
 		var xhr = createCORSRequest('POST', this.SUBMIT_IMAGE_URL);
-		xhr.withCredentials = true;
+		// xhr.withCredentials = true;
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
 			onSuccess(JSON.parse(responseText));
@@ -58,6 +58,7 @@ function ApiService() {
 		xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
 		// xhr.setRequestHeader('Access-Control-Request-Method', 'POST');
 		xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
+
 		// xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
 		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 		var strData = JSON.stringify(data);
