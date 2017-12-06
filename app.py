@@ -12,7 +12,6 @@ app = Flask(__name__)
 CORS(app)
 
 def create_cookie(user_id="", user_name = "", mail = ""):
-    #coo = "user_id=%s;user_name=%s;mail=%s" % (user_id, user_name, mail)
     return urllib.parse.quote(json.dumps({'user_id': get_random_id() if user_id == "" else user_id,
                                            'user_name': user_name,
                                            'mail': mail}))
@@ -54,6 +53,16 @@ def get_graph():
     if 'user_cookie' not in request.cookies:
         resp.set_cookie('user_cookie', create_cookie())
 
+    return resp
+
+
+@app.route('/index.html', methods=['GET'])
+def main_page():
+    #check for cookie. if no cookie, set cookie.
+    resp = make_response(render_template("site/index.html"))
+    if 'user_cookie' not in request.cookies:
+        resp.set_cookie('user_cookie', create_cookie())
+    
     return resp
 
 
@@ -116,8 +125,9 @@ def send(path):
     return send_from_directory('site', path)
 
 G = Graph()
-node1 = G.add_node(user_id="u123", drawing="", parent_node_id=None, state="in progress")
-node2 = G.add_node(user_id="u123", drawing="", parent_node_id=node1.node_id, state="done")
+USERS_DICT = {}
+u1 = User("0000", "admin", "admin@drawt.com")
+node1 = G.add_node(user_id=u1.user_id, drawing="", parent_node_id=None, state="in progress")
+node2 = G.add_node(user_id=u1.user_id, drawing="", parent_node_id=node1.node_id, state="done")
 if __name__ == '__main__':
-
     app.run(port=5001, debug=True)
