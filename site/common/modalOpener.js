@@ -8,6 +8,7 @@ ModalOpener = function(){
 	};
 	this.openModal = function(settings){
 		$('#loaderContainer').fadeOut();
+		$('#editor').fadeIn();
 		settings = settings || this.defaultSettings;
 		WILL.init(1600, 1000, settings.node.drawing);
 		console.log("will initiated");
