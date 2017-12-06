@@ -11,7 +11,6 @@ function ApiService() {
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
 			var tree = getGraphFromResponse(JSON.parse(responseText));
-			console.log(tree);
 			onSuccess(tree);
 		};
 		xhr.onerror = function () {
