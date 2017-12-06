@@ -33,6 +33,8 @@ function ApiService() {
 		xhr.onerror = function () {
 			console.log('Problem branching from node');
 		};
+
+		xhr.send();
 	};
 
 	//from https://www.html5rocks.com/en/tutorials/cors/
