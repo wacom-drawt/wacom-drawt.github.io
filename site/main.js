@@ -69,7 +69,7 @@ function init() {
         function (resp) {
             console.log('Request for tree failed :(');
             console.log(resp);
-        }, false);
+        }, true);
 }
 
 
