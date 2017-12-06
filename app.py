@@ -46,7 +46,7 @@ def get_graph():
 def main_page():
     resp = send_from_directory("site", "index.html")
     if 'user_cookie' not in request.cookies:
-        user_id = str(len(USERS_DICT)).zfill(4)
+        user_id = str( len(USERS_DICT)).zfill(4)
         resp.set_cookie('user_cookie', create_cookie(user_id))
         USERS_DICT[user_id] = User(user_id=user_id, user_name="", mail="")
         print(USERS_DICT)
