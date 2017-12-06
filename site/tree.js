@@ -4,12 +4,15 @@ function ApiService() {
 	this.REAL_TREE_URL = "https://drawtwacom.herokuapp.com/get_graph";
 
 	this.getTree = function (onSuccess, onFail, isMock) {
+
 		var treeUrl = isMock ? this.MOCK_TREE_URL : this.REAL_TREE_URL;
 		var xhr = createCORSRequest('GET', treeUrl);
 		// xhr.withCredentials = true;
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
-			onSuccess(JSON.parse(responseText));
+			var tree = getGraphFromResponse(JSON.parse(responseText));
+			console.log(tree);
+			onSuccess(tree);
 		};
 		xhr.onerror = function () {
 			console.log('Problem getting graph from server');
@@ -51,6 +54,32 @@ function ApiService() {
 		}
 		return xhr;
 	}
+}
+
+function getGraphFromResponse(treeFromResponse, rootId){
+	//children_node_ids
+	if(!rootId){
+		rootId = 0;
+	}
+	$ = $ || jQuery;
+	var firstNode = treeFromResponse.graph[rootId];
+	var nodesToFix = [firstNode];
+	while(nodesToFix.length){
+		currNode = nodesToFix.pop();
+		currNode.children_node_ids.forEach(function(childId){
+			var childNode = treeFromResponse.graph[childId];
+			if(!currNode.children){
+				currNode.children = [];
+			}
+			if(!childNode.children && childNode){
+				childNode.children = [];
+			}
+			currNode.children.push(childNode);
+			nodesToFix.push(childNode);
+		});
+	}
+	return firstNode;
+
 }
 
 function getMockData() {
