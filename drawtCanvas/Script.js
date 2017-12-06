@@ -1,133 +1,165 @@
+
 var WILL = {
-	backgroundColor: Module.Color.WHITE,
-	color: Module.Color.from(204, 204, 204, 0.5),
+    backgroundColor: Module.Color.WHITE,
+    color: Module.Color.from(0, 0, 0),
 
-	init: function(width, height) {
-		this.initInkEngine(width, height);
-		this.initEvents();
-	},
+    strokes: new Array(),
 
-	initInkEngine: function(width, height) {
-		this.canvas = new Module.InkCanvas(document.getElementById("canvas"), width, height);
-		this.strokesLayer = this.canvas.createLayer();
+    init: function(width, height) {
+        this.initInkEngine(width, height);
+        this.initEvents();
+    },
 
-		this.clear();
+    initInkEngine: function(width, height) {
+        this.canvas = new Module.InkCanvas(document.getElementById("canvas"), width, height);
+        this.canvas.clear(this.backgroundColor);
 
-		this.brush = new Module.SolidColorBrush();
+        this.brush = new Module.DirectBrush();
 
-		this.pathBuilder = new Module.SpeedPathBuilder();
-		this.pathBuilder.setNormalizationConfig(182, 3547);
-		this.pathBuilder.setPropertyConfig(Module.PropertyName.Width, 20, 40, 0.72, NaN, Module.PropertyFunction.Power, 1.19, false);
+        this.speedPathBuilder = new Module.SpeedPathBuilder();
+        this.speedPathBuilder.setNormalizationConfig(182, 3547);
+        this.speedPathBuilder.setPropertyConfig(Module.PropertyName.Width, 2.05, 34.53, 0.72, NaN, Module.PropertyFunction.Power, 1.19, false);
 
-		this.smoothener = new Module.MultiChannelSmoothener(this.pathBuilder.stride);
+        if (window.PointerEvent) {
+            this.pressurePathBuilder = new Module.PressurePathBuilder();
+            this.pressurePathBuilder.setNormalizationConfig(0.195, 0.88);
+            this.pressurePathBuilder.setPropertyConfig(Module.PropertyName.Width, 2.05, 34.53, 0.72, NaN, Module.PropertyFunction.Power, 1.19, false);
+        }
 
-		this.strokeRenderer = new Module.StrokeRenderer(this.canvas);
-		this.strokeRenderer.configure({brush: this.brush, color: this.color});
-	},
+        this.strokeRenderer = new Module.StrokeRenderer(this.canvas, this.canvas);
+        this.strokeRenderer.configure({brush: this.brush, color: this.color});
+    },
 
-	initEvents: function() {
-		var self = this;
-		$(Module.canvas).on("mousedown", function(e) {self.beginStroke(e);});
-		$(Module.canvas).on("mousemove", function(e) {self.moveStroke(e);});
-		$(document).on("mouseup", function(e) {self.endStroke(e);});
-	},
+    initEvents: function() {
+        var self = this;
 
-	beginStroke: function(e) {
-		if (e.button != 0) return;
+        if (window.PointerEvent) {
+            Module.canvas.addEventListener("pointerdown", function(e) {self.beginStroke(e);});
+            Module.canvas.addEventListener("pointermove", function(e) {self.moveStroke(e);});
+            document.addEventListener("pointerup", function(e) {self.endStroke(e);});
+        }
+        else {
+            Module.canvas.addEventListener("mousedown", function(e) {self.beginStroke(e);});
+            Module.canvas.addEventListener("mousemove", function(e) {self.moveStroke(e);});
+            document.addEventListener("mouseup", function(e) {self.endStroke(e);});
 
-		this.inputPhase = Module.InputPhase.Begin;
+            if (window.TouchEvent) {
+                Module.canvas.addEventListener("touchstart", function(e) {self.beginStroke(e);});
+                Module.canvas.addEventListener("touchmove", function(e) {self.moveStroke(e);});
+                document.addEventListener("touchend", function(e) {self.endStroke(e);});
+            }
+        }
+    },
 
-		this.buildPath({x: e.clientX, y: e.clientY});
-		this.drawPath();
-	},
+    getPressure: function(e) {
+        return (window.PointerEvent && e instanceof PointerEvent && e.pressure !== 0.5)?e.pressure:NaN;
+    },
 
-	moveStroke: function(e) {
-		if (!this.inputPhase) return;
+    beginStroke: function(e) {
+        if (["mousedown", "mouseup"].contains(e.type) && e.button != 0) return;
+        if (e.changedTouches) e = e.changedTouches[0];
 
-		this.inputPhase = Module.InputPhase.Move;
-		this.pointerPos = {x: e.clientX, y: e.clientY};
+        this.inputPhase = Module.InputPhase.Begin;
+        this.pressure = this.getPressure(e);
+        this.pathBuilder = isNaN(this.pressure)?this.speedPathBuilder:this.pressurePathBuilder;
 
-		if (WILL.frameID != WILL.canvas.frameID) {
-			var self = this;
+        this.buildPath({x: e.clientX, y: e.clientY});
+        this.drawPath();
+    },
 
-			WILL.frameID = WILL.canvas.requestAnimationFrame(function() {
-				if (self.inputPhase && self.inputPhase == Module.InputPhase.Move) {
-					self.buildPath(self.pointerPos);
-					self.drawPath();
-				}
-			}, true);
-		}
-	},
+    moveStroke: function(e) {
+        if (!this.inputPhase) return;
+        if (e.changedTouches) e = e.changedTouches[0];
 
-	endStroke: function(e) {
-		if (!this.inputPhase) return;
+        this.inputPhase = Module.InputPhase.Move;
+        this.pointerPos = {x: e.clientX, y: e.clientY};
+        this.pressure = this.getPressure(e);
 
-		this.inputPhase = Module.InputPhase.End;
+        if (WILL.frameID != WILL.canvas.frameID) {
+            var self = this;
 
-		this.buildPath({x: e.clientX, y: e.clientY});
-		this.drawPath();
+            WILL.frameID = WILL.canvas.requestAnimationFrame(function() {
+                if (self.inputPhase && self.inputPhase == Module.InputPhase.Move) {
+                    self.buildPath(self.pointerPos);
+                    self.drawPath();
+                }
+            }, true);
+        }
+    },
 
-		delete this.inputPhase;
-	},
+    endStroke: function(e) {
+        if (!this.inputPhase) return;
+        if (e.changedTouches) e = e.changedTouches[0];
 
-	buildPath: function(pos) {
-		if (this.inputPhase == Module.InputPhase.Begin)
-			this.smoothener.reset();
+        this.inputPhase = Module.InputPhase.End;
+        this.pressure = this.getPressure(e);
 
-		var pathPart = this.pathBuilder.addPoint(this.inputPhase, pos, Date.now()/1000);
-		var smoothedPathPart = this.smoothener.smooth(pathPart, this.inputPhase == Module.InputPhase.End);
-		var pathContext = this.pathBuilder.addPathPart(smoothedPathPart);
+        this.buildPath({x: e.clientX, y: e.clientY});
+        this.drawPath();
 
-		this.pathPart = pathContext.getPathPart();
+        var stroke = new Module.Stroke(this.brush, this.path, NaN, this.color, 0, 1);
+		this.strokes.push(stroke);
 
-		if (this.inputPhase == Module.InputPhase.Move) {
-			var preliminaryPathPart = this.pathBuilder.createPreliminaryPath();
-			var preliminarySmoothedPathPart = this.smoothener.smooth(preliminaryPathPart, true);
+        delete this.inputPhase;
+    },
 
-			this.preliminaryPathPart = this.pathBuilder.finishPreliminaryPath(preliminarySmoothedPathPart);
-		}
-	},
+    buildPath: function(pos) {
+        var pathBuilderValue = isNaN(this.pressure)?Date.now() / 1000:this.pressure;
 
-	drawPath: function() {
-		if (this.inputPhase == Module.InputPhase.Begin) {
-			this.strokeRenderer.draw(this.pathPart, false);
-			this.strokeRenderer.blendUpdatedArea();
-		}
-		else if (this.inputPhase == Module.InputPhase.Move) {
-			this.strokeRenderer.draw(this.pathPart, false);
-			this.strokeRenderer.drawPreliminary(this.preliminaryPathPart);
+        var pathPart = this.pathBuilder.addPoint(this.inputPhase, pos, pathBuilderValue);
+        var pathContext = this.pathBuilder.addPathPart(pathPart);
 
-			this.canvas.clear(this.strokeRenderer.updatedArea, this.backgroundColor);
-			this.canvas.blend(this.strokesLayer, {rect: this.strokeRenderer.updatedArea});
+        this.pathPart = pathContext.getPathPart();
+        this.path = pathContext.getPath();
+    },
 
-			this.strokeRenderer.blendUpdatedArea();
-		}
-		else if (this.inputPhase == Module.InputPhase.End) {
-			this.strokeRenderer.draw(this.pathPart, true);
+    drawPath: function() {
+        this.strokeRenderer.draw(this.pathPart, this.inputPhase == Module.InputPhase.End);
+    },
 
-			this.strokeRenderer.blendStroke(this.strokesLayer, Module.BlendMode.NORMAL);
+    clear: function() {
+        this.canvas.clear(this.backgroundColor);
+    },
 
-			this.canvas.clear(this.strokeRenderer.strokeBounds, this.backgroundColor);
-			this.canvas.blend(this.strokesLayer, {rect: this.strokeRenderer.strokeBounds});
-		}
-	},
-
-	clear: function() {
-		this.strokesLayer.clear(this.backgroundColor);
-		this.canvas.clear(this.backgroundColor);
-	},
-
-	/**
-	 * Tool setter for primary writer in canvas
-	 *
-	 * @see WILL.Writer#setTool
-	 * @param {*} tool check WILL.Writer#setTool for details
-	 */
-	setTool: function(tool) {
-		this.writer.setTool(tool);
-	},
+    changeColor: function() {
+    	if (this.color == Module.Color.WHITE) {
+    		this.color = Module.Color.BLACK;
+    	}
+    	else {
+    		this.color = Module.Color.WHITE;
+    	}
+    	this.strokeRenderer.configure({brush: this.brush, color: this.color});
+    }
 };
 
 Module.addPostScript(function() {
-	WILL.init(1600, 1000);
+    WILL.init(1600, 1000);
+    WILL.color = Module.Color.WHITE;
 });
+
+
+function changeDrawColor() {
+	WILL.changeColor();
+}
+
+function saveDrawingToPng() {
+	var canvas = document.getElementById("canvas");
+	// var img    = canvas.toDataURL("image/png");
+	var dataURL    = canvas.toDataURL();
+	$.ajax({
+	type: "POST",
+	url: "https://drawtwacom.herokuapp.com/submit",
+	data: { 
+	 imgBase64: dataURL,
+	 nodeId: "IDString"
+	}
+	}).done(function(o) {
+	console.log('saved'); 
+	// If you want the file to be visible in the browser 
+	// - please modify the callback in javascript. All you
+	// need is to return the url to the file, you just saved 
+	// and than put the image in your browser.
+	});
+
+}
+
