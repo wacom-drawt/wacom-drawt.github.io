@@ -3,7 +3,7 @@ var modalOpener = new ModalOpener();
 
 var width = window.innerWidth,
     height = window.innerHeight,
-    bgColor = "#f1f1f1",
+    bgColor = "#3f3f3f",
     centered,
     root;
 

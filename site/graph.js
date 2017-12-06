@@ -164,10 +164,7 @@ function dblclicknode(d) {
 
 }
 
-var isZoomedAfterClick = false;
-
 function handleMouseEnter(d, i) {
-    if (isZoomedAfterClick) { return;}
     d3.select(this).transition()
         .ease("elastic")
         .duration("500")
@@ -175,7 +172,6 @@ function handleMouseEnter(d, i) {
 }
 
 function handleMouseOut(d, i) {
-    if (isZoomedAfterClick) { return;}
     d3.select(this).transition()
         .ease("quad")
         .delay("100")
@@ -197,11 +193,8 @@ function flatten(root) {
 	return nodes;
 }
 
-var scaleZoom = 100;
 
 function transition(svg, nodeToFocus) {
-
-    if (isZoomedAfterClick) {scaleZoom = 400};
 
     isZoomedAfterClick = true;
 
@@ -209,7 +202,7 @@ function transition(svg, nodeToFocus) {
     var svgH = $('svg').height();
 
     start = [svgW / 2, svgH / 2, 100];
-    end = [nodeToFocus.x, nodeToFocus.y, scaleZoom];
+    end = [nodeToFocus.x, nodeToFocus.y, 400];
 
 
     // change is zoomed to false
@@ -242,9 +235,6 @@ function transition(svg, nodeToFocus) {
     // show button
 
     // give center position: nodeToFocus.x, nodeToFocus.y
-
-    isZoomedAfterClick = false;
-
 }
 
 function centralizeRoot(d) {
