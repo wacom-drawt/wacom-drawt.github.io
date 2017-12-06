@@ -121,7 +121,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		})
 		// Image will start filling by this offset
 		.attr("viewBox", function (d, i) {
-			return "0 0 100 100";
+			return "0 10 100 100";
 		})
 		// This will make the image
 		.attr("patternContentUnits", function (d, i) {
