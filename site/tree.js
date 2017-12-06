@@ -56,9 +56,9 @@ function ApiService() {
 			drawing: imageURI
 		};
 		xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-		xhr.setRequestHeader('Access-Control-Request-Method', 'POST');
+		// xhr.setRequestHeader('Access-Control-Request-Method', 'POST');
 		xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
-		xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
+		// xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
 		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 		xhr.send(JSON.stringify(data));
 	};
