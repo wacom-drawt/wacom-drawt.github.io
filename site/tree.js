@@ -59,7 +59,8 @@ function ApiService() {
 
 		var data = {
 			node_id: newNodeId,
-			drawing: imageURI
+			drawing: imageURI,
+			is_test: 'yes it is'
 		};
 		var strData = JSON.stringify(data);
 		console.log(strData);
