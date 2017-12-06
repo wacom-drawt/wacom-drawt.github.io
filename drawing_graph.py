@@ -6,19 +6,19 @@ def get_random_id(num_bits=16):
 
 
 class User(object):
-    def __init__(self, user_id, mail=None):
+    def __init__(self, user_id, user_name=None, mail=None):
         self.user_id = user_id
+        self.user_name = user_name
         self.mail = mail
-        self.drawings_list = []
 
 
 class Node(object):
-    def __init__(self, node_id, user_id, drawing, parent_node_id, state = "in progress"):
+    def __init__(self, node_id, user_id, drawing, parent_node_id, is_finished =False):
         self.node_id = node_id
         self.user_id = user_id
         self.parent_node_id = parent_node_id
         self.drawing = drawing
-        self.state = state #options: "in_progress", "done"
+        self.is_finished = is_finished
         self.children_node_ids = []
 
     def export_to_dict(self):
@@ -27,7 +27,7 @@ class Node(object):
             "user_id": self.user_id,
             "parent_node_id": self.parent_node_id,
             "drawing": self.drawing,
-            "state": self.state,
+            "is_finished": self.is_finished,
             "children_node_ids": self.children_node_ids
             }
 
@@ -36,11 +36,11 @@ class Graph(object):
     def __init__(self):
         self.nodes = {}
 
-    def add_node(self, user_id, drawing, parent_node_id, state):
+    def add_node(self, user_id, drawing, parent_node_id, is_finished):
         assert parent_node_id in self.nodes or parent_node_id is None
 
         node_id = str(len(self.nodes))
-        new_node = Node(node_id, user_id, drawing, parent_node_id, state)
+        new_node = Node(node_id, user_id, drawing, parent_node_id, is_finished)
         if parent_node_id is not None:
             self.nodes[parent_node_id].children_node_ids.append(node_id)
         self.nodes[node_id] = new_node

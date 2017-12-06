@@ -1,27 +1,46 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Force-Directed Graph</title>
-<style>
+<head>
+	<title>Drawt</title>
+	<style>
 
-	.node {
-		cursor: pointer;
-		stroke: #636363;
-		stroke-width: 1.5px;
-	}
+		.node {
+			cursor: pointer;
+			stroke: #636363;
+			stroke-width: 1.5px;
+		}
 
-	.link {
-		fill: none;
-		stroke: #636363;
-		stroke-width: 1.5px;
-	}
+		.link {
+			fill: none;
+			stroke: #636363;
+			stroke-width: 1.5px;
+		}
 
-</style>
+	</style>
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+
+</head>
 <body style="background-color:#f1f1f1;">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 <script src="tree.js"></script>
-<script
-		src="https://code.jquery.com/jquery-3.2.1.js"
-		integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-		crossorigin="anonymous"></script>
 <script src="libraries/d3-3.5/d3.js"></script>
+<script src="common/modalOpener.js"></script>
 <script src="graph.js"></script>
-<script src="main.js">	</script>
+<script src="main.js"></script>
+
+<a href="https://wacom-drawt.github.io/site/common/modal.html"
+   data-toggle="modal"
+   data-target="#theModal"
+   id="modalOpener"
+   style="display:none;"></a>
+<div id="theModal" class="modal fade text-center">
+	<div class="modal-dialog">
+		<div class="modal-content">Loading...</div>
+	</div>
+</div>
+
+</body>

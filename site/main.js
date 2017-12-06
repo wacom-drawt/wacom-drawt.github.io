@@ -1,4 +1,5 @@
 var api = new ApiService();
+var modalOpener = new ModalOpener();
 
 var width = window.innerWidth,
     height = window.innerHeight,
@@ -24,7 +25,7 @@ svg.append("rect")
 
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
-
+    
 api.getTree(
     //on success
     function (resp) {
@@ -36,7 +37,7 @@ api.getTree(
     function (resp) {
         console.log('Request for tree failed :(');
         console.log(resp);
-    }, false);
+    }, true);
 
 
 

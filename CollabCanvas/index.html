@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<title>Collab Canvs</title>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
+	<script type="text/javascript" src="sdk/scripts/jquery.min.js"></script>
+	<script type="text/javascript" src="sdk/scripts/js.ext.js"></script>
+    <script type="text/javascript" src="sdk/engine/Module.js"></script>
+    <script async type="text/javascript" src="sdk/engine/WacomInkEngine.js"></script>
+
+    <script type="text/javascript" src="Script.js"></script> 
+    <style type="text/css">
+		body {position: relative; overflow: hidden; margin: 0; padding: 0; background-color: white; color: white;}
+		canvas {border: 0px none;}
+		h2, p {margin-left: 20px;}
+		button {position: absolute; left: 100px; top: 150px;}
+		.saveButton {position: absolute; left: 100px; top: 200px;}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" oncontextmenu="WILL.clear(); event.preventDefault();"></canvas>
+	<button id="button" onclick="changeDrawColor()">Click me</button>
+	<button class="saveButton" id="saveButton" onclick="saveDrawingToPng()">submit</button>
+</body>
+</html>
