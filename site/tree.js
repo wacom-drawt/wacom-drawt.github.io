@@ -1,5 +1,6 @@
 function ApiService() {
 	$ = jQuery;
+	this.ORIGIN = 'https://wacom-drawt.github.io';
 	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/graph";
 	this.REAL_TREE_URL = "https://drawtwacom.herokuapp.com/get_graph";
 	this.SUBMIT_IMAGE_URL = "https://drawtwacom.herokuapp.com/submit";
@@ -55,6 +56,7 @@ function ApiService() {
 			drawing: imageURI
 		};
 		xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+		xhr.setRequestHeader("Access-Control-Allow-Origin", this.ORIGIN);
 		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 		xhr.send(JSON.stringify(data));
 	};
