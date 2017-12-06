@@ -64,7 +64,7 @@ function ApiService() {
 		};
 		var strData = JSON.stringify(data);
 		console.log(strData);
-		xhr.send(data);
+		xhr.send("{node_id: 1, drawing: 'yoel01'}");
 	};
 
 
