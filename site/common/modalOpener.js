@@ -11,13 +11,18 @@ ModalOpener = function(){
 		switch(settings.type){
 			case this.types.EDITOR:
 				console.log('openning editor modal');
+				api.branchFrom(settings.node, function(response){
+					console.log('got branch response:');
+					console.log(response);
+					var $opener = $(this.MODAL_OPENER_ID);
+					$opener.click();
+				})
 				break;
 			default:
 				console.log('Problem! requested unknown modal type');
 				break;
 		}
-		var $opener = $(this.MODAL_OPENER_ID);
-		$opener.click();
+
 	}
 
 

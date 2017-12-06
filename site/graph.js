@@ -62,7 +62,7 @@ function update() {
 		  return "url(#"+d.node_id+")";
 		})
         // .style("fill", color)
-        .on("click", centralizeRoot)
+        .on("click", click)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(drag);
@@ -145,7 +145,8 @@ function click(d) {
             d._children = null;
         }
 		modalOpener.openModal({
-			type: modalOpener.types.EDITOR
+			type: modalOpener.types.EDITOR,
+			node: d
 		});
         update();
     }
