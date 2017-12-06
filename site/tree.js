@@ -52,7 +52,7 @@ function ApiService() {
 		};
 
 		xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
-		xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
+		// xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
 		// xhr.setRequestHeader('Access-Control-Request-Method', 'POST');
 		// xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
 		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
