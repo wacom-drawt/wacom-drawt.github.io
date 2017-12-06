@@ -25,7 +25,7 @@ function ApiService() {
 		var params = {
 			node_id: node.node_id
 		};
-		if(debug){
+		if (debug) {
 			params['debug'] = debug;
 		}
 		var queryParams = $.param(params);
@@ -46,30 +46,42 @@ function ApiService() {
 
 	this.submitDrawing = function (newNodeId, imageURI, onSuccess, onFail) {
 
-		var xhr = createCORSRequest('POST', this.SUBMIT_IMAGE_URL);
-		// xhr.withCredentials = true;
-		xhr.onload = function () {
-			var responseText = xhr.responseText;
-			onSuccess(JSON.parse(responseText));
-		};
-		xhr.onerror = function () {
-			console.log('Problem posting new image');
-		};
+		$.ajax({
+			type: "POST",
+			url: "https://drawtwacom.herokuapp.com/submit",
+			data: {
+				drawing: imageURI,
+				node_id: newNodeId
+			}
+		}).done(function (o) {
+			onSuccess(o);
+		});
+		return;
 
-		xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
-		// xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
-		// xhr.setRequestHeader('Access-Control-Request-Method', 'POST');
-		// xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
-		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-
-		var data = {
-			node_id: newNodeId,
-			drawing: imageURI,
-			is_test: 'yes it is'
-		};
-		var strData = JSON.stringify(data);
-		console.log(strData);
-		xhr.send("{node_id: 1, drawing: 'yoel01'}");
+		// NOT WORKING WHYYYY
+		// var xhr = createCORSRequest('POST', this.SUBMIT_IMAGE_URL);
+		// // xhr.withCredentials = true;
+		// xhr.onload = function () {
+		// 	var responseText = xhr.responseText;
+		// 	onSuccess(JSON.parse(responseText));
+		// };
+		// xhr.onerror = function () {
+		// 	console.log('Problem posting new image');
+		// };
+		//
+		// xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+		// // xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
+		// // xhr.setRequestHeader('Access-Control-Request-Method', 'POST');
+		// // xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
+		// // xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+		//
+		// var data = {
+		// 	node_id: newNodeId,
+		// 	drawing: imageURI,
+		// 	is_test: 'yes it is'
+		// };
+		// var strData = JSON.stringify(data);
+		// xhr.send(strData);
 	};
 
 
@@ -132,84 +144,6 @@ function getMockData() {
 			"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
 			"is_finished": true,
 			"children": [
-                {
-                    "node_id": 2,
-                    "user_id": 2,
-                    "state": "done",
-                    "parent_node_id": null,
-                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                    "is_finished": true,
-                    "children": [{
-                        "node_id": 2,
-                        "user_id": 2,
-                        "state": "done",
-                        "parent_node_id": null,
-                        "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                        "is_finished": true,
-                        "children": []
-                    },
-                        {
-                            "node_id": 2,
-                            "user_id": 2,
-                            "state": "done",
-                            "parent_node_id": null,
-                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                            "is_finished": true,
-                            "children": []
-                        },
-                        {
-                            "node_id": 2,
-                            "user_id": 2,
-                            "state": "done",
-                            "parent_node_id": null,
-                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                            "is_finished": true,
-                            "children": []
-                        }]
-                },
-                {
-                    "node_id": 2,
-                    "user_id": 2,
-                    "state": "done",
-                    "parent_node_id": null,
-                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                    "is_finished": true,
-                    "children": [{
-                        "node_id": 2,
-                        "user_id": 2,
-                        "state": "done",
-                        "parent_node_id": null,
-                        "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                        "is_finished": true,
-                        "children": []
-                    },
-                        {
-                            "node_id": 2,
-                            "user_id": 2,
-                            "state": "done",
-                            "parent_node_id": null,
-                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                            "is_finished": true,
-                            "children": [{
-                                "node_id": 2,
-                                "user_id": 2,
-                                "state": "done",
-                                "parent_node_id": null,
-                                "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                "is_finished": true,
-                                "children": []
-                            }]
-                        }]
-                },
-                {
-                    "node_id": 2,
-                    "user_id": 2,
-                    "state": "done",
-                    "parent_node_id": null,
-                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                    "is_finished": true,
-                    "children": []
-                },
 				{
 					"node_id": 2,
 					"user_id": 2,
@@ -218,14 +152,92 @@ function getMockData() {
 					"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
 					"is_finished": true,
 					"children": [{
-                        "node_id": 2,
-                        "user_id": 2,
-                        "state": "done",
-                        "parent_node_id": null,
-                        "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                        "is_finished": true,
-                        "children": []
-                    },]
+						"node_id": 2,
+						"user_id": 2,
+						"state": "done",
+						"parent_node_id": null,
+						"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+						"is_finished": true,
+						"children": []
+					},
+						{
+							"node_id": 2,
+							"user_id": 2,
+							"state": "done",
+							"parent_node_id": null,
+							"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+							"is_finished": true,
+							"children": []
+						},
+						{
+							"node_id": 2,
+							"user_id": 2,
+							"state": "done",
+							"parent_node_id": null,
+							"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+							"is_finished": true,
+							"children": []
+						}]
+				},
+				{
+					"node_id": 2,
+					"user_id": 2,
+					"state": "done",
+					"parent_node_id": null,
+					"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+					"is_finished": true,
+					"children": [{
+						"node_id": 2,
+						"user_id": 2,
+						"state": "done",
+						"parent_node_id": null,
+						"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+						"is_finished": true,
+						"children": []
+					},
+						{
+							"node_id": 2,
+							"user_id": 2,
+							"state": "done",
+							"parent_node_id": null,
+							"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+							"is_finished": true,
+							"children": [{
+								"node_id": 2,
+								"user_id": 2,
+								"state": "done",
+								"parent_node_id": null,
+								"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+								"is_finished": true,
+								"children": []
+							}]
+						}]
+				},
+				{
+					"node_id": 2,
+					"user_id": 2,
+					"state": "done",
+					"parent_node_id": null,
+					"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+					"is_finished": true,
+					"children": []
+				},
+				{
+					"node_id": 2,
+					"user_id": 2,
+					"state": "done",
+					"parent_node_id": null,
+					"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+					"is_finished": true,
+					"children": [{
+						"node_id": 2,
+						"user_id": 2,
+						"state": "done",
+						"parent_node_id": null,
+						"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+						"is_finished": true,
+						"children": []
+					},]
 				},
 				{
 					"node_id": 3,
@@ -253,153 +265,153 @@ function getMockData() {
 							"is_finished": true,
 							"children": []
 						},
-                        {
-                            "node_id": 4,
-                            "user_id": 2,
-                            "state": "done",
-                            "parent_node_id": null,
-                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                            "is_finished": true,
-                            "children": []
-                        },
-                        {
-                            "node_id": 5,
-                            "user_id": 4,
-                            "state": "done",
-                            "parent_node_id": null,
-                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                            "is_finished": true,
-                            "children": []
-                        },
-                        {
-                            "node_id": 4,
-                            "user_id": 2,
-                            "state": "done",
-                            "parent_node_id": null,
-                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                            "is_finished": true,
-                            "children": [{
-                                "node_id": 4,
-                                "user_id": 2,
-                                "state": "done",
-                                "parent_node_id": null,
-                                "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                "is_finished": true,
-                                "children": []
-                            },
-                                {
-                                    "node_id": 5,
-                                    "user_id": 4,
-                                    "state": "done",
-                                    "parent_node_id": null,
-                                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                    "is_finished": true,
-                                    "children": []
-                                },
-                                {
-                                    "node_id": 4,
-                                    "user_id": 2,
-                                    "state": "done",
-                                    "parent_node_id": null,
-                                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                    "is_finished": true,
-                                    "children": []
-                                },
-                                {
-                                    "node_id": 5,
-                                    "user_id": 4,
-                                    "state": "done",
-                                    "parent_node_id": null,
-                                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                    "is_finished": true,
-                                    "children": []
-                                }]
-                        },
-                        {
-                            "node_id": 5,
-                            "user_id": 4,
-                            "state": "done",
-                            "parent_node_id": null,
-                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                            "is_finished": true,
-                            "children": [ {
-                                "node_id": 5,
-                                "user_id": 4,
-                                "state": "done",
-                                "parent_node_id": null,
-                                "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                "is_finished": true,
-                                "children": []
-                            },
-                                {
-                                    "node_id": 5,
-                                    "user_id": 4,
-                                    "state": "done",
-                                    "parent_node_id": null,
-                                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                    "is_finished": true,
-                                    "children": []
-                                },
-                                {
-                                    "node_id": 5,
-                                    "user_id": 4,
-                                    "state": "done",
-                                    "parent_node_id": null,
-                                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                    "is_finished": true,
-                                    "children": [ {
-                                        "node_id": 5,
-                                        "user_id": 4,
-                                        "state": "done",
-                                        "parent_node_id": null,
-                                        "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                        "is_finished": true,
-                                        "children": []
-                                    },
-                                        {
-                                            "node_id": 5,
-                                            "user_id": 4,
-                                            "state": "done",
-                                            "parent_node_id": null,
-                                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                            "is_finished": true,
-                                            "children": []
-                                        },
-                                        {
-                                            "node_id": 5,
-                                            "user_id": 4,
-                                            "state": "done",
-                                            "parent_node_id": null,
-                                            "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                            "is_finished": true,
-                                            "children": [ {
-                                                "node_id": 5,
-                                                "user_id": 4,
-                                                "state": "done",
-                                                "parent_node_id": null,
-                                                "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                                "is_finished": true,
-                                                "children": [ {
-                                                    "node_id": 5,
-                                                    "user_id": 4,
-                                                    "state": "done",
-                                                    "parent_node_id": null,
-                                                    "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                                    "is_finished": true,
-                                                    "children": []
-                                                }]
-                                            }, {
-                                                "node_id": 5,
-                                                "user_id": 4,
-                                                "state": "done",
-                                                "parent_node_id": null,
-                                                "drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
-                                                "is_finished": true,
-                                                "children": []
-                                            }]
-                                        }]
-                                }]
-                        }
+						{
+							"node_id": 4,
+							"user_id": 2,
+							"state": "done",
+							"parent_node_id": null,
+							"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+							"is_finished": true,
+							"children": []
+						},
+						{
+							"node_id": 5,
+							"user_id": 4,
+							"state": "done",
+							"parent_node_id": null,
+							"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+							"is_finished": true,
+							"children": []
+						},
+						{
+							"node_id": 4,
+							"user_id": 2,
+							"state": "done",
+							"parent_node_id": null,
+							"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+							"is_finished": true,
+							"children": [{
+								"node_id": 4,
+								"user_id": 2,
+								"state": "done",
+								"parent_node_id": null,
+								"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+								"is_finished": true,
+								"children": []
+							},
+								{
+									"node_id": 5,
+									"user_id": 4,
+									"state": "done",
+									"parent_node_id": null,
+									"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+									"is_finished": true,
+									"children": []
+								},
+								{
+									"node_id": 4,
+									"user_id": 2,
+									"state": "done",
+									"parent_node_id": null,
+									"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+									"is_finished": true,
+									"children": []
+								},
+								{
+									"node_id": 5,
+									"user_id": 4,
+									"state": "done",
+									"parent_node_id": null,
+									"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+									"is_finished": true,
+									"children": []
+								}]
+						},
+						{
+							"node_id": 5,
+							"user_id": 4,
+							"state": "done",
+							"parent_node_id": null,
+							"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+							"is_finished": true,
+							"children": [{
+								"node_id": 5,
+								"user_id": 4,
+								"state": "done",
+								"parent_node_id": null,
+								"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+								"is_finished": true,
+								"children": []
+							},
+								{
+									"node_id": 5,
+									"user_id": 4,
+									"state": "done",
+									"parent_node_id": null,
+									"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+									"is_finished": true,
+									"children": []
+								},
+								{
+									"node_id": 5,
+									"user_id": 4,
+									"state": "done",
+									"parent_node_id": null,
+									"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+									"is_finished": true,
+									"children": [{
+										"node_id": 5,
+										"user_id": 4,
+										"state": "done",
+										"parent_node_id": null,
+										"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+										"is_finished": true,
+										"children": []
+									},
+										{
+											"node_id": 5,
+											"user_id": 4,
+											"state": "done",
+											"parent_node_id": null,
+											"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+											"is_finished": true,
+											"children": []
+										},
+										{
+											"node_id": 5,
+											"user_id": 4,
+											"state": "done",
+											"parent_node_id": null,
+											"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+											"is_finished": true,
+											"children": [{
+												"node_id": 5,
+												"user_id": 4,
+												"state": "done",
+												"parent_node_id": null,
+												"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+												"is_finished": true,
+												"children": [{
+													"node_id": 5,
+													"user_id": 4,
+													"state": "done",
+													"parent_node_id": null,
+													"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+													"is_finished": true,
+													"children": []
+												}]
+											}, {
+												"node_id": 5,
+												"user_id": 4,
+												"state": "done",
+												"parent_node_id": null,
+												"drawing": "https://img00.deviantart.net/4d6f/i/2012/306/d/d/jack_o__lantern_trio_by_the_ht_wacom_man-d5jplps.jpg",
+												"is_finished": true,
+												"children": []
+											}]
+										}]
+								}]
+						}
 					]
 				}
 			]
