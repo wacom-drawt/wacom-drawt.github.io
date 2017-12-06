@@ -110,6 +110,7 @@ def submit_node():
         G.nodes[node_id].is_finished = True
     else:
         return "submit: missing node_id"
+        #added comment
 
     if 'user_name' in request.form and request.form.get('user_name') != '':
         user_name = request.form.get('user_name')
