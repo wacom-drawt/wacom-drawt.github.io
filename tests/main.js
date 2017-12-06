@@ -11,7 +11,11 @@ var force = d3.layout.force()
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
-    .attr("height", height)
+    .attr("height", height)//;
+    .call(d3.behavior.zoom().on("zoom", function () {
+        svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+    }))
+    .append("g")
 
 svg.append("rect")
     .attr("width", width)
@@ -20,11 +24,11 @@ svg.append("rect")
 
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
-    
+
 api.getTree(
     //on success
     function (resp) {
-        root = resp;
+        root = resp['graph'];
         saveImagesAsPatternsInCanvas(svg, root);
         update();
     },
@@ -32,6 +36,6 @@ api.getTree(
     function (resp) {
         console.log('Request for tree failed :(');
         console.log(resp);
-    }, false);
+    }, true);
 
 
