@@ -62,7 +62,7 @@ function update() {
 		  return "url(#"+d.node_id+")";
 		})
         // .style("fill", color)
-        .on("click", click)
+        .on("click", centralizeRoot)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(drag);
@@ -186,8 +186,11 @@ function flatten(root) {
     return nodes;
 }
 
+var scaleZoom = 100;
 
 function transition(svg, nodeToFocus) {
+
+    if (isZoomedAfterClick) {scaleZoom = 400};
 
     isZoomedAfterClick = true;
 
@@ -195,10 +198,13 @@ function transition(svg, nodeToFocus) {
     var svgH = $('svg').height();
 
     start = [svgW / 2, svgH / 2, 100];
-    end = [nodeToFocus.x, nodeToFocus.y, 100];
+    end = [nodeToFocus.x, nodeToFocus.y, scaleZoom];
+
+
+    // change is zoomed to false
+    // make original node smalled with end
 
     var i = d3.interpolateZoom(start, end);
-
     svg
         .attr("transform", transform(start))
         .transition()
@@ -222,9 +228,17 @@ function transition(svg, nodeToFocus) {
         return "translate(" + translateX + "," + translateY + ")scale(" + k + ")";
     }
 
+    // show button
+
+    // give center position: nodeToFocus.x, nodeToFocus.y
+
+    isZoomedAfterClick = false;
+
 }
 
 function centralizeRoot(d) {
 
     d3.select('svg').call(transition, d);
+
+
 }
