@@ -2,6 +2,7 @@ function ApiService() {
 	$ = jQuery;
 	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/graph";
 	this.REAL_TREE_URL = "https://drawtwacom.herokuapp.com/get_graph";
+	this.SUBMIT_IMAGE_URL = "https://drawtwacom.herokuapp.com/submit";
 
 	this.getTree = function (onSuccess, onFail, isMock) {
 
@@ -25,7 +26,7 @@ function ApiService() {
 		});
 		var url = "https://drawtwacom.herokuapp.com/branch?" + queryParams;
 		var xhr = createCORSRequest('GET', url);
-		xhr.withCredentials = true;
+		// xhr.withCredentials = true;
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
 			onSuccess(JSON.parse(responseText));
@@ -33,7 +34,29 @@ function ApiService() {
 		xhr.onerror = function () {
 			console.log('Problem branching from node');
 		};
+
+		xhr.send();
 	};
+
+	this.submitDrawing = function(newNodeId, imageURI, onSuccess, onFail){
+		
+		var xhr = createCORSRequest('POST', this.SUBMIT_IMAGE_URL);
+		xhr.withCredentials = true;
+		xhr.onload = function () {
+			var responseText = xhr.responseText;
+			onSuccess(JSON.parse(responseText));
+		};
+		xhr.onerror = function () {
+			console.log('Problem posting new image');
+		};
+
+		var data = {
+			node_id: newNodeId,
+			drawing: imageURI
+		};
+		xhr.send(data);
+	};
+
 
 	//from https://www.html5rocks.com/en/tutorials/cors/
 	function createCORSRequest(method, url) {
