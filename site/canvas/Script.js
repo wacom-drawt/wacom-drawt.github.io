@@ -170,7 +170,7 @@ var WILL = {
 		return canvas;
  	},
 
-    saveImage: function () {
+    getImage: function () {
     	var rect = {
     		left: 0, 
     		top:0, 
@@ -180,7 +180,9 @@ var WILL = {
     		height: this.canvas.height
     	}
     	const capturedImage = this.getImageCanvas(this.canvas, rect).toDataURL();
-    	console.log(capturedImage);
+    	
+    	// console.log(capturedImage);
+    	return capturedImage;
     }
 };
 
@@ -195,25 +197,26 @@ function changeDrawColor() {
 }
 
 function saveDrawingToPng() {
-	WILL.saveImage();
-	var canvas = document.getElementById("canvas");
+	
+	// var canvas = document.getElementById("canvas");
 	// var img = canvas.toDataURL("image/png");
-	var dataURL = canvas.toDataURL();
-	$.ajax({
-        type: "POST",
-        url: "https://drawtwacom.herokuapp.com/submit",
-        data: {
-         drawing: dataURL,
-         //drawing: "dataURL",
-         node_id: "0"
-        }
-	}).done(function(o) {
-	console.log('saved'); 
-	// If you want the file to be visible in the browser 
-	// - please modify the callback in javascript. All you
-	// need is to return the url to the file, you just saved 
-	// and than put the image in your browser.
-	});
+	var dataURL = WILL.getImage();
+	console.log(dataURL);
+	// $.ajax({
+ //        type: "POST",
+ //        url: "https://drawtwacom.herokuapp.com/submit",
+ //        data: {
+ //         drawing: dataURL,
+ //         //drawing: "dataURL",
+ //         node_id: "0"
+ //        }
+	// }).done(function(o) {
+	// console.log('saved'); 
+	// // If you want the file to be visible in the browser 
+	// // - please modify the callback in javascript. All you
+	// // need is to return the url to the file, you just saved 
+	// // and than put the image in your browser.
+	// });
 }
 
 
