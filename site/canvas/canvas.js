@@ -227,12 +227,12 @@ function changeDrawColor() {
 }
 
 function saveDrawingToPng() {
-	
+
 	console.log('in submit"s onclick');
 
 	var api = api || new ApiService();
 	var dataURL = WILL.getImage();
-	
+
 	var id = window.newNodeId;
 	var parentId = window.newNodesParent.node_id;
 	$('#editor').fadeOut();
@@ -249,10 +249,13 @@ function saveDrawingToPng() {
 			"is_finished": true,
 			"children": []
 		};
-	$('#theModal').modal('toggle');
+		var $opener = $("#modalOpener");
+		$opener.click();
 		init();
 	}, function () {
 		console.log('failed adding new picture..');
+		var $opener = $("#modalOpener");
+		$opener.click();
 	});
 
 	//
