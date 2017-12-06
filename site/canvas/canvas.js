@@ -251,7 +251,7 @@ function saveDrawingToPng() {
 		};
 		var $opener = $("#modalOpener");
 		$opener.click();
-		init();
+		setTimeout(init, 1000);
 	}, function () {
 		console.log('failed adding new picture..');
 		var $opener = $("#modalOpener");
