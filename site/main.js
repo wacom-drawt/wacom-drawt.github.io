@@ -24,7 +24,7 @@ svg.append("rect")
 
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
-
+    
 api.getTree(
     //on success
     function (resp) {
@@ -36,7 +36,7 @@ api.getTree(
     function (resp) {
         console.log('Request for tree failed :(');
         console.log(resp);
-    }, false);
+    }, true);
 
 
 
