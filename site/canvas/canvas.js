@@ -1,4 +1,4 @@
-var WILL = {
+WILL = {
 	backgroundColor: Module.Color.WHITE,
 	color: Module.Color.from(0, 0, 0),
 
@@ -243,7 +243,7 @@ function saveDrawingToPng() {
 			"is_finished": true,
 			"children": []
 		};
-		
+
 
 	}, function () {
 		console.log('failed adding new picture..');
