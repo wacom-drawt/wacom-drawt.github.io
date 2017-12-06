@@ -156,14 +156,14 @@ function getMockData() {
 					"user_id": 2,
 					"state": "done",
 					"parent_node_id": 0,
-					"drawing": "https://preview.ibb.co/fbEXVG/node0003.jpg",
+					"drawing": "https://preview.ibb.co/dR2ajb/node0003.jpg",
 					"is_finished": true,
 					"children": [{
 						"node_id": 4,
 						"user_id": 2,
 						"state": "done",
 						"parent_node_id": 2,
-						"drawing": "https://preview.ibb.co/fbEXVG/node0005.jpg",
+						"drawing": "https://preview.ibb.co/nGCEcw/node0005.jpg",
 						"is_finished": true,
 						"children": []
 					},
@@ -172,7 +172,7 @@ function getMockData() {
 							"user_id": 2,
 							"state": "done",
 							"parent_node_id": 2,
-							"drawing": "https://preview.ibb.co/fbEXVG/node0006.jpg",
+							"drawing": "https://preview.ibb.co/cZUSxw/node0006.jpg",
 							"is_finished": true,
 							"children": []
 						},
@@ -181,14 +181,14 @@ function getMockData() {
 							"user_id": 2,
 							"state": "done",
 							"parent_node_id": 2,
-							"drawing": "https://preview.ibb.co/fbEXVG/node0007.jpg",
+							"drawing": "https://preview.ibb.co/ikfZcw/node0007.jpg",
 							"is_finished": true,
 							"children": [{
 								"node_id": 7,
 								"user_id": 2,
 								"state": "done",
 								"parent_node_id": 2,
-								"drawing": "https://preview.ibb.co/fbEXVG/node0008.jpg",
+								"drawing": "https://preview.ibb.co/f0dnxw/node0008.jpg",
 								"is_finished": true,
 								"children": []
 							},
@@ -197,7 +197,7 @@ function getMockData() {
 									"user_id": 2,
 									"state": "done",
 									"parent_node_id": 2,
-									"drawing": "https://preview.ibb.co/fbEXVG/node0009.jpg",
+									"drawing": "https://preview.ibb.co/gArkjb/node0009.jpg",
 									"is_finished": true,
 									"children": []
 								},
@@ -206,7 +206,7 @@ function getMockData() {
 									"user_id": 2,
 									"state": "done",
 									"parent_node_id": 2,
-									"drawing": "https://preview.ibb.co/fbEXVG/node0010.jpg",
+									"drawing": "https://preview.ibb.co/jk1wqG/node0010.jpg",
 									"is_finished": true,
 									"children": []
 								}
@@ -219,14 +219,14 @@ function getMockData() {
 					"user_id": 2,
 					"state": "done",
 					"parent_node_id": 0,
-					"drawing": "https://preview.ibb.co/fbEXVG/node0004.jpg",
+					"drawing": "https://preview.ibb.co/dBgkjb/node0004.jpg",
 					"is_finished": true,
 					"children": [{
 						"node_id": 10,
 						"user_id": 2,
 						"state": "done",
 						"parent_node_id": 3,
-						"drawing": "https://preview.ibb.co/fbEXVG/node0011.jpg",
+						"drawing": "https://preview.ibb.co/mTu5jb/node0011.jpg",
 						"is_finished": true,
 						"children": [
 
@@ -235,7 +235,7 @@ function getMockData() {
 								"user_id": 2,
 								"state": "done",
 								"parent_node_id": 10,
-								"drawing": "https://preview.ibb.co/fbEXVG/node0012.jpg",
+								"drawing": "https://preview.ibb.co/cFfd4b/node0012.jpg",
 								"is_finished": true,
 								"children": [
 
@@ -245,7 +245,7 @@ function getMockData() {
 										"user_id": 2,
 										"state": "done",
 										"parent_node_id": 11,
-										"drawing": "https://preview.ibb.co/fbEXVG/node0013.jpg",
+										"drawing": "https://preview.ibb.co/fnRJ4b/node0013.jpg`",
 										"is_finished": true,
 										"children": []
 									}
