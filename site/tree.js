@@ -21,10 +21,15 @@ function ApiService() {
 		xhr.send();
 	};
 
-	this.branchFrom = function (node, onSuccess, onFail) {
-		var queryParams = $.param({
+	this.branchFrom = function (node, onSuccess, onFail, debug) {
+		var params = {
 			node_id: node.node_id
-		});
+		};
+		if(debug){
+			params['debug'] = debug;
+		}
+		var queryParams = $.param(params);
+
 		var url = "https://drawtwacom.herokuapp.com/branch?" + queryParams;
 		var xhr = createCORSRequest('GET', url);
 		// xhr.withCredentials = true;
