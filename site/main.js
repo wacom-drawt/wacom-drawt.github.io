@@ -1,4 +1,5 @@
 var api = new ApiService();
+var modalOpener = new ModalOpener();
 
 var width = window.innerWidth,
     height = window.innerHeight,
