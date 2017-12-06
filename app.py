@@ -21,9 +21,13 @@ def create_cookie(user_id="", user_name = "", mail = ""):
 
 
 def parse_cookie(cookie_string):
-    tmp = json.loads(urllib.parse.unquote(cookie_string))
-    return tmp
-
+    try:
+        return json.loads(urllib.parse.unquote(cookie_string))
+    except:
+        return {'user_id': "0000",
+                'user_name': '',
+                'mail': ''}
+    
 
 @app.route('/omerzaks')
 def omer_zaks_funk():
