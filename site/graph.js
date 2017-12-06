@@ -152,9 +152,10 @@ function click(d) {
 
 }
 
-
+var isZoomedAfterClick = false;
 
 function handleMouseEnter(d, i) {
+    if (isZoomedAfterClick) { return;}
     d3.select(this).transition()
         .ease("elastic")
         .duration("500")
@@ -162,6 +163,7 @@ function handleMouseEnter(d, i) {
 }
 
 function handleMouseOut(d, i) {
+    if (isZoomedAfterClick) { return;}
     d3.select(this).transition()
         .ease("quad")
         .delay("100")
@@ -183,12 +185,16 @@ function flatten(root) {
     return nodes;
 }
 
+
 function transition(svg, nodeToFocus) {
+
+    isZoomedAfterClick = true;
+
     var svgW = $('svg').width();
     var svgH = $('svg').height();
 
     start = [svgW / 2, svgH / 2, 100];
-    end = [nodeToFocus.x, nodeToFocus.y, 400];
+    end = [nodeToFocus.x, nodeToFocus.y, 100];
 
     var i = d3.interpolateZoom(start, end);
 
