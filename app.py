@@ -55,7 +55,7 @@ def main_page():
 
 @app.route('/index.html', methods=['GET'])
 def main_page2():
-    return main_page()
+    return("PLEASE, USE THE ./ ROOT PATH")
 
 @app.route('/get_node', methods=['GET'])
 def get_node():
