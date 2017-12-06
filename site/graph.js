@@ -151,7 +151,6 @@ function dblclicknode(d) {
 			console.log(d);
 			console.log('didnt click node.');
 		}
-
 		update();
 	}
 

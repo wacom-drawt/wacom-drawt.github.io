@@ -21,7 +21,7 @@ ModalOpener = function(){
 					console.log(response);
 					window.newNodesParent = settings.node;
 					window.newNodeId = response;
-					var $opener = $(this.MODAL_OPENER_ID);
+					var $opener = $("#modalOpener");
 					$opener.click();
 				})
 				break;
