@@ -54,7 +54,7 @@ function ApiService() {
 			node_id: newNodeId,
 			drawing: imageURI
 		};
-		xhr.send(data);
+		xhr.send(JSON.stringify(data));
 	};
 
 
