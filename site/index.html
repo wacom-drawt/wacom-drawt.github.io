@@ -16,10 +16,42 @@
 			stroke-width: 1.5px;
 		}
 
+		#editor {
+			position: relative;
+			overflow: hidden;
+			margin: 0;
+			padding: 0;
+			background-color: white;
+			color: white;
+		}
+
+		#editor canvas {
+			border: 0px none;
+		}
+
+		#editor h2, #editor p {
+			margin-left: 20px;
+		}
+
+		#editor button {
+			position: absolute;
+			left: 100px;
+			top: 150px;
+		}
+
+		#editor .saveButton {
+			position: absolute;
+			left: 100px;
+			top: 200px;
+		}
+
 	</style>
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
-
+	<script type="text/javascript" src="canvas/sdk/scripts/js.ext.js"></script>
+	<script type="text/javascript" src="canvas/sdk/engine/Module.js"></script>
+	<script async type="text/javascript" src="canvas/sdk/engine/WacomInkEngine.js"></script>
+	<script type="text/javascript" src="canvas/canvas.js"></script>
 </head>
 <body style="background-color:#f1f1f1;">
 
@@ -32,14 +64,21 @@
 <script src="graph.js"></script>
 <script src="main.js"></script>
 
-<a href="https://wacom-drawt.github.io/site/common/modal.html"
+
+<a href="#"
    data-toggle="modal"
    data-target="#theModal"
    id="modalOpener"
    style="display:none;"></a>
 <div id="theModal" class="modal fade text-center">
 	<div class="modal-dialog">
-		<div class="modal-content">Loading...</div>
+		<div class="modal-content">
+			<div id="editor">
+				<canvas id="canvas" oncontextmenu="WILL.clear(); event.preventDefault();"></canvas>
+				<button id="button" onclick="changeDrawColor()">Click me</button>
+				<button class="saveButton" id="saveButton" onclick="saveDrawingToPng()">submit</button>
+			</div>
+		</div>
 	</div>
 </div>
 

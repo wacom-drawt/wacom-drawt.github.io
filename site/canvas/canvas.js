@@ -33,6 +33,7 @@ var WILL = {
     },
 
     initImageLayer: function() {
+		console.log('setting canvas bg image');
         var url = location.toString();
         url = url.substring(0, url.lastIndexOf("/")) + "/image.jpg";
 
