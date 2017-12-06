@@ -29,6 +29,11 @@ def hello_world():
     return 'Welcome Inkathon!'
 
 
+@app.route('/omerzaks')
+def omer_zaks():
+    return '<3 ' * 10000
+
+
 @app.route('/get_graph', methods=['GET'])
 def get_graph():
     print ("in get_graph")
