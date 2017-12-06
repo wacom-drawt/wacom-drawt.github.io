@@ -6,15 +6,41 @@
 
 		.node {
 			cursor: pointer;
-			stroke: #636363;
+			stroke: #ffffff;
 			stroke-width: 1.5px;
 		}
 
 		.link {
 			fill: none;
-			stroke: #636363;
+			stroke: #ffffff;
 			stroke-width: 1.5px;
 		}
+
+        /* Style all font awesome icons */
+        .fa {
+            display: inline;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            font-size: 30px;
+            width: 30px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50%;
+            color: #e7e3e3;
+        }
+
+        .socialdiv {
+            bottom: 0;
+            /* height: 100%; */
+            position: absolute;
+            /* display: block; */
+            right: 0;
+        }
+
+        /* Add a hover effect if you want */
+        .fa:hover {
+            opacity: 0.7;
+        }
 
 		#editor {
 			position: relative;
@@ -75,8 +101,26 @@
 	<script async type="text/javascript" src="canvas/sdk/engine/WacomInkEngine.js"></script>
 	<script type="text/javascript" src="canvas/canvas.js"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
 </head>
+<body style="background-color:#3f3f3f;">
+	<button class="saveButton w3-btn w3-black w3-round-large" style="display:none; position:fixed; z-index:99; bottom:47%; right: 47%;" id="saveButton" onclick="saveDrawingToPng()">submit</button>
+    <div style="font-family:Nunito; display:BLOCK; color:#e7e3e3; font-size: 45px ;position:fixed; z-index:99; TOP:6%; right: 87%;">drawt.</div>
+    <div style="font-family:Nunito; display:BLOCK; color:#e7e3e3; font-size: 20px ;position:fixed; z-index:99; TOP:14%; right: 83.7%;"> Smart collaboration</br>for creatives </div>
+
+    <!-- Add font awesome icons -->
+    <div class="socialdiv">
+        <a href="#" class="fa fa-facebook"></a>
+        <a href="#" class="fa fa-twitter"></a>
+        <a href="#" class="fa fa-instagram"></a>
+        <a href="#" class="fa fa-pinterest"></a>
+        <a href="#" class="fa fa-dribbble"></a>
+        <a href="#" class="fa fa-tumblr"></a>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <body style="background-color:#f1f1f1;">
 	<!-- <button id="editButton" class="saveButton w3-btn w3-black w3-round-large" style="display:none; position:fixed; z-index:99; bottom:25%; right: 47%;" onclick="saveDrawingToPng()">edit</button> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
