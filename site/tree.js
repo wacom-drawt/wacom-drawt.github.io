@@ -132,130 +132,132 @@ function getGraphFromResponse(treeFromResponse, rootId) {
 }
 
 function getMockData() {
-
 	return {
-	"node_id": 0,
-	"user_id": 2,
-	"state": "done",
-	"parent_node_id": null,
-	"drawing": "https://preview.ibb.co/nMkvjb/node0001.jpg",
-	"is_finished": true,
-	"children": [{
-			"node_id": 1,
+		"node_id": 0,
+		"user_id": null,
+		"graph": {
+			"node_id": 0,
 			"user_id": 2,
 			"state": "done",
-			"parent_node_id": 0,
-			"drawing": "https://preview.ibb.co/fbEXVG/node0002.jpg",
-			"is_finished": true,
-			"children": []
-		},
-		{
-			"node_id": 2,
-			"user_id": 2,
-			"state": "done",
-			"parent_node_id": 0,
-			"drawing": "https://preview.ibb.co/fbEXVG/node0003.jpg",
+			"parent_node_id": null,
+			"drawing": "https://preview.ibb.co/nMkvjb/node0001.jpg",
 			"is_finished": true,
 			"children": [{
-					"node_id": 4,
-					"user_id": 2,
-					"state": "done",
-					"parent_node_id": 2,
-					"drawing": "https://preview.ibb.co/fbEXVG/node0005.jpg",
-					"is_finished": true,
-					"children": []
-				},
-				{
-					"node_id": 5,
-					"user_id": 2,
-					"state": "done",
-					"parent_node_id": 2,
-					"drawing": "https://preview.ibb.co/fbEXVG/node0006.jpg",
-					"is_finished": true,
-					"children": []
-				},
-				{
-					"node_id": 6,
-					"user_id": 2,
-					"state": "done",
-					"parent_node_id": 2,
-					"drawing": "https://preview.ibb.co/fbEXVG/node0007.jpg",
-					"is_finished": true,
-					"children": [{
-							"node_id": 7,
-							"user_id": 2,
-							"state": "done",
-							"parent_node_id": 2,
-							"drawing": "https://preview.ibb.co/fbEXVG/node0008.jpg",
-							"is_finished": true,
-							"children": []
-						},
-						{
-							"node_id": 8,
-							"user_id": 2,
-							"state": "done",
-							"parent_node_id": 2,
-							"drawing": "https://preview.ibb.co/fbEXVG/node0009.jpg",
-							"is_finished": true,
-							"children": []
-						},
-						{
-							"node_id": 9,
-							"user_id": 2,
-							"state": "done",
-							"parent_node_id": 2,
-							"drawing": "https://preview.ibb.co/fbEXVG/node0010.jpg",
-							"is_finished": true,
-							"children": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"node_id": 3,
-			"user_id": 2,
-			"state": "done",
-			"parent_node_id": 0,
-			"drawing": "https://preview.ibb.co/fbEXVG/node0004.jpg",
-			"is_finished": true,
-			"children": [{
-				"node_id": 10,
+				"node_id": 1,
 				"user_id": 2,
 				"state": "done",
-				"parent_node_id": 3,
-				"drawing": "https://preview.ibb.co/fbEXVG/node0011.jpg",
+				"parent_node_id": 0,
+				"drawing": "https://preview.ibb.co/fbEXVG/node0002.jpg",
 				"is_finished": true,
-				"children": [
-
-					{
-						"node_id": 11,
+				"children": []
+			},
+				{
+					"node_id": 2,
+					"user_id": 2,
+					"state": "done",
+					"parent_node_id": 0,
+					"drawing": "https://preview.ibb.co/fbEXVG/node0003.jpg",
+					"is_finished": true,
+					"children": [{
+						"node_id": 4,
 						"user_id": 2,
 						"state": "done",
-						"parent_node_id": 10,
-						"drawing": "https://preview.ibb.co/fbEXVG/node0012.jpg",
+						"parent_node_id": 2,
+						"drawing": "https://preview.ibb.co/fbEXVG/node0005.jpg",
+						"is_finished": true,
+						"children": []
+					},
+						{
+							"node_id": 5,
+							"user_id": 2,
+							"state": "done",
+							"parent_node_id": 2,
+							"drawing": "https://preview.ibb.co/fbEXVG/node0006.jpg",
+							"is_finished": true,
+							"children": []
+						},
+						{
+							"node_id": 6,
+							"user_id": 2,
+							"state": "done",
+							"parent_node_id": 2,
+							"drawing": "https://preview.ibb.co/fbEXVG/node0007.jpg",
+							"is_finished": true,
+							"children": [{
+								"node_id": 7,
+								"user_id": 2,
+								"state": "done",
+								"parent_node_id": 2,
+								"drawing": "https://preview.ibb.co/fbEXVG/node0008.jpg",
+								"is_finished": true,
+								"children": []
+							},
+								{
+									"node_id": 8,
+									"user_id": 2,
+									"state": "done",
+									"parent_node_id": 2,
+									"drawing": "https://preview.ibb.co/fbEXVG/node0009.jpg",
+									"is_finished": true,
+									"children": []
+								},
+								{
+									"node_id": 9,
+									"user_id": 2,
+									"state": "done",
+									"parent_node_id": 2,
+									"drawing": "https://preview.ibb.co/fbEXVG/node0010.jpg",
+									"is_finished": true,
+									"children": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"node_id": 3,
+					"user_id": 2,
+					"state": "done",
+					"parent_node_id": 0,
+					"drawing": "https://preview.ibb.co/fbEXVG/node0004.jpg",
+					"is_finished": true,
+					"children": [{
+						"node_id": 10,
+						"user_id": 2,
+						"state": "done",
+						"parent_node_id": 3,
+						"drawing": "https://preview.ibb.co/fbEXVG/node0011.jpg",
 						"is_finished": true,
 						"children": [
 
-
 							{
-								"node_id": 12,
+								"node_id": 11,
 								"user_id": 2,
 								"state": "done",
-								"parent_node_id": 11,
-								"drawing": "https://preview.ibb.co/fbEXVG/node0013.jpg",
+								"parent_node_id": 10,
+								"drawing": "https://preview.ibb.co/fbEXVG/node0012.jpg",
 								"is_finished": true,
-								"children": []
+								"children": [
+
+
+									{
+										"node_id": 12,
+										"user_id": 2,
+										"state": "done",
+										"parent_node_id": 11,
+										"drawing": "https://preview.ibb.co/fbEXVG/node0013.jpg",
+										"is_finished": true,
+										"children": []
+									}
+
+
+								]
 							}
 
-
 						]
-					}
-
-				]
-			}]
+					}]
+				}
+			]
 		}
-	]
-};
-
+	};
 }
