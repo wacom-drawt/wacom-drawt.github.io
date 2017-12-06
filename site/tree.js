@@ -62,6 +62,7 @@ function ApiService() {
 			drawing: imageURI
 		};
 		var strData = JSON.stringify(data);
+		console.log(strData);
 		xhr.send(strData);
 	};
 
