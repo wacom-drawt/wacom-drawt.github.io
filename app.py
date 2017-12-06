@@ -28,6 +28,11 @@ def hello_world():
     return 'Welcome Inkathon!'
 
 
+@app.route('/draw_canvas')
+def canvas():
+    return render_template('site/index.html')
+
+
 @app.route('/omerzaks')
 def omer_zaks_funk():
     return omer_zaks
