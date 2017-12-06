@@ -63,7 +63,7 @@ function update() {
 		})
         // .style("fill", color)
         //.on("click", centralizeRoot)
-		.on("dblclick", dblclicknode)
+		.on("click", dblclicknode)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(drag);
