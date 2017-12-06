@@ -1,4 +1,5 @@
 function update() {
+
     var nodes = flatten(root),
         links = d3.layout.tree().links(nodes);
 
@@ -6,6 +7,11 @@ function update() {
     force
         .nodes(nodes)
         .links(links)
+    force.linkDistance(function(link) {
+        console.log(link);
+        return (link.source.weight + link.target.weight) * 10;
+    })
+        //.distance(100)
         .start();
 
     // Update the links…
@@ -35,7 +41,7 @@ function update() {
     // Update the nodes…
     node = node.data(nodes, function (d) {
         return d.id;
-    }).style("fill", color);
+    });//.style("fill", color);
 
     // Exit any old nodes.
     node.exit().remove();
@@ -56,10 +62,11 @@ function update() {
 		  return "url(#"+d.node_id+")";
 		})
         // .style("fill", color)
-        .on("click", click)
+        .on("click", centralizeRoot)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
-        .call(force.drag);
+        .call(drag);
+
 }
 
 function getSize(d) {
@@ -126,6 +133,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.attr('height', 50);
 }
 
+
 // Toggle children on click.
 function click(d) {
     if (!d3.event.defaultPrevented) {
@@ -173,4 +181,43 @@ function flatten(root) {
 
     recurse(root);
     return nodes;
+}
+
+function transition(svg, nodeToFocus) {
+    var svgW = $('svg').width();
+    var svgH = $('svg').height();
+
+    start = [svgW / 2, svgH / 2, 100];
+    end = [nodeToFocus.x, nodeToFocus.y, 400];
+
+    var i = d3.interpolateZoom(start, end);
+
+    svg
+        .attr("transform", transform(start))
+        .transition()
+        .delay(250)
+        .duration(i.duration * 2)
+        .attrTween("transform", function () {
+            return function (t) {
+                return transform(i(t));
+            };
+        });
+    ;
+
+    function transform(p) {
+        var zoom = p[2];
+        var k = svgH / zoom;
+        var translateX = ((start[0] - p[0]) * k);
+        var translateY = ((start[1] - p[1]) * k);
+        link.style("stroke-width", 1 + (k*0.000000001))
+        node.style("stroke-width", 1 + (k*0.000000001));
+
+        return "translate(" + translateX + "," + translateY + ")scale(" + k + ")";
+    }
+
+}
+
+function centralizeRoot(d) {
+
+    d3.select('svg').call(transition, d);
 }
