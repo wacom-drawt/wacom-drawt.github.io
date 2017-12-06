@@ -142,13 +142,6 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 // Toggle children on click.
 function dblclicknode(d) {
 	if (!d3.event.defaultPrevented) {
-		if (d.children) {
-			d._children = d.children;
-			d.children = null;
-		} else {
-			d.children = d._children;
-			d._children = null;
-		}
 		if (d.node_id) {
 			modalOpener.openModal({
 				type: modalOpener.types.EDITOR,
