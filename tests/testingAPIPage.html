@@ -17,7 +17,7 @@
 	api.branchFrom({node_id: 0}, function (resp) {
 				console.log('success! resp is:');
 				console.log(resp);
-				api.submitDrawing(4, sampleURI, function (r) {
+				api.submitDrawing(resp, sampleURI, function (r) {
 					console.log('saved new image! response is:');
 					console.log(r);
 				});
