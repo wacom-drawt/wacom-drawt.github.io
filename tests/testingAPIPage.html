@@ -15,22 +15,10 @@
 	api.branchFrom({node_id: 0}, function (resp) {
 				console.log('success! resp is:');
 				console.log(resp);
-
-				$.ajax({
-					type: "POST",
-					url: "https://drawtwacom.herokuapp.com/submit",
-					data: {
-						drawing: sampleURI,
-						node_id: "0"
-					}
-				}).done(function (o) {
-					console.log('saved');
+				api.submitDrawing(resp, sampleURI, function (r) {
+					console.log('saved new image! response is:');
+					console.log(r);
 				});
-
-				//				api.submitDrawing(resp, sampleURI, function(r){
-				//					console.log('saved new image! response is:');
-				//					console.log(r);
-				//				});
 			},
 			function () {
 				console.log('couldnt branch from 0');

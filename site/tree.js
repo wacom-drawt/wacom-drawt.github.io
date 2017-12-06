@@ -54,6 +54,8 @@ function ApiService() {
 			node_id: newNodeId,
 			drawing: imageURI
 		};
+		xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 		xhr.send(JSON.stringify(data));
 	};
 
