@@ -128,7 +128,6 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 
 // Toggle children on click.
 function click(d) {
-	$('#modalOpener').click();
     if (!d3.event.defaultPrevented) {
         if (d.children) {
             d._children = d.children;
@@ -137,6 +136,7 @@ function click(d) {
             d.children = d._children;
             d._children = null;
         }
+		$('#modalOpener').click();
         update();
     }
 
