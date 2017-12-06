@@ -95,7 +95,9 @@ def branch_from_node():
 @app.route('/submit', methods=['POST', "OPTIONS"])
 def submit_node():
     if request.method == "OPTIONS":
-        return "OPTIONS SUCCESS"
+        resp = make_response()
+        resp.headers['Access-Control-Allow-Credentials'] = "true"
+        return resp
     print ("in submit_node")
     user_data = parse_cookie(request.cookies.get('user_cookie'))
     user_id = user_data['user_id']
