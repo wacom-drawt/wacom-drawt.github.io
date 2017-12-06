@@ -90,7 +90,7 @@ def submit_node():
     print ("in submit_node")
     user_data = parse_cookie(request.cookies.get('user_cookie'))
     user_id = user_data['user_id']
-    db_user_data = USERS_DICT[user_id]
+    #db_user_data = USERS_DICT[user_id]
     print(request.form)
     print(USERS_DICT)
     if 'node_id' in request.form:
@@ -105,15 +105,15 @@ def submit_node():
     if 'user_name' in request.form and request.form.get('user_name') != '':
         user_name = request.form.get('user_name')
     else:
-        user_name = db_user_data.user_name
+        user_name = ''#db_user_data.user_name
 
     if 'mail' in request.form and request.form.get('mail') != '':
         mail = request.form.get('mail')
     else:
-        mail = db_user_data.mail
+        mail = '' #db_user_data.mail
 
-    USERS_DICT[user_id].user_name = user_name
-    USERS_DICT[user_id].mail = mail
+    #USERS_DICT[user_id].user_name = user_name
+    #USERS_DICT[user_id].mail = mail
     resp = make_response("success")
     resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
     return resp
