@@ -63,6 +63,7 @@ function update() {
 		})
         // .style("fill", color)
         .on("click", centralizeRoot)
+		.on("dblclick", dblclicknode)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(drag);
@@ -139,7 +140,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 
 
 // Toggle children on click.
-function click(d) {
+function dblclicknode(d) {
 	if (!d3.event.defaultPrevented) {
 		if (d.children) {
 			d._children = d.children;

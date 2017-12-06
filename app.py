@@ -21,9 +21,13 @@ def create_cookie(user_id="", user_name = "", mail = ""):
 
 
 def parse_cookie(cookie_string):
-    tmp = json.loads(urllib.parse.unquote(cookie_string))
-    return tmp
-
+    try:
+        return json.loads(urllib.parse.unquote(cookie_string))
+    except:
+        return {'user_id': "0000",
+                'user_name': '',
+                'mail': ''}
+    
 
 @app.route('/omerzaks')
 def omer_zaks_funk():
@@ -50,7 +54,7 @@ def main_page():
     resp = send_from_directory("site", "index.html")
     if 'user_cookie' not in request.cookies:
         user_id = str( len(USERS_DICT)).zfill(4)
-        resp.set_cookie('user_cookie', create_cookie(user_id))
+        # resp.set_cookie('user_cookie', create_cookie(user_id))
         USERS_DICT[user_id] = User(user_id=user_id, user_name="", mail="")
         print(USERS_DICT)
 
@@ -88,8 +92,12 @@ def branch_from_node():
     return new_node.node_id
 
 
-@app.route('/submit', methods=['POST'])
+@app.route('/submit', methods=['POST', "OPTIONS"])
 def submit_node():
+    if request.method == "OPTIONS":
+        resp = make_response()
+        resp.headers['Access-Control-Allow-Credentials'] = "true"
+        return resp
     print ("in submit_node")
     user_data = parse_cookie(request.cookies.get('user_cookie'))
     user_id = user_data['user_id']
@@ -104,6 +112,7 @@ def submit_node():
         G.nodes[node_id].is_finished = True
     else:
         return "submit: missing node_id"
+        #added comment
 
     if 'user_name' in request.form and request.form.get('user_name') != '':
         user_name = request.form.get('user_name')
@@ -118,7 +127,7 @@ def submit_node():
     #USERS_DICT[user_id].user_name = user_name
     #USERS_DICT[user_id].mail = mail
     resp = make_response("success")
-    resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
+    # resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
     return resp
 
 @app.route('/<path:path>')
