@@ -7,7 +7,7 @@ ModalOpener = function(){
 		type: this.types.EDITOR
 	};
 	this.openModal = function(settings){
-		$('.spinner').fadeOut();
+		$('#loaderContainer').fadeOut();
 		settings = settings || this.defaultSettings;
 		WILL.init(1600, 1000, settings.node.drawing);
 		console.log("will initiated");
