@@ -54,7 +54,7 @@ def main_page():
     resp = send_from_directory("site", "index.html")
     if 'user_cookie' not in request.cookies:
         user_id = str( len(USERS_DICT)).zfill(4)
-        resp.set_cookie('user_cookie', create_cookie(user_id))
+        # resp.set_cookie('user_cookie', create_cookie(user_id))
         USERS_DICT[user_id] = User(user_id=user_id, user_name="", mail="")
         print(USERS_DICT)
 
@@ -122,7 +122,7 @@ def submit_node():
     #USERS_DICT[user_id].user_name = user_name
     #USERS_DICT[user_id].mail = mail
     resp = make_response("success")
-    resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
+    # resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
     return resp
 
 @app.route('/<path:path>')
