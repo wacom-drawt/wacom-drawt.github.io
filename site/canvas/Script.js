@@ -148,7 +148,7 @@ function saveDrawingToPng() {
 	var dataURL = canvas.toDataURL();
 	$.ajax({
 	type: "POST",
-	url: "http://127.0.0.1:5001/submit",
+	url: "https://drawtwacom.herokuapp.com/submit",
 	data: { 
 	 // drawing: dataURL,
 	 drawing: "dataURL",

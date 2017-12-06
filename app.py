@@ -30,7 +30,7 @@ def hello_world():
 
 @app.route('/draw_canvas')
 def canvas():
-    return render_template('site/index.html')
+    return render_template('site/canvas/index.html')
 
 
 @app.route('/omerzaks')
