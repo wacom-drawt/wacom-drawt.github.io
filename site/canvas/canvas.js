@@ -227,6 +227,8 @@ function changeDrawColor() {
 }
 
 function saveDrawingToPng() {
+	
+	console.log('in submit"s onclick');
 
 	var api = api || new ApiService();
 	var dataURL = WILL.getImage();
@@ -244,7 +246,6 @@ function saveDrawingToPng() {
 			"children": []
 		};
 	$('#theModal').modal('toggle');
-
 	}, function () {
 		console.log('failed adding new picture..');
 	});
