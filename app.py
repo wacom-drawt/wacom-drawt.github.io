@@ -110,8 +110,12 @@ def submit_node():
         node_id = request.form.get('node_id')
         if 'drawing' not in request.form:
             return "submit: missing drawing"
-        G.nodes[node_id].drawing = request.form.get('drawing')
-        G.nodes[node_id].is_finished = True
+        try:
+            G.nodes[node_id].drawing = request.form.get('drawing')
+            G.nodes[node_id].is_finished = True
+        except:
+            print(G.nodes.keys())
+            print(node_id in G.nodes)
     else:
         return "submit: missing node_id"
         #added comment
