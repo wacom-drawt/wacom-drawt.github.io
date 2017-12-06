@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="tree.js"></script>
+</head>
+<body>
+
+<script>
+	var api = new ApiService();
+	api.branchFrom({node_id: 0}, function (resp) {
+				console.log('success! resp is:');
+				console.log(resp);
+				// api.submitDrawing(resp);
+			},
+			function () {
+				console.log('couldnt branch from 0');
+			})
+
+</script>
+
+</body>
+</html>
