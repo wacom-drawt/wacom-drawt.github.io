@@ -39,19 +39,17 @@ def get_graph():
         main_node_id = '0'
 
     resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
-    #check for cookie. if no cookie, set cookie.
-    if 'user_cookie' not in request.cookies:
-        resp.set_cookie('user_cookie', create_cookie())
-
     return resp
 
 
 @app.route('/', methods=['GET'])
 def main_page():
-    #check for cookie. if no cookie, set cookie.
     resp = send_from_directory("site", "index.html")
     if 'user_cookie' not in request.cookies:
-        resp.set_cookie('user_cookie', create_cookie())
+        user_id = str( len(USERS_DICT)).zfill(4)
+        resp.set_cookie('user_cookie', create_cookie(user_id))
+        USERS_DICT[user_id] = User(user_id=user_id, user_name="", mail="")
+        print(USERS_DICT)
 
     return resp
 
@@ -81,6 +79,7 @@ def branch_from_node():
     if 'node_id' in request.args:
         parent_node_id = request.args.get('node_id')
         new_node = G.add_node(user_id=user_id, drawing=None, parent_node_id=parent_node_id, is_finished=False)
+        print(G.export_to_dict())
     else:
         return "branch: missing node_id"
     return new_node.node_id
@@ -91,6 +90,7 @@ def submit_node():
     print ("in submit_node")
     user_data = parse_cookie(request.cookies.get('user_cookie'))
     user_id = user_data['user_id']
+    db_user_data = USERS_DICT[user_id]
     print(request.form)
     if 'node_id' in request.form:
         node_id = request.form.get('node_id')
@@ -100,23 +100,25 @@ def submit_node():
         G.nodes[node_id].is_finished = True
     else:
         return "submit: missing node_id"
+
     if 'user_name' in request.form and request.form.get('user_name') != '':
         user_name = request.form.get('user_name')
     else:
-        user_name = user_data['user_name']
+        user_name = db_user_data['user_name']
+
     if 'mail' in request.form and request.form.get('mail') != '':
         mail = request.form.get('mail')
     else:
-        mail = user_data['mail']
+        mail = db_user_data['mail']
 
+    USERS_DICT[user_id]['user_name'] = user_name
+    USERS_DICT[user_id]['mail'] = mail
     resp = make_response("success")
     resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
     return resp
 
 @app.route('/<path:path>')
 def send(path):
-    print (send_from_directory('site', path))
-    print (type(send_from_directory('site', path)))
     return send_from_directory('site', path)
 
 G = Graph()

@@ -14,6 +14,8 @@ var WILL = {
         this.canvas = new Module.InkCanvas(document.getElementById("canvas"), width, height);
         this.canvas.clear(this.backgroundColor);
 
+        this.initImageLayer();
+
         this.brush = new Module.DirectBrush();
 
         this.speedPathBuilder = new Module.SpeedPathBuilder();
@@ -28,6 +30,22 @@ var WILL = {
 
         this.strokeRenderer = new Module.StrokeRenderer(this.canvas, this.canvas);
         this.strokeRenderer.configure({brush: this.brush, color: this.color});
+    },
+
+    initImageLayer: function() {
+        var url = location.toString();
+        url = url.substring(0, url.lastIndexOf("/")) + "/image.jpg";
+
+        this.imageLayer = this.canvas.createLayer({width: 750, height: 600});
+
+        Module.GLTools.prepareTexture(
+            this.imageLayer.texture,
+            url,
+            function(texture) {
+                this.canvas.blend(this.imageLayer, {mode: Module.BlendMode.NONE});
+            },
+            this
+        );
     },
 
     initEvents: function() {
@@ -118,7 +136,8 @@ var WILL = {
     },
 
     clear: function() {
-        this.canvas.clear(this.backgroundColor);
+
+        // this.canvas.clear(this.backgroundColor);
     },
 
     changeColor: function() {
@@ -129,6 +148,39 @@ var WILL = {
     		this.color = Module.Color.WHITE;
     	}
     	this.strokeRenderer.configure({brush: this.brush, color: this.color});
+    },
+
+    getImageCanvas: function(layer, rect) {
+		var canvas = document.createElement("canvas");
+		var context = canvas.getContext("2d");
+		if (!layer) {
+			layer = this.canvas;
+			rect = this.canvas.bounds;
+		}
+
+		canvas.width = rect.width;
+		canvas.height = rect.height;
+
+		var pixels = layer.readPixels(rect);
+
+		// Copy the pixels to a 2D canvas
+		var imageData = context.createImageData(rect.width, rect.height);
+		imageData.data.set(pixels);
+		context.putImageData(imageData, 0, 0);
+		return canvas;
+ 	},
+
+    saveImage: function () {
+    	var rect = {
+    		left: 0, 
+    		top:0, 
+    		right: this.canvas.width, 
+    		bottom: this.canvas.height, 
+    		width: this.canvas.width, 
+    		height: this.canvas.height
+    	}
+    	const capturedImage = this.getImageCanvas(this.canvas, rect).toDataURL();
+    	console.log(capturedImage);
     }
 };
 
@@ -143,6 +195,7 @@ function changeDrawColor() {
 }
 
 function saveDrawingToPng() {
+	WILL.saveImage();
 	var canvas = document.getElementById("canvas");
 	// var img = canvas.toDataURL("image/png");
 	var dataURL = canvas.toDataURL();
@@ -162,4 +215,6 @@ function saveDrawingToPng() {
 	// and than put the image in your browser.
 	});
 }
+
+
 
