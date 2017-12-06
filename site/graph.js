@@ -136,7 +136,7 @@ function click(d) {
             d.children = d._children;
             d._children = null;
         }
-		$('#modalOpener').click();
+		modalOpener.openModal();
         update();
     }
 
