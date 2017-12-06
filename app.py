@@ -1,15 +1,15 @@
 import json
 import pickle
 import urllib
-from flask import Flask, render_template, request, make_response
+from flask import Flask, render_template, request, make_response, send_from_directory
 from flask_cors import CORS, cross_origin
+from omer_zaks import omer_zaks
 
 from drawing_graph import Graph, get_random_id
 from drawing_graph import User
 
 app = Flask(__name__)
 CORS(app)
-
 
 def create_cookie(user_id="", user_name = "", mail = ""):
     #coo = "user_id=%s;user_name=%s;mail=%s" % (user_id, user_name, mail)
@@ -20,13 +20,22 @@ def create_cookie(user_id="", user_name = "", mail = ""):
 
 def parse_cookie(cookie_string):
     tmp = json.loads(urllib.parse.unquote(cookie_string))
-    print (type(tmp))
     return tmp
 
 
 @app.route('/')
 def hello_world():
     return 'Welcome Inkathon!'
+
+
+@app.route('/draw_canvas')
+def canvas():
+    return render_template('site/index.html')
+
+
+@app.route('/omerzaks')
+def omer_zaks_funk():
+    return omer_zaks
 
 
 @app.route('/get_graph', methods=['GET'])
@@ -75,11 +84,11 @@ def submit_node():
         node.state = "done"
     else:
         return "submit: missing node_id"
-    if 'user_name' in request.form:
+    if 'user_name' in request.form and request.form.get('user_name') != '':
         user_name = request.form.get('user_name')
     else:
         user_name = user_data['user_name']
-    if 'mail' in request.form:
+    if 'mail' in request.form and request.form.get('mail') != '':
         mail = request.form.get('mail')
     else:
         mail = user_data['mail']
@@ -88,6 +97,9 @@ def submit_node():
     resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
     return resp
 
+@app.route('/<path:path>')
+def send(path):
+    return send_from_directory('site', path)
 
 G = Graph()
 node1 = G.add_node(user_id="u123", drawing="", parent_node_id=None, state="in progress")
