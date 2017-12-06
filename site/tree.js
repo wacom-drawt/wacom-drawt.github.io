@@ -56,11 +56,12 @@ function ApiService() {
 		// xhr.setRequestHeader('Access-Control-Request-Method', 'POST');
 		// xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
 		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-		var strData = JSON.stringify(data);
+
 		var data = {
 			node_id: newNodeId,
 			drawing: imageURI
 		};
+		var strData = JSON.stringify(data);
 		xhr.send(strData);
 	};
 
