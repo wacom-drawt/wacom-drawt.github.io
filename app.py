@@ -79,6 +79,7 @@ def branch_from_node():
     if 'node_id' in request.args:
         parent_node_id = request.args.get('node_id')
         new_node = G.add_node(user_id=user_id, drawing=None, parent_node_id=parent_node_id, is_finished=False)
+        print(G.export_to_dict())
     else:
         return "branch: missing node_id"
     return new_node.node_id
@@ -118,8 +119,6 @@ def submit_node():
 
 @app.route('/<path:path>')
 def send(path):
-    print (send_from_directory('site', path))
-    print (type(send_from_directory('site', path)))
     return send_from_directory('site', path)
 
 G = Graph()
