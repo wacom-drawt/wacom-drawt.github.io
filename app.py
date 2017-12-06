@@ -78,15 +78,10 @@ def submit_node():
     print(request.form)
     if 'node_id' in request.form:
         node_id = request.form.get('node_id')
-
-        node = G.nodes[node_id]
         if 'drawing' not in request.form:
             return "submit: missing drawing"
         G.nodes[node_id].drawing = request.form.get('drawing')
         G.nodes[node_id].state = 'done'
-        #node.drawing = request.form.get('drawing')
-        print(node.drawing)
-        node.state = "done"
     else:
         return "submit: missing node_id"
     if 'user_name' in request.form and request.form.get('user_name') != '':
