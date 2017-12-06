@@ -60,7 +60,9 @@ function ApiService() {
 		xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
 		// xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
 		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-		xhr.send(JSON.stringify(data));
+		var strData = JSON.stringify(data);
+		console.log(strData);
+		xhr.send(strData);
 	};
 
 
