@@ -1,7 +1,7 @@
 import json
 import pickle
 import urllib
-from flask import Flask, render_template, request, make_response
+from flask import Flask, render_template, request, make_response, send_from_directory
 from flask_cors import CORS, cross_origin
 from omer_zaks import omer_zaks
 
@@ -10,7 +10,6 @@ from drawing_graph import User
 
 app = Flask(__name__)
 CORS(app)
-
 
 def create_cookie(user_id="", user_name = "", mail = ""):
     #coo = "user_id=%s;user_name=%s;mail=%s" % (user_id, user_name, mail)
@@ -93,6 +92,9 @@ def submit_node():
     resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
     return resp
 
+@app.route('/<path:path>')
+def send(path):
+    return send_from_directory('site', path)
 
 G = Graph()
 node1 = G.add_node(user_id="u123", drawing="", parent_node_id=None, state="in progress")
