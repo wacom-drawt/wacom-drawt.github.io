@@ -5,7 +5,8 @@ var WILL = {
 
     strokes: new Array(),
 
-    init: function(width, height) {
+    init: function(width, height, image) {
+        console.log(image);
         this.initInkEngine(width, height);
         this.initEvents();
     },
