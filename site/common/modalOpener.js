@@ -11,6 +11,9 @@ ModalOpener = function(){
 		switch(settings.type){
 			case this.types.EDITOR:
 				console.log('openning editor modal');
+				api = api || new ApiService();
+				console.log('node is: ');
+				console.log(node);
 				api.branchFrom(settings.node, function(response){
 					console.log('got branch response:');
 					console.log(response);
