@@ -42,7 +42,7 @@ function ApiService() {
 	this.submitDrawing = function (newNodeId, imageURI, onSuccess, onFail) {
 
 		var xhr = createCORSRequest('POST', this.SUBMIT_IMAGE_URL);
-		// xhr.withCredentials = true;
+		xhr.withCredentials = true;
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
 			onSuccess(JSON.parse(responseText));
