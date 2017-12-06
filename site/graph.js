@@ -9,7 +9,7 @@ function update() {
 		.links(links)
 	force.linkDistance(function (link) {
 		console.log(link);
-		return (link.source.weight + link.target.weight) * 10;
+		return (link.source.weight + link.target.weight) * 30;
 	})
 	//.distance(100)
 		.start();
@@ -62,7 +62,7 @@ function update() {
 			return "url(#" + d.node_id + ")";
 		})
         // .style("fill", color)
-        .on("click", centralizeRoot)
+        //.on("click", centralizeRoot)
 		.on("dblclick", dblclicknode)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
@@ -168,7 +168,7 @@ function handleMouseEnter(d, i) {
     d3.select(this).transition()
         .ease("elastic")
         .duration("500")
-        .attr("r", Math.sqrt(getSize(d)*50)*2);
+        .attr("r", Math.sqrt(getSize(d)*50)*3);
 }
 
 function handleMouseOut(d, i) {
