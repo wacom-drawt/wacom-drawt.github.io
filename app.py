@@ -57,6 +57,20 @@ def get_graph():
     return resp
 
 
+@app.route('/get_node', methods=['GET'])
+def get_node():
+    print ("in get_node")
+    if 'node_id' in request.args:
+        main_node_id = request.args.get('node_id')
+    else:
+        return 'get_node: missing node_id'
+
+    if main_node_id not in G.nodes:
+        return 'get_node: invalid node_id'
+
+    return json.dumps(G.nodes[main_node_id].export_to_dict())
+
+
 @app.route('/branch', methods=['GET'])
 def branch_from_node():
     print ("in branch_from_node")
