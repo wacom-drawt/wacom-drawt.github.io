@@ -1,5 +1,6 @@
 function ApiService() {
 	$ = jQuery;
+	this.ORIGIN = 'https://wacom-drawt.github.io';
 	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/graph";
 	this.REAL_TREE_URL = "https://drawtwacom.herokuapp.com/get_graph";
 	this.SUBMIT_IMAGE_URL = "https://drawtwacom.herokuapp.com/submit";
@@ -20,13 +21,13 @@ function ApiService() {
 		xhr.send();
 	};
 
-	this.branchFrom = function(node, onSuccess, onFail){
+	this.branchFrom = function (node, onSuccess, onFail) {
 		var queryParams = $.param({
 			node_id: node.node_id
 		});
 		var url = "https://drawtwacom.herokuapp.com/branch?" + queryParams;
 		var xhr = createCORSRequest('GET', url);
-		xhr.withCredentials = true;
+		// xhr.withCredentials = true;
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
 			onSuccess(JSON.parse(responseText));
@@ -38,10 +39,10 @@ function ApiService() {
 		xhr.send();
 	};
 
-	this.submitDrawing = function(newNodeId, imageURI, onSuccess, onFail){
-		
+	this.submitDrawing = function (newNodeId, imageURI, onSuccess, onFail) {
+
 		var xhr = createCORSRequest('POST', this.SUBMIT_IMAGE_URL);
-		xhr.withCredentials = true;
+		// xhr.withCredentials = true;
 		xhr.onload = function () {
 			var responseText = xhr.responseText;
 			onSuccess(JSON.parse(responseText));
@@ -50,11 +51,20 @@ function ApiService() {
 			console.log('Problem posting new image');
 		};
 
+		xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+		// xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
+		// xhr.setRequestHeader('Access-Control-Request-Method', 'POST');
+		// xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-Type, Authorization');
+		// xhr.setRequestHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+
 		var data = {
 			node_id: newNodeId,
-			drawing: imageURI
+			drawing: imageURI,
+			is_test: 'yes it is'
 		};
-		xhr.send(data);
+		var strData = JSON.stringify(data);
+		console.log(strData);
+		xhr.send(strData);
 	};
 
 
@@ -78,22 +88,22 @@ function ApiService() {
 	}
 }
 
-function getGraphFromResponse(treeFromResponse, rootId){
+function getGraphFromResponse(treeFromResponse, rootId) {
 	//children_node_ids
-	if(!rootId){
+	if (!rootId) {
 		rootId = 0;
 	}
 	$ = $ || jQuery;
 	var firstNode = treeFromResponse.graph[rootId];
 	var nodesToFix = [firstNode];
-	while(nodesToFix.length){
+	while (nodesToFix.length) {
 		currNode = nodesToFix.pop();
-		currNode.children_node_ids.forEach(function(childId){
+		currNode.children_node_ids.forEach(function (childId) {
 			var childNode = treeFromResponse.graph[childId];
-			if(!currNode.children){
+			if (!currNode.children) {
 				currNode.children = [];
 			}
-			if(!childNode.children && childNode){
+			if (!childNode.children && childNode) {
 				childNode.children = [];
 			}
 			currNode.children.push(childNode);

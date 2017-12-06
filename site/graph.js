@@ -61,11 +61,12 @@ function update() {
 		.attr("fill", function (d) {
 			return "url(#" + d.node_id + ")";
 		})
-		// .style("fill", color)
-		.on("click", click)
-		.on("mouseenter", handleMouseEnter)
-		.on("mouseout", handleMouseOut)
-		.call(drag);
+        // .style("fill", color)
+        .on("click", centralizeRoot)
+		.on("dblclick", dblclicknode)
+        .on("mouseenter", handleMouseEnter)
+        .on("mouseout", handleMouseOut)
+        .call(drag);
 
 }
 
@@ -139,7 +140,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 
 
 // Toggle children on click.
-function click(d) {
+function dblclicknode(d) {
 	if (!d3.event.defaultPrevented) {
 		if (d.children) {
 			d._children = d.children;
@@ -196,29 +197,36 @@ function flatten(root) {
 	return nodes;
 }
 
+var scaleZoom = 100;
+
 function transition(svg, nodeToFocus) {
-	
-	isZoomedAfterClick = true;
-	
+
+    if (isZoomedAfterClick) {scaleZoom = 400};
+
+    isZoomedAfterClick = true;
+
     var svgW = $('svg').width();
     var svgH = $('svg').height();
 
     start = [svgW / 2, svgH / 2, 100];
-    end = [nodeToFocus.x, nodeToFocus.y, 100];
+    end = [nodeToFocus.x, nodeToFocus.y, scaleZoom];
 
-	var i = d3.interpolateZoom(start, end);
 
-	svg
-		.attr("transform", transform(start))
-		.transition()
-		.delay(250)
-		.duration(i.duration * 2)
-		.attrTween("transform", function () {
-			return function (t) {
-				return transform(i(t));
-			};
-		});
-	;
+    // change is zoomed to false
+    // make original node smalled with end
+
+    var i = d3.interpolateZoom(start, end);
+    svg
+        .attr("transform", transform(start))
+        .transition()
+        .delay(250)
+        .duration(i.duration * 2)
+        .attrTween("transform", function () {
+            return function (t) {
+                return transform(i(t));
+            };
+        });
+    ;
 
 	function transform(p) {
 		var zoom = p[2];
@@ -231,9 +239,17 @@ function transition(svg, nodeToFocus) {
 		return "translate(" + translateX + "," + translateY + ")scale(" + k + ")";
 	}
 
+    // show button
+
+    // give center position: nodeToFocus.x, nodeToFocus.y
+
+    isZoomedAfterClick = false;
+
 }
 
 function centralizeRoot(d) {
 
-	d3.select('svg').call(transition, d);
+    d3.select('svg').call(transition, d);
+
+
 }
