@@ -62,7 +62,7 @@ function update() {
 			return "url(#" + d.node_id + ")";
 		})
         // .style("fill", color)
-        .on("click", centralizeRoot)
+        //.on("click", centralizeRoot)
 		.on("dblclick", dblclicknode)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
