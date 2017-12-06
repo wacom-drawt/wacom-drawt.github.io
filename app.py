@@ -103,6 +103,7 @@ def submit_node():
     user_id = user_data['user_id']
     #db_user_data = USERS_DICT[user_id]
     print("printing data I got from POST request")
+    print(dir(request))
     print(request.form)
 
     if 'node_id' in request.form:
