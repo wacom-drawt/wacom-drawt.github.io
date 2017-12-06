@@ -30,7 +30,7 @@ def hello_world():
 
 @app.route('/draw_canvas')
 def canvas():
-    return render_template('site/index.html')
+    return render_template('site/canvas/index.html')
 
 
 @app.route('/omerzaks')
@@ -75,13 +75,13 @@ def submit_node():
     print ("in submit_node")
     user_data = parse_cookie(request.cookies.get('user_cookie'))
     user_id = user_data['user_id']
+    print(request.form)
     if 'node_id' in request.form:
         node_id = request.form.get('node_id')
-        node = G.nodes[node_id]
         if 'drawing' not in request.form:
             return "submit: missing drawing"
-        node.drawing = request.form.get('drawing')
-        node.state = "done"
+        G.nodes[node_id].drawing = request.form.get('drawing')
+        G.nodes[node_id].state = 'done'
     else:
         return "submit: missing node_id"
     if 'user_name' in request.form and request.form.get('user_name') != '':
