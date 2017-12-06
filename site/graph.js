@@ -63,6 +63,7 @@ function update() {
 		})
         // .style("fill", color)
         .on("click", centralizeRoot)
+		.on("dblclick", dblclicknode)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(drag);
@@ -139,7 +140,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 
 
 // Toggle children on click.
-function click(d) {
+function dblclicknode(d) {
 	if (!d3.event.defaultPrevented) {
 		if (d.children) {
 			d._children = d.children;
@@ -171,6 +172,7 @@ function handleMouseEnter(d, i) {
         .ease("elastic")
         .duration("500")
         .attr("r", Math.sqrt(getSize(d)*50)*2);
+
 }
 
 function handleMouseOut(d, i) {
@@ -249,6 +251,8 @@ function transition(svg, nodeToFocus) {
 function centralizeRoot(d) {
 
     d3.select('svg').call(transition, d);
+	$('#editButton').css('display', 'block');
+
 
 
 }

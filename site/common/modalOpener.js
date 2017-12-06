@@ -16,11 +16,13 @@ ModalOpener = function(){
 				api = api || new ApiService();
 				console.log('node is: ');
 				console.log(settings.node);
+				var $opener = $(this.MODAL_OPENER_ID);
+				$opener.click();
 				api.branchFrom(settings.node, function(response){
 					console.log('got branch response:');
 					console.log(response);
-					var $opener = $(this.MODAL_OPENER_ID);
-					$opener.click();
+					// var $opener = $(this.MODAL_OPENER_ID);
+					// $opener.click();
 				})
 				break;
 			default:
