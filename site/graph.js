@@ -162,20 +162,23 @@ function click(d) {
 
 }
 
+var isZoomedAfterClick = false;
 
 function handleMouseEnter(d, i) {
-	d3.select(this).transition()
-		.ease("elastic")
-		.duration("500")
-		.attr("r", Math.sqrt(getSize(d) * 50) * 2);
+    if (isZoomedAfterClick) { return;}
+    d3.select(this).transition()
+        .ease("elastic")
+        .duration("500")
+        .attr("r", Math.sqrt(getSize(d)*50)*2);
 }
 
 function handleMouseOut(d, i) {
-	d3.select(this).transition()
-		.ease("quad")
-		.delay("100")
-		.duration("200")
-		.attr("r", Math.sqrt(getSize(d) * 50));
+    if (isZoomedAfterClick) { return;}
+    d3.select(this).transition()
+        .ease("quad")
+        .delay("100")
+        .duration("200")
+        .attr("r", Math.sqrt(getSize(d)*50));
 }
 
 // Returns a list of all nodes under the root.
@@ -193,11 +196,14 @@ function flatten(root) {
 }
 
 function transition(svg, nodeToFocus) {
-	var svgW = $('svg').width();
-	var svgH = $('svg').height();
+	
+	isZoomedAfterClick = true;
+	
+    var svgW = $('svg').width();
+    var svgH = $('svg').height();
 
-	start = [svgW / 2, svgH / 2, 100];
-	end = [nodeToFocus.x, nodeToFocus.y, 400];
+    start = [svgW / 2, svgH / 2, 100];
+    end = [nodeToFocus.x, nodeToFocus.y, 100];
 
 	var i = d3.interpolateZoom(start, end);
 
