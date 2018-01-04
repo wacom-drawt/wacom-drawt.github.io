@@ -24,6 +24,10 @@ def get_graph():
     if main_node_id not in G.nodes: # node specified non-existent
         main_node_id = '0'
 
+    print(G.nodes.keys())
+    print("printing graph state")
+    print(G.export_to_dict(full_photo=False))
+    
     resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
     return resp
 
@@ -85,10 +89,12 @@ def submit_node():
     if 'parent_node_id' not in request.form:
         return "submit: missing node_id"
     parent_node_id = request.args.get('parent_node_id')
+    print("parent_node_id I got from client: %s" %parent_node_id)
     new_node = G.add_node(user_id="0000", drawing=request.form.get('drawing'), \
                           parent_node_id=parent_node_id, is_finished=True)
 
     node_id = new_node.node_id
+    print("new node_id: %s" % node_id)
     print(G.nodes.keys())
     print(node_id in G.nodes)
     print("printing graph state")
