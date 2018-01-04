@@ -204,11 +204,11 @@ WILL = {
 		var rect = {
 			left: 0,
 			top: 0,
-			right: this.canvas.width,
-			bottom: this.canvas.height,
-			width: this.canvas.width,
-			height: this.canvas.height
-		}
+			right: Math.floor(this.canvas.width),
+			bottom: Math.floor(this.canvas.height),
+			width: Math.floor(this.canvas.width),
+			height: Math.floor(this.canvas.height)
+		};
 		const capturedImage = this.getImageCanvas(this.canvas, rect).toDataURL();
 
 		// console.log(capturedImage);
