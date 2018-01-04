@@ -102,8 +102,9 @@ WILL = {
 		this.inputPhase = Module.InputPhase.Begin;
 		this.pressure = this.getPressure(e);
 		this.pathBuilder = isNaN(this.pressure) ? this.speedPathBuilder : this.pressurePathBuilder;
-
-		this.buildPath({x: e.clientX - 130, y: e.clientY - 30});
+		var x = e.pageX - $('canvas').offset().left;
+		var y = e.pageY - $('canvas').offset().top;
+		this.buildPath({x: x, y: y});
 		this.drawPath();
 	},
 
@@ -112,7 +113,11 @@ WILL = {
 		if (e.changedTouches) e = e.changedTouches[0];
 
 		this.inputPhase = Module.InputPhase.Move;
-		this.pointerPos = {x: e.clientX - 130, y: e.clientY - 30};
+
+		var x = e.pageX - $('canvas').offset().left;
+		var y = e.pageY - $('canvas').offset().top;
+
+		this.pointerPos = {x: x, y: y};
 		this.pressure = this.getPressure(e);
 
 		if (WILL.frameID != WILL.canvas.frameID) {
@@ -133,8 +138,9 @@ WILL = {
 
 		this.inputPhase = Module.InputPhase.End;
 		this.pressure = this.getPressure(e);
-
-		this.buildPath({x: e.clientX - 130, y: e.clientY - 30});
+		var x = e.pageX - $('canvas').offset().left;
+		var y = e.pageY - $('canvas').offset().top;
+		this.buildPath({x: x, y: y});
 		this.drawPath();
 
 		var stroke = new Module.Stroke(this.brush, this.path, NaN, this.color, 0, 1);
