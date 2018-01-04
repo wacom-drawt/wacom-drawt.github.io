@@ -114,9 +114,9 @@ function getGraphFromResponse(treeFromResponse, rootId) {
 	var firstNode = treeFromResponse.graph[rootId];
 	var nodesToFix = [firstNode];
 	while (nodesToFix.length) {
-		currNode = nodesToFix.pop();
-		currNode.children_node_ids.forEach(function (childId) {
-			var childNode = treeFromResponse.graph[childId];
+			currNode = nodesToFix.pop();
+			currNode.children_node_ids.forEach(function (childId) {
+				var childNode = treeFromResponse.graph[childId];
 			if (!currNode.children) {
 				currNode.children = [];
 			}
@@ -128,7 +128,6 @@ function getGraphFromResponse(treeFromResponse, rootId) {
 		});
 	}
 	return firstNode;
-
 }
 
 function getMockData() {
