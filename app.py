@@ -101,6 +101,7 @@ def submit_node():
 def send(path):
     return send_from_directory('site', path)
 
+
 @app.route('/secret_doom_button', methods=["GET"])
 def reset_graph():
     global G
