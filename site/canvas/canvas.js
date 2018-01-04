@@ -40,7 +40,7 @@ WILL = {
 		// var url = location.toString();
 		// url = url.substring(0, url.lastIndexOf("/")) + "/image.jpg";
 
-		this.imageLayer = this.canvas.createLayer({width: 750, height: 600});
+		this.imageLayer = this.canvas.createLayer({width: this.canvas.width, height: this.canvas.height});
 
 		Module.GLTools.prepareTexture(
 			this.imageLayer.texture,
@@ -116,6 +116,7 @@ WILL = {
 
 		var x = e.pageX - $('canvas').offset().left;
 		var y = e.pageY - $('canvas').offset().top;
+
 
 		this.pointerPos = {x: x, y: y};
 		this.pressure = this.getPressure(e);
