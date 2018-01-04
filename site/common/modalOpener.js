@@ -1,4 +1,4 @@
-ModalOpener = function () {
+ModalOpener = function(){
 	this.MODAL_OPENER_ID = "#modalOpener";
 	this.types = {
 		EDITOR: 1,
@@ -8,7 +8,8 @@ ModalOpener = function () {
 		$('#editor').fadeIn();
 		var $opener = $("#modalOpener");
 		$opener.click();
-		WILL.init(1600, 1000, settings.node.drawing, function () {
+		var size = Math.min(window.innerWidth, window.innerHeight)*0.9;
+		WILL.init(size, size, settings.node.drawing, function () {
 			api = api || new ApiService();
 			console.log('node is: ');
 			console.log(settings.node);
@@ -22,4 +23,7 @@ ModalOpener = function () {
 		console.log("will initiated");
 		console.log('opening editor modal');
 	}
+
+	
+
 }
