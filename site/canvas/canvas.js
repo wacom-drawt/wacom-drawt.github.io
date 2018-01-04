@@ -24,6 +24,8 @@ WILL = {
 		this.speedPathBuilder.setNormalizationConfig(182, 3547);
 		this.speedPathBuilder.setPropertyConfig(Module.PropertyName.Width, 2.05, 34.53, 0.72, NaN, Module.PropertyFunction.Power, 1.19, false);
 
+		this.smoothener = new Module.MultiChannelSmoothener(this.speedPathBuilder.stride);
+
 		if (window.PointerEvent) {
 			this.pressurePathBuilder = new Module.PressurePathBuilder();
 			this.pressurePathBuilder.setNormalizationConfig(0.195, 0.88);
@@ -148,13 +150,20 @@ WILL = {
 	},
 
 	buildPath: function (pos) {
-		var pathBuilderValue = isNaN(this.pressure) ? Date.now() / 1000 : this.pressure;
 
-		var pathPart = this.pathBuilder.addPoint(this.inputPhase, pos, pathBuilderValue);
-		var pathContext = this.pathBuilder.addPathPart(pathPart);
 
-		this.pathPart = pathContext.getPathPart();
-		this.path = pathContext.getPath();
+		if (this.inputPhase == Module.InputPhase.Begin)
+            this.smoothener.reset();
+
+        var pathBuilderValue = isNaN(this.pressure) ? Date.now() / 1000 : this.pressure;
+
+        var pathPart = this.pathBuilder.addPoint(this.inputPhase, pos, pathBuilderValue);
+        var smoothedPathPart = this.smoothener.smooth(pathPart, this.inputPhase == Module.InputPhase.End);
+        var pathContext = this.pathBuilder.addPathPart(smoothedPathPart);
+
+        this.pathPart = pathContext.getPathPart();
+        this.path = pathContext.getPath();
+		
 	},
 
 	drawPath: function () {
