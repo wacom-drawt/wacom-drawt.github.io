@@ -13,36 +13,15 @@ app = Flask(__name__)
 CORS(app)
 
 
-
-def create_cookie(user_id="", user_name = "", mail = ""):
-    return urllib.parse.quote(json.dumps({'user_id': get_random_id() if user_id == "" else user_id,
-                                           'user_name': user_name,
-                                           'mail': mail}))
-
-
-def parse_cookie(cookie_string):
-    try:
-        return json.loads(urllib.parse.unquote(cookie_string))
-    except:
-        return {'user_id': "0000",
-                'user_name': '',
-                'mail': ''}
-
-
-@app.route('/omerzaks')
-def omer_zaks_funk():
-    return omer_zaks
-
-
 @app.route('/get_graph', methods=['GET'])
 def get_graph():
     print ("in get_graph")
     if 'node_id' in request.args:
         main_node_id = request.args.get('node_id')
-    else:
+    else: # no center specified - center around the root
         main_node_id = '0'
 
-    if main_node_id not in G.nodes:
+    if main_node_id not in G.nodes: # node specified non-existent
         main_node_id = '0'
 
     resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
@@ -51,18 +30,8 @@ def get_graph():
 
 @app.route('/', methods=['GET'])
 def main_page():
-    resp = send_from_directory("site", "index.html")
-    if 'user_cookie' not in request.cookies:
-        user_id = str( len(USERS_DICT)).zfill(4)
-        # resp.set_cookie('user_cookie', create_cookie(user_id))
-        USERS_DICT[user_id] = User(user_id=user_id, user_name="", mail="")
-        #print(USERS_DICT)
+    return send_from_directory("site", "index.html")
 
-    return resp
-
-@app.route('/index.html', methods=['GET'])
-def main_page2():
-    return("PLEASE, USE THE ./ ROOT PATH")
 
 @app.route('/get_node', methods=['GET'])
 def get_node():
@@ -81,14 +50,16 @@ def get_node():
 @app.route('/branch', methods=['GET'])
 def branch_from_node():
     print ("in branch_from_node")
-    user_data = parse_cookie(request.cookies.get('user_cookie'))
-    user_id = user_data['user_id']
-    if 'node_id' in request.args:
-        parent_node_id = request.args.get('node_id')
-        new_node = G.add_node(user_id=user_id, drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=parent_node_id, is_finished=False)
-        print(G.nodes.keys())
-    else:
+    if 'node_id' not in requests.args:
         return "branch: missing node_id"
+
+    parent_node_id = request.args.get('node_id')
+    new_node = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, \
+                          parent_node_id=parent_node_id, is_finished=False)
+    # debug prints
+    print("existing nodes:")
+    print(G.nodes.keys())
+
     return new_node.node_id
 
 
@@ -98,10 +69,8 @@ def submit_node():
         resp = make_response()
         resp.headers['Access-Control-Allow-Credentials'] = "true"
         return resp
+
     print ("in submit_node")
-    user_data = parse_cookie(request.cookies.get('user_cookie'))
-    user_id = user_data['user_id']
-    #db_user_data = USERS_DICT[user_id]
     print("printing data I got from POST request")
     print(dir(request))
     print(request.form)
@@ -118,22 +87,8 @@ def submit_node():
             print(node_id in G.nodes)
     else:
         return "submit: missing node_id"
-        #added comment
 
-    if 'user_name' in request.form and request.form.get('user_name') != '':
-        user_name = request.form.get('user_name')
-    else:
-        user_name = ''#db_user_data.user_name
-
-    if 'mail' in request.form and request.form.get('mail') != '':
-        mail = request.form.get('mail')
-    else:
-        mail = '' #db_user_data.mail
-
-    #USERS_DICT[user_id].user_name = user_name
-    #USERS_DICT[user_id].mail = mail
     resp = make_response("success")
-    # resp.set_cookie('user_cookie', create_cookie(user_id=user_id, user_name=user_name, mail=mail))
     return resp
 
 @app.route('/<path:path>')
