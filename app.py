@@ -99,10 +99,21 @@ def submit_node():
 def send(path):
     return send_from_directory('site', path)
 
+@app.route('/secret_doom_button', methods=["GET"])
+def reset_graph():
+    global G
+    G = Graph()
+    node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
+    node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
+                       is_finished=False)
+    resp = make_response("graph reset was successful")
+    return resp
+
+
 G = Graph()
-u1 = User("0000", "admin", "admin@drawt.com")
-USERS_DICT = {u1.user_id : u1}
-node1 = G.add_node(user_id=u1.user_id, drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
-node2 = G.add_node(user_id=u1.user_id, drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id, is_finished=False)
+node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
+node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
+                   is_finished=False)
+
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
