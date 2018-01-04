@@ -8,8 +8,8 @@ function update() {
 		.nodes(nodes)
 		.links(links)
 	force.linkDistance(function (link) {
-		console.log(link);
-		return (link.source.weight + link.target.weight) * 10;
+		var factor = isMock ? 7 : 10;
+		return (link.source.weight + link.target.weight) * factor;
 	})
 	//.distance(100)
 		.start();
@@ -63,7 +63,7 @@ function update() {
 		})
         // .style("fill", color)
         //.on("click", centralizeRoot)
-		.on("click", dblclicknode)
+		.on("click", handleMouseClick)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(drag);
@@ -128,19 +128,20 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 			return "objectBoundingBox";
 		})
 		// Image size
-		.attr('width', '300%')
-		.attr('height', '300%')
+		.attr('width', '350%')
+		.attr('height', '350%')
 		.append("image")
 		.attr("xlink:href", function (d) {
+			console.log(d);
 			return d.drawing;
 		})
 		.attr('width', 50)
 		.attr('height', 50);
 }
 
-
 // Toggle children on click.
-function dblclicknode(d) {
+function handleMouseClick(d) {
+	console.log(d);
 	if (!d3.event.defaultPrevented) {
 		if (d.node_id) {
 			modalOpener.openModal({
@@ -149,7 +150,7 @@ function dblclicknode(d) {
 			});
 		} else {
 			console.log(d);
-			console.log('didnt click node.');
+			console.log('didn\'t click node.');
 		}
 		update();
 	}
@@ -159,6 +160,7 @@ function dblclicknode(d) {
 var isZoomedAfterClick = false;
 
 function handleMouseEnter(d, i) {
+	console.log("hover over node #" + d.node_id);
     if (isZoomedAfterClick) { return;}
     d3.select(this).transition()
         .ease("elastic")

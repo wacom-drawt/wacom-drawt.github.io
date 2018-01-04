@@ -21,15 +21,16 @@ class Node(object):
         self.is_finished = is_finished
         self.children_node_ids = []
 
-    def export_to_dict(self):
+    def export_to_dict(self, full_photo = True):
         return {
             "node_id" : self.node_id,
             "user_id": self.user_id,
             "parent_node_id": self.parent_node_id,
-            "drawing": self.drawing,
+            "drawing": self.drawing if full_photo else self.drawing[:50] + "...",
             "is_finished": self.is_finished,
             "children_node_ids": self.children_node_ids
             }
+
 
 
 class Graph(object):
@@ -46,5 +47,5 @@ class Graph(object):
         self.nodes[node_id] = new_node
         return new_node
 
-    def export_to_dict(self):
-        return {node_id: node.export_to_dict() for node_id, node in self.nodes.items()}
+    def export_to_dict(self, full_photo=True):
+        return {node_id: node.export_to_dict(full_photo) for node_id, node in self.nodes.items()}

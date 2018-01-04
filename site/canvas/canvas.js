@@ -4,11 +4,12 @@ WILL = {
 
 	strokes: new Array(),
 
-	init: function (width, height, image) {
-		console.log(image);
+	init: function (width, height, image, onFirstTouchRun) {
 		this.oldImage = image;
 		this.initInkEngine(width, height);
 		this.initEvents();
+		this.pristine = true; // used to recognize first touch
+		this.onFirstTouchRun = onFirstTouchRun;
 	},
 
 	initInkEngine: function (width, height) {
@@ -22,6 +23,8 @@ WILL = {
 		this.speedPathBuilder = new Module.SpeedPathBuilder();
 		this.speedPathBuilder.setNormalizationConfig(182, 3547);
 		this.speedPathBuilder.setPropertyConfig(Module.PropertyName.Width, 2.05, 34.53, 0.72, NaN, Module.PropertyFunction.Power, 1.19, false);
+
+		this.smoothener = new Module.MultiChannelSmoothener(this.speedPathBuilder.stride);
 
 		if (window.PointerEvent) {
 			this.pressurePathBuilder = new Module.PressurePathBuilder();
@@ -95,6 +98,10 @@ WILL = {
 	},
 
 	beginStroke: function (e) {
+		if(this.pristine){
+			this.onFirstTouchRun();
+		}
+		this.pristine = false;
 		if (["mousedown", "mouseup"].contains(e.type) && e.button != 0) return;
 		if (e.changedTouches) e = e.changedTouches[0];
 
@@ -143,13 +150,20 @@ WILL = {
 	},
 
 	buildPath: function (pos) {
-		var pathBuilderValue = isNaN(this.pressure) ? Date.now() / 1000 : this.pressure;
 
-		var pathPart = this.pathBuilder.addPoint(this.inputPhase, pos, pathBuilderValue);
-		var pathContext = this.pathBuilder.addPathPart(pathPart);
 
-		this.pathPart = pathContext.getPathPart();
-		this.path = pathContext.getPath();
+		if (this.inputPhase == Module.InputPhase.Begin)
+            this.smoothener.reset();
+
+        var pathBuilderValue = isNaN(this.pressure) ? Date.now() / 1000 : this.pressure;
+
+        var pathPart = this.pathBuilder.addPoint(this.inputPhase, pos, pathBuilderValue);
+        var smoothedPathPart = this.smoothener.smooth(pathPart, this.inputPhase == Module.InputPhase.End);
+        var pathContext = this.pathBuilder.addPathPart(smoothedPathPart);
+
+        this.pathPart = pathContext.getPathPart();
+        this.path = pathContext.getPath();
+		
 	},
 
 	drawPath: function () {
@@ -227,27 +241,35 @@ function changeDrawColor() {
 }
 
 function saveDrawingToPng() {
-	
-	console.log('in submit"s onclick');
 
 	var api = api || new ApiService();
 	var dataURL = WILL.getImage();
-	
+
 	var id = window.newNodeId;
 	var parentId = window.newNodesParent.node_id;
-	api.submitDrawing(id, dataURL, function (resp) {
+	$('#editor').fadeOut();
+	$('#loaderContainer').fadeIn();
+
+	api.submitDrawing(id, dataURL, 
+		function (resp) {
+		$('#loaderContainer').fadeOut();
 		var newNode = {
 			"node_id": id,
-			"user_id": 2,
+			"user_id": 2, //TODO: get real user id
 			"state": "done",
 			"parent_node_id": parentId,
 			"drawing": dataURL,
 			"is_finished": true,
 			"children": []
 		};
-	$('#theModal').modal('toggle');
+		//TODO: separate toggle modal to it's own function (and not click)
+		var $opener = $("#modalOpener");
+		$opener.click();
+		setTimeout(init, 1000);
 	}, function () {
 		console.log('failed adding new picture..');
+		var $opener = $("#modalOpener");
+		$opener.click();
 	});
 
 	//
