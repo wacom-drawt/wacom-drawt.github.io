@@ -49,6 +49,7 @@ def get_node():
 
 @app.route('/branch', methods=['GET'])
 def branch_from_node():
+    global G
     print ("in branch_from_node")
     if 'node_id' not in request.args:
         return "branch: missing node_id"
@@ -67,6 +68,7 @@ def branch_from_node():
 
 @app.route('/submit', methods=['POST', "OPTIONS"])
 def submit_node():
+    global G
     if request.method == "OPTIONS":
         resp = make_response()
         resp.headers['Access-Control-Allow-Credentials'] = "true"
