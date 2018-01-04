@@ -24,6 +24,10 @@ def get_graph():
     if main_node_id not in G.nodes: # node specified non-existent
         main_node_id = '0'
 
+    print(G.nodes.keys())
+    print("printing graph state")
+    print(G.export_to_dict(full_photo=False))
+
     resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
     return resp
 
@@ -47,6 +51,7 @@ def get_node():
     return json.dumps(G.nodes[main_node_id].export_to_dict())
 
 
+"""
 @app.route('/branch', methods=['GET'])
 def branch_from_node():
     global G
@@ -64,7 +69,7 @@ def branch_from_node():
     print(G.export_to_dict(full_photo=False))
 
     return new_node.node_id
-
+"""
 
 @app.route('/submit', methods=['POST', "OPTIONS"])
 def submit_node():
@@ -78,28 +83,28 @@ def submit_node():
     #print("printing data I got from POST request")
     #print(dir(request))
     #print(request.form)
+    if 'drawing' not in request.form:
+        return "submit: missing drawing"
 
-    if 'node_id' in request.form:
-        node_id = request.form.get('node_id')
-        if 'drawing' not in request.form:
-            return "submit: missing drawing"
-        try:
-            G.nodes[node_id].drawing = request.form.get('drawing')
-            G.nodes[node_id].is_finished = True
-        except:
-            print(G.nodes.keys())
-            print(node_id in G.nodes)
-    else:
+    if 'parent_node_id' not in request.form:
         return "submit: missing node_id"
+    parent_node_id = request.form.get('parent_node_id')
+    print("parent_node_id I got from client: %s" % parent_node_id)
+    new_node = G.add_node(user_id="0000", drawing=request.form.get('drawing'), \
+                          parent_node_id=parent_node_id, is_finished=True)
 
-    resp = make_response("success")
+    node_id = new_node.node_id
+    print("new node_id: %s" % node_id)
+    print(G.nodes.keys())
+    print(node_id in G.nodes)
     print("printing graph state")
     print(G.export_to_dict(full_photo=False))
-    return resp
+    return node_id
 
 @app.route('/<path:path>')
 def send(path):
     return send_from_directory('site', path)
+
 
 @app.route('/secret_doom_button', methods=["GET"])
 def reset_graph():
