@@ -1,4 +1,5 @@
 import json
+import time
 import pickle
 import urllib
 from flask import Flask, render_template, request, make_response, send_from_directory
@@ -15,6 +16,10 @@ CORS(app)
 
 @app.route('/get_graph', methods=['GET'])
 def get_graph():
+    global G, GRAPH_LOCKED
+    while GRAPH_LOCKED:
+        time.sleep(1)
+    GRAPH_LOCKED = True
     print ("in get_graph")
     if 'node_id' in request.args:
         main_node_id = request.args.get('node_id')
@@ -29,6 +34,7 @@ def get_graph():
     print(G.export_to_dict(full_photo=False))
 
     resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
+    GRAPH_LOCKED = False
     return resp
 
 
@@ -36,7 +42,7 @@ def get_graph():
 def main_page():
     return send_from_directory("site", "index.html")
 
-
+"""
 @app.route('/get_node', methods=['GET'])
 def get_node():
     print ("in get_node")
@@ -49,7 +55,7 @@ def get_node():
         return 'get_node: invalid node_id'
 
     return json.dumps(G.nodes[main_node_id].export_to_dict())
-
+"""
 
 """
 @app.route('/branch', methods=['GET'])
@@ -73,7 +79,7 @@ def branch_from_node():
 
 @app.route('/submit', methods=['POST', "OPTIONS"])
 def submit_node():
-    global G
+    global G, GRAPH_LOCKED
     if request.method == "OPTIONS":
         resp = make_response()
         resp.headers['Access-Control-Allow-Credentials'] = "true"
@@ -88,6 +94,10 @@ def submit_node():
 
     if 'parent_node_id' not in request.form:
         return "submit: missing node_id"
+
+    while GRAPH_LOCKED:
+        time.sleep(1)
+    GRAPH_LOCKED = True
     parent_node_id = request.form.get('parent_node_id')
     print("parent_node_id I got from client: %s" % parent_node_id)
     new_node = G.add_node(user_id="0000", drawing=request.form.get('drawing'), \
@@ -99,6 +109,7 @@ def submit_node():
     print(node_id in G.nodes)
     print("printing graph state")
     print(G.export_to_dict(full_photo=False))
+    GRAPH_LOCKED = False
     return node_id
 
 @app.route('/<path:path>')
@@ -108,16 +119,21 @@ def send(path):
 
 @app.route('/secret_doom_button', methods=["GET"])
 def reset_graph():
-    global G
+    global G, GRAPH_LOCKED
+    while GRAPH_LOCKED:
+        time.sleep(1)
+    GRAPH_LOCKED = True
     G = Graph()
     node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
     node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
                        is_finished=False)
     resp = make_response("graph reset was successful")
+    GRAPH_LOCKED = False
     return resp
 
 
 G = Graph()
+GRAPH_LOCKED = False
 node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
 node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
                    is_finished=False)
