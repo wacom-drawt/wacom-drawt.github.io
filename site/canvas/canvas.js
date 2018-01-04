@@ -189,6 +189,7 @@ WILL = {
 
 		canvas.width = rect.width;
 		canvas.height = rect.height;
+		console.log("rect w: " + rect.width + ", h: " + rect.height);
 
 		var pixels = layer.readPixels(rect);
 
