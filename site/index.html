@@ -83,17 +83,43 @@
             font-size: 10px;
 		}
 
-		
-		.modal-dialog {
-		    width: 1000px !important;
-		    height: 700px !important;
-		    margin: 30px auto !important;
+		.modal-content {
+			height: 90vh;
+			width: 90vh;
+			overflow: hidden;
 		}
 
-		.modal-content {
-		    max-height: 600px;
-    		overflow: hidden;
+		@media only screen and (min-width: 768px){
+			.modal-content {
+				height: 90vw!important;
+				width: 90vw!important;
+				overflow: hidden;
+			}
+			.modal-dialog {
+				margin: 22vh 5vw!important;
+			}
 		}
+
+		@media only screen and (min-width: 1000px){
+			.modal-content {
+				height: 90vh!important;
+				width: 90vh!important;
+				overflow: hidden;
+			}
+			.modal-dialog {
+				margin: 30px auto!important;
+			}
+		}
+
+
+
+
+
+
+
+
+
+
 
 		/*#theModal {
 		    max-height: 600px !important;
@@ -150,7 +176,7 @@
 		<div class="modal-content">
 			<div id="editor">
 				<canvas id="canvas" oncontextmenu="WILL.clear(); event.preventDefault();"></canvas>
-				<button id="button" onclick="changeDrawColor()"></button>
+				<button id="brush_button" onclick="changeDrawColor()"></button>
 				<button class="saveButton" id="saveButton" onclick="saveDrawingToPng()">submit</button>
 			</div>
 		</div>
