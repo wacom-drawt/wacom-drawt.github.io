@@ -50,7 +50,7 @@ def get_node():
 @app.route('/branch', methods=['GET'])
 def branch_from_node():
     print ("in branch_from_node")
-    if 'node_id' not in requests.args:
+    if 'node_id' not in request.args:
         return "branch: missing node_id"
 
     parent_node_id = request.args.get('node_id')
