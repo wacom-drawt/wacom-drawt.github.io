@@ -141,6 +141,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 //TODO: refactor - rename to "click" (and not dbl)
 // Toggle children on click.
 function dblclicknode(d) {
+	console.log(d);
 	if (!d3.event.defaultPrevented) {
 		if (d.node_id) {
 			modalOpener.openModal({

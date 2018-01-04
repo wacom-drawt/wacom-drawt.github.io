@@ -5,7 +5,6 @@ WILL = {
 	strokes: new Array(),
 
 	init: function (width, height, image, onFirstTouchRun) {
-		console.log(image);
 		this.oldImage = image;
 		this.initInkEngine(width, height);
 		this.initEvents();
