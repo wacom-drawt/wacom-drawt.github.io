@@ -150,7 +150,7 @@ function onClickNode(d) {
 			});
 		} else {
 			console.log(d);
-			console.log('didn't click node.');
+			console.log('didn\'t click node.');
 		}
 		update();
 	}
