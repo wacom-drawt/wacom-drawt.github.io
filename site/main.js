@@ -60,10 +60,13 @@ var link = svg.selectAll(".link"),
 	node = svg.selectAll(".node");
 
 function init() {
+
+	// Check if sample
 	var url_string = window.location.href
 	var url = new URL(url_string);
 	var c = url.searchParams.get("sample");
 	isMock = !!c;
+	
 	api.getTree(
 		//on success
 		function (resp) {

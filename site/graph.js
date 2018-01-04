@@ -139,7 +139,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.attr('height', 50);
 }
 
-
+//TODO: refactor - rename to "click" (and not dbl)
 // Toggle children on click.
 function dblclicknode(d) {
 	if (!d3.event.defaultPrevented) {

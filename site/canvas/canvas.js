@@ -4,11 +4,13 @@ WILL = {
 
 	strokes: new Array(),
 
-	init: function (width, height, image) {
+	init: function (width, height, image, onFirstTouchRun) {
 		console.log(image);
 		this.oldImage = image;
 		this.initInkEngine(width, height);
 		this.initEvents();
+		this.pristine = true; // used to recognize first touch
+		this.onFirstTouchRun = onFirstTouchRun;
 	},
 
 	initInkEngine: function (width, height) {
@@ -95,6 +97,10 @@ WILL = {
 	},
 
 	beginStroke: function (e) {
+		if(this.pristine){
+			this.onFirstTouchRun();
+		}
+		this.pristine = false;
 		if (["mousedown", "mouseup"].contains(e.type) && e.button != 0) return;
 		if (e.changedTouches) e = e.changedTouches[0];
 
@@ -228,8 +234,6 @@ function changeDrawColor() {
 
 function saveDrawingToPng() {
 
-	console.log('in submit"s onclick');
-
 	var api = api || new ApiService();
 	var dataURL = WILL.getImage();
 
@@ -238,17 +242,19 @@ function saveDrawingToPng() {
 	$('#editor').fadeOut();
 	$('#loaderContainer').fadeIn();
 
-	api.submitDrawing(id, dataURL, function (resp) {
-		$('.spinner').fadeOut();
+	api.submitDrawing(id, dataURL, 
+		function (resp) {
+		$('#loaderContainer').fadeOut();
 		var newNode = {
 			"node_id": id,
-			"user_id": 2,
+			"user_id": 2, //TODO: get real user id
 			"state": "done",
 			"parent_node_id": parentId,
 			"drawing": dataURL,
 			"is_finished": true,
 			"children": []
 		};
+		//TODO: separate toggle modal to it's own function (and not click)
 		var $opener = $("#modalOpener");
 		$opener.click();
 		setTimeout(init, 1000);
