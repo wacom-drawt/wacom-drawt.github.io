@@ -110,6 +110,10 @@ def reset_graph():
     return resp
 
 
-reset_graph()
+G = Graph()
+node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
+node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
+                   is_finished=False)
+
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
