@@ -59,6 +59,8 @@ def branch_from_node():
     # debug prints
     print("existing nodes:")
     print(G.nodes.keys())
+    print("printing graph state")
+    print(G.export_to_dict(full_photo=False))
 
     return new_node.node_id
 
@@ -89,6 +91,8 @@ def submit_node():
         return "submit: missing node_id"
 
     resp = make_response("success")
+    print("printing graph state")
+    print(G.export_to_dict(full_photo=False))
     return resp
 
 @app.route('/<path:path>')
