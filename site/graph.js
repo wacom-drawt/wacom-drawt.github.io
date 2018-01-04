@@ -63,7 +63,7 @@ function update() {
 		})
         // .style("fill", color)
         //.on("click", centralizeRoot)
-		.on("click", onClickNode)
+		.on("click", handleMouseClick)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(drag);
@@ -140,7 +140,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 }
 
 // Toggle children on click.
-function onClickNode(d) {
+function handleMouseClick(d) {
 	console.log(d);
 	if (!d3.event.defaultPrevented) {
 		if (d.node_id) {
@@ -160,6 +160,7 @@ function onClickNode(d) {
 var isZoomedAfterClick = false;
 
 function handleMouseEnter(d, i) {
+	console.log("hover over node #" + d.node_id);
     if (isZoomedAfterClick) { return;}
     d3.select(this).transition()
         .ease("elastic")
