@@ -73,9 +73,9 @@ def submit_node():
         return resp
 
     print ("in submit_node")
-    print("printing data I got from POST request")
-    print(dir(request))
-    print(request.form)
+    #print("printing data I got from POST request")
+    #print(dir(request))
+    #print(request.form)
 
     if 'node_id' in request.form:
         node_id = request.form.get('node_id')
