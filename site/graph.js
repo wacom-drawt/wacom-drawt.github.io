@@ -63,7 +63,7 @@ function update() {
 		})
         // .style("fill", color)
         //.on("click", centralizeRoot)
-		.on("click", dblclicknode)
+		.on("click", onClickNode)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
         .call(drag);
@@ -132,15 +132,15 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.attr('height', '350%')
 		.append("image")
 		.attr("xlink:href", function (d) {
+			console.log(d);
 			return d.drawing;
 		})
 		.attr('width', 50)
 		.attr('height', 50);
 }
 
-//TODO: refactor - rename to "click" (and not dbl)
 // Toggle children on click.
-function dblclicknode(d) {
+function onClickNode(d) {
 	console.log(d);
 	if (!d3.event.defaultPrevented) {
 		if (d.node_id) {
@@ -150,7 +150,7 @@ function dblclicknode(d) {
 			});
 		} else {
 			console.log(d);
-			console.log('didnt click node.');
+			console.log('didn't click node.');
 		}
 		update();
 	}
