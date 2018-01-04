@@ -109,12 +109,9 @@ def submit_node():
     print(node_id in G.nodes)
     print("printing graph state")
     print(G.export_to_dict(full_photo=False))
+
     GRAPH_LOCKED = False
     return node_id
-
-@app.route('/<path:path>')
-def send(path):
-    return send_from_directory('site', path)
 
 
 @app.route('/secret_doom_button', methods=["GET"])
@@ -123,6 +120,7 @@ def reset_graph():
     while GRAPH_LOCKED:
         time.sleep(1)
     GRAPH_LOCKED = True
+
     G = Graph()
     node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
     node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
@@ -130,6 +128,13 @@ def reset_graph():
     resp = make_response("graph reset was successful")
     GRAPH_LOCKED = False
     return resp
+
+
+@app.route('/<path:path>')
+def send(path):
+    return send_from_directory('site', path)
+
+
 
 
 G = Graph()
