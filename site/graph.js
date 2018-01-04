@@ -161,7 +161,7 @@ var isZoomedAfterClick = false;
 
 function handleMouseEnter(d, i) {
 	var drawing = {};
-	drawing["drawing_" + d.node_id] = d.drawing;
+	drawing["hovered_drawing_" + d.node_id] = d.drawing;
 	console.log(drawing);
     if (isZoomedAfterClick) { return;}
     d3.select(this).transition()

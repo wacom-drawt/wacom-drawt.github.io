@@ -4,12 +4,10 @@ WILL = {
 
 	strokes: new Array(),
 
-	init: function (width, height, image, onFirstTouchRun) {
+	init: function (width, height, image) {
 		this.oldImage = image;
 		this.initInkEngine(width, height);
 		this.initEvents();
-		this.pristine = true; // used to recognize first touch
-		this.onFirstTouchRun = onFirstTouchRun;
 	},
 
 	initInkEngine: function (width, height) {
@@ -98,10 +96,6 @@ WILL = {
 	},
 
 	beginStroke: function (e) {
-		if(this.pristine){
-			this.onFirstTouchRun();
-		}
-		this.pristine = false;
 		if (["mousedown", "mouseup"].contains(e.type) && e.button != 0) return;
 		if (e.changedTouches) e = e.changedTouches[0];
 
@@ -244,17 +238,15 @@ function saveDrawingToPng() {
 
 	var api = api || new ApiService();
 	var dataURL = WILL.getImage();
-
-	var id = window.newNodeId;
 	var parentId = window.newNodesParent.node_id;
 	$('#editor').fadeOut();
 	$('#loaderContainer').fadeIn();
 
-	api.submitDrawing(id, dataURL, 
-		function (resp) {
+	api.submitDrawing(parentId, dataURL,
+		function (newNodeId) {
 		$('#loaderContainer').fadeOut();
 		var newNode = {
-			"node_id": id,
+			"node_id": newNodeId,
 			"user_id": 2, //TODO: get real user id
 			"state": "done",
 			"parent_node_id": parentId,

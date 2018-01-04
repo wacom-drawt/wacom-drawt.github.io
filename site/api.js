@@ -21,40 +21,17 @@ function ApiService() {
 		xhr.send();
 	};
 
-	this.branchFrom = function (node, onSuccess, onFail, debug) {
-		var params = {
-			node_id: node.node_id
-		};
-		if (debug) {
-			params['debug'] = debug;
-		}
-		var queryParams = $.param(params);
-
-		var url = "https://drawtwacom.herokuapp.com/branch?" + queryParams;
-		var xhr = createCORSRequest('GET', url);
-		// xhr.withCredentials = true;
-		xhr.onload = function () {
-			var responseText = xhr.responseText;
-			onSuccess(JSON.parse(responseText));
-		};
-		xhr.onerror = function () {
-			console.log('Problem branching from node');
-		};
-
-		xhr.send();
-	};
-
-	this.submitDrawing = function (newNodeId, imageURI, onSuccess, onFail) {
+	this.submitDrawing = function (parentNodeId, imageURI, onSuccess, onFail) {
 
 		$.ajax({
 			type: "POST",
 			url: "https://drawtwacom.herokuapp.com/submit",
 			data: {
 				drawing: imageURI,
-				node_id: newNodeId
+				parent_node_id: parentNodeId
 			}
-		}).done(function (o) {
-			onSuccess(o);
+		}).done(function (newNodeId) {
+			onSuccess(newNodeId);
 		});
 		return;
 
