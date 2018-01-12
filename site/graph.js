@@ -66,23 +66,21 @@ function update() {
 		})
 		.attr("fill", function (d) {
 			return "url(#" + d.node_id + ")";
-		})
-		.call(drag)
-		.each(function (node) {
-			console.log('NODE: ');
-			console.log(node);
-			console.log(node.attr('is_finished'));
-			if (node.attr('is_finished')) {
-				console.log('FINISHED NODE');
-				node
-					.on("click", handleMouseClick)
-					.on("mouseenter", handleMouseEnter)
-					.on("mouseout", handleMouseOut)
-			} else {
-				console.log('UNFINISHED NODE');
-				node.style("fill", color);
-			}
-		});
+		}).each(function (node) {
+
+		node
+			.on("click", handleMouseClick)
+			.on("mouseenter", handleMouseEnter)
+			.on("mouseout", handleMouseOut)
+
+	});
+	// .style("fill", color)
+	// .on("click", handleMouseClick)
+	// .on("mouseenter", handleMouseEnter)
+	// .on("mouseout", handleMouseOut)
+	// .call(drag);
+
+	//.attribute ("[is_finished=true]", function(n){
 }
 
 function getSize(d) {
