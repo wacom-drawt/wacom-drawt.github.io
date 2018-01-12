@@ -1,7 +1,6 @@
 function ApiService() {
 	$ = jQuery;
 	this.ORIGIN = 'https://wacom-drawt.github.io';
-	this.MOCK_TREE_URL = "https://my-json-server.typicode.com/wacom-drawt/wacom-drawt.github.io/graph";
 	this.REAL_TREE_URL = "https://drawtwacom.herokuapp.com/get_graph";
 	this.SUBMIT_IMAGE_URL = "https://drawtwacom.herokuapp.com/submit";
 
@@ -83,17 +82,21 @@ function ApiService() {
 }
 
 function getGraphFromResponse(treeFromResponse, rootId) {
+
+	//let tree = fixNodeIds(treeFromResponse); //TODO: uncomment after "submit" uses new ids as well
+	let tree = treeFromResponse;
+
 	//children_node_ids
 	if (!rootId) {
 		rootId = 0;
 	}
 	$ = $ || jQuery;
-	var firstNode = treeFromResponse.graph[rootId];
+	var firstNode = tree.graph[rootId];
 	var nodesToFix = [firstNode];
 	while (nodesToFix.length) {
-			currNode = nodesToFix.pop();
-			currNode.children_node_ids.forEach(function (childId) {
-				var childNode = treeFromResponse.graph[childId];
+		currNode = nodesToFix.pop();
+		currNode.children_node_ids.forEach(function (childId) {
+			var childNode = tree.graph[childId];
 			if (!currNode.children) {
 				currNode.children = [];
 			}
@@ -105,6 +108,16 @@ function getGraphFromResponse(treeFromResponse, rootId) {
 		});
 	}
 	return firstNode;
+}
+
+function fixNodeIds(tree) {
+	//prefix IDs with "node_" - https://stackoverflow.com/questions/70579/what-are-valid-values-for-the-id-attribute-in-html
+	let NODE_PREFIX = 'node_';
+	let fixedTree = tree.map(function (node) {
+		node.id = NODE_PREFIX + node.node_id;
+		return node;
+	});
+	return fixedTree;
 }
 
 function getMockData() {
@@ -126,40 +139,40 @@ function getMockData() {
 				"drawing": "//preview.ibb.co/fbEXVG/node0002.jpg",
 				"is_finished": true,
 				"children": [{
-						"node_id": 10,
-						"user_id": 2,
-						"state": "done",
-						"parent_node_id": 3,
-						"drawing": "//preview.ibb.co/mTu5jb/node0011.jpg",
-						"is_finished": true,
-						"children": [
+					"node_id": 10,
+					"user_id": 2,
+					"state": "done",
+					"parent_node_id": 3,
+					"drawing": "//preview.ibb.co/mTu5jb/node0011.jpg",
+					"is_finished": true,
+					"children": [
 
-							{
-								"node_id": 11,
-								"user_id": 2,
-								"state": "done",
-								"parent_node_id": 10,
-								"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
-								"is_finished": true,
-								"children": [
-
-
-									{
-										"node_id": 12,
-										"user_id": 2,
-										"state": "done",
-										"parent_node_id": 11,
-										"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
-										"is_finished": true,
-										"children": []
-									}
+						{
+							"node_id": 11,
+							"user_id": 2,
+							"state": "done",
+							"parent_node_id": 10,
+							"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
+							"is_finished": true,
+							"children": [
 
 
-								]
-							}
+								{
+									"node_id": 12,
+									"user_id": 2,
+									"state": "done",
+									"parent_node_id": 11,
+									"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
+									"is_finished": true,
+									"children": []
+								}
 
-						]
-					}]
+
+							]
+						}
+
+					]
+				}]
 			},
 				{
 					"node_id": 2,
@@ -202,31 +215,31 @@ function getMockData() {
 								"is_finished": true,
 								"children": [
 
-							{
-								"node_id": 11,
-								"user_id": 2,
-								"state": "done",
-								"parent_node_id": 10,
-								"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
-								"is_finished": true,
-								"children": [
-
-
 									{
-										"node_id": 12,
+										"node_id": 11,
 										"user_id": 2,
 										"state": "done",
-										"parent_node_id": 11,
-										"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
+										"parent_node_id": 10,
+										"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
 										"is_finished": true,
-										"children": []
+										"children": [
+
+
+											{
+												"node_id": 12,
+												"user_id": 2,
+												"state": "done",
+												"parent_node_id": 11,
+												"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
+												"is_finished": true,
+												"children": []
+											}
+
+
+										]
 									}
 
-
 								]
-							}
-
-						]
 							},
 								{
 									"node_id": 8,
@@ -245,92 +258,92 @@ function getMockData() {
 									"drawing": "//preview.ibb.co/jk1wqG/node0010.jpg",
 									"is_finished": true,
 									"children": [{
-						"node_id": 10,
-						"user_id": 2,
-						"state": "done",
-						"parent_node_id": 3,
-						"drawing": "//preview.ibb.co/mTu5jb/node0011.jpg",
-						"is_finished": true,
-						"children": [
-
-							{
-								"node_id": 11,
-								"user_id": 2,
-								"state": "done",
-								"parent_node_id": 10,
-								"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
-								"is_finished": true,
-								"children": [
-
-
-									{
-										"node_id": 12,
+										"node_id": 10,
 										"user_id": 2,
 										"state": "done",
-										"parent_node_id": 11,
-										"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
+										"parent_node_id": 3,
+										"drawing": "//preview.ibb.co/mTu5jb/node0011.jpg",
 										"is_finished": true,
 										"children": [
 
-							{
-								"node_id": 11,
-								"user_id": 2,
-								"state": "done",
-								"parent_node_id": 10,
-								"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
-								"is_finished": true,
-								"children": [
+											{
+												"node_id": 11,
+												"user_id": 2,
+												"state": "done",
+												"parent_node_id": 10,
+												"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
+												"is_finished": true,
+												"children": [
 
 
-									{
-										"node_id": 12,
-										"user_id": 2,
-										"state": "done",
-										"parent_node_id": 11,
-										"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
-										"is_finished": true,
-										"children": [
+													{
+														"node_id": 12,
+														"user_id": 2,
+														"state": "done",
+														"parent_node_id": 11,
+														"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
+														"is_finished": true,
+														"children": [
 
-							{
-								"node_id": 11,
-								"user_id": 2,
-								"state": "done",
-								"parent_node_id": 10,
-								"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
-								"is_finished": true,
-								"children": [
-
-
-									{
-										"node_id": 12,
-										"user_id": 2,
-										"state": "done",
-										"parent_node_id": 11,
-										"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
-										"is_finished": true,
-										"children": []
-									}
+															{
+																"node_id": 11,
+																"user_id": 2,
+																"state": "done",
+																"parent_node_id": 10,
+																"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
+																"is_finished": true,
+																"children": [
 
 
-								]
-							}
+																	{
+																		"node_id": 12,
+																		"user_id": 2,
+																		"state": "done",
+																		"parent_node_id": 11,
+																		"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
+																		"is_finished": true,
+																		"children": [
 
-						]
-									}
+																			{
+																				"node_id": 11,
+																				"user_id": 2,
+																				"state": "done",
+																				"parent_node_id": 10,
+																				"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
+																				"is_finished": true,
+																				"children": [
 
 
-								]
-							}
+																					{
+																						"node_id": 12,
+																						"user_id": 2,
+																						"state": "done",
+																						"parent_node_id": 11,
+																						"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
+																						"is_finished": true,
+																						"children": []
+																					}
 
-						]
-									}
+
+																				]
+																			}
+
+																		]
+																	}
 
 
-								]
-							}
+																]
+															}
 
-						]
-					}]
+														]
+													}
+
+
+												]
+											}
+
+										]
+									}]
 								}
 							]
 						}
@@ -370,40 +383,40 @@ function getMockData() {
 										"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
 										"is_finished": true,
 										"children": [{
-						"node_id": 10,
-						"user_id": 2,
-						"state": "done",
-						"parent_node_id": 3,
-						"drawing": "//preview.ibb.co/mTu5jb/node0011.jpg",
-						"is_finished": true,
-						"children": [
+											"node_id": 10,
+											"user_id": 2,
+											"state": "done",
+											"parent_node_id": 3,
+											"drawing": "//preview.ibb.co/mTu5jb/node0011.jpg",
+											"is_finished": true,
+											"children": [
 
-							{
-								"node_id": 11,
-								"user_id": 2,
-								"state": "done",
-								"parent_node_id": 10,
-								"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
-								"is_finished": true,
-								"children": [
-
-
-									{
-										"node_id": 12,
-										"user_id": 2,
-										"state": "done",
-										"parent_node_id": 11,
-										"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
-										"is_finished": true,
-										"children": []
-									}
+												{
+													"node_id": 11,
+													"user_id": 2,
+													"state": "done",
+													"parent_node_id": 10,
+													"drawing": "//preview.ibb.co/cFfd4b/node0012.jpg",
+													"is_finished": true,
+													"children": [
 
 
-								]
-							}
+														{
+															"node_id": 12,
+															"user_id": 2,
+															"state": "done",
+															"parent_node_id": 11,
+															"drawing": "//preview.ibb.co/fnRJ4b/node0013.jpg`",
+															"is_finished": true,
+															"children": []
+														}
 
-						]
-					}]
+
+													]
+												}
+
+											]
+										}]
 									}
 
 
