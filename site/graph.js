@@ -71,16 +71,16 @@ function update() {
 		.call(function (nodes) {
 			console.log(nodes);
 			nodes.forEach(function (node) {
-				if (node.is_finished) {
-					console.log('FINISHED NODE: ');
-					console.log(node);
+				console.log('NODE: ');
+				console.log(node);
+				if (node.attr('is_finished')) {
+					console.log('FINISHED NODE');
 					node
 						.on("click", handleMouseClick)
 						.on("mouseenter", handleMouseEnter)
 						.on("mouseout", handleMouseOut)
 				} else {
-					console.log('UNFINISHED NODE: ');
-					console.log(node);
+					console.log('UNFINISHED NODE');
 					node.style("fill", color);
 				}
 			});
