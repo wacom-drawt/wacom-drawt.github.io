@@ -1,7 +1,9 @@
 // Use this function when addressing tree, we might move the tree someplace else
 // and we'll change it via this function.
 function getRoot() {
-	return window.root; //TODO: we shouldn't save the tree on global scope..
+	// TODO: we shouldn't save the tree on global scope..
+	// TODO: do the same for global var "links" & "nodes"
+	return window.root;
 }
 
 function update() {
@@ -54,7 +56,7 @@ function updateLinks(linksArray) {
 }
 
 function updateNodes(nodesArray) {
-// Update the nodes…
+	// Update the nodes…
 	nodes = nodes.data(nodesArray, function (d) {
 		return d.id;
 	});//.style("fill", color);
@@ -164,7 +166,6 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.attr('height', '350%')
 		.append("image")
 		.attr("xlink:href", function (d) {
-			console.log(d);
 			return d.drawing;
 		})
 		.attr('width', 50)
@@ -173,28 +174,28 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 
 // Toggle children on click.
 function handleMouseClick(d) {
-	console.log(d);
 	if (!d3.event.defaultPrevented) {
 		if (d.node_id) {
 			modalOpener.openModal({
 				type: modalOpener.types.EDITOR,
 				node: d
 			});
-		} else {
-			console.log(d);
+		} else if (drawt && drawt.isDebug) {
 			console.log('didn\'t click node.');
+			console.log(d);
 		}
 		update();
 	}
-
 }
 
 var isZoomedAfterClick = false;
 
 function handleMouseEnter(d, i) {
 	var drawing = {};
-	drawing["hovered_drawing_" + d.node_id] = d.drawing;
-	console.log(drawing);
+	if (drawt && drawt.isDebug) {
+		drawing["hovered_drawing_" + d.node_id] = d.drawing;
+		console.log(drawing);
+	}
 	if (isZoomedAfterClick) {
 		return;
 	}
