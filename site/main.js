@@ -82,6 +82,8 @@ function init() {
 		//on success
 		function (resp) {
 			root = resp;
+			console.log('ROOT AFTER INIT: ');
+			console.log(root);
 			saveImagesAsPatternsInCanvas(svg, root);
 			update();
 		},
