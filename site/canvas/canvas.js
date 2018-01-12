@@ -250,7 +250,8 @@ function saveDrawingToPng() {
 				"children": []
 			};
 			modalOpener.toggleModalElement();
-			setTimeout(init, 1000);
+			addNodeToTree(newNode, parentId);
+			//setTimeout(init, 1000);
 		}, function () {
 			if (drawt && drawt.isDebug) {
 				console.log('failed adding new picture..');

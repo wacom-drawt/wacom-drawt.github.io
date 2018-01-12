@@ -284,3 +284,21 @@ function transition(svg, nodeToFocus) {
 function centralizeRoot(d) {
 	d3.select('svg').call(transition, d);
 }
+
+function addNodeToTree(node, parentId){
+	function addNodeToParentRec(currNode){
+		if(currNode.node_id == parentId){
+			currNode.children.push(node);
+			return true;
+		}
+
+		currNode.children.forEach(function(childNode){
+				if(addNodeToParentRec(childNode)){
+					return true;
+				}
+		});
+		return false;
+	}
+	addNodeToParentRec(getRoot());
+	update();
+}
