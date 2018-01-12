@@ -45,13 +45,12 @@ function update() {
 		});
 
 	// Update the nodes…
+	console.log(">>>>>>>>>>>>> node: <<<<<<<<<<<<<<<");
+	console.log(node);
 	node = node.data(nodes, function (d) {
 		return d.id;
 	});//.style("fill", color);
-
-	console.log('==========================================================');
-	console.log(node);
-
+	
 	// Exit any old nodes.
 	node.exit().remove();
 
