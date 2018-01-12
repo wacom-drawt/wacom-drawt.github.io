@@ -73,6 +73,7 @@ function update() {
 			nodes.forEach(function (node) {
 				console.log('NODE: ');
 				console.log(node);
+				console.log(node.attr('is_finished'));
 				if (node.attr('is_finished')) {
 					console.log('FINISHED NODE');
 					node
