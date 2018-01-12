@@ -83,7 +83,7 @@ function update() {
 		.filter(function (d, i) {
 			return d.is_finished;
 		})
-		.style("fill", "#000")
+		// .style("fill", "#000")
 		.style("fill-opacity", 0.6)
 
 
