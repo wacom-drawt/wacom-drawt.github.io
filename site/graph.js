@@ -51,7 +51,7 @@ function update() {
 
 	// Exit any old nodes.
 	nodes.exit().remove();
-	
+
 	// Enter any new nodes.
 	nodes.enter().append("circle")
 		.attr("class", "node")
@@ -68,13 +68,24 @@ function update() {
 			return "url(#" + d.node_id + ")";
 		})
 		.call(drag)
-		.filter(function(d, i){
+
+	// Set click events
+	d3.selectAll("circle")
+		.filter(function (d, i) {
 			return d.is_finished;
 		})
 		.on("click", handleMouseClick)
 		.on("mouseenter", handleMouseEnter)
 		.on("mouseout", handleMouseOut);
-	// .style("fill", color)
+
+	// Set unclickable fill color
+	d3.selectAll("circle")
+		.filter(function (d, i) {
+			return !d.is_finished;
+		})
+		.style("fill", "#000")
+		.style("fill-opacity", 0.6)
+
 
 }
 
