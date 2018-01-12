@@ -48,7 +48,7 @@ function update() {
 	nodes = nodes.data(nodesArray, function (d) {
 		return d.id;
 	});//.style("fill", color);
-	
+
 	// Exit any old nodes.
 	nodes.exit().remove();
 
@@ -67,14 +67,21 @@ function update() {
 		.attr("fill", function (d) {
 			return "url(#" + d.node_id + ")";
 		})
-        // .style("fill", color)
-		.on("click", handleMouseClick)
-        .on("mouseenter", handleMouseEnter)
-        .on("mouseout", handleMouseOut)
-        .call(drag).attr("[is_finished=false]", function(n){
-		console.log('FINISHED NODE: ');
-		console.log(n);
-	});
+		.call(drag)
+		.call(function (node) {
+			if (node.is_finished) {
+				console.log('FINISHED NODE: ');
+				console.log(node);
+				node
+					.on("click", handleMouseClick)
+					.on("mouseenter", handleMouseEnter)
+					.on("mouseout", handleMouseOut)
+			} else {
+				console.log('UNFINISHED NODE: ');
+				console.log(node);
+				node.style("fill", color);
+			}
+		});
 
 }
 
