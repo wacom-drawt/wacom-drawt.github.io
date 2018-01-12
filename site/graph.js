@@ -305,7 +305,7 @@ function addNodeToTree(node, parentId) {
 	addNodeToParentRec(getRoot());
 	saveImagesAsPatternsInCanvas(svg, getRoot());
 
-	api.submitDrawing(parentId, dataURL,
+	api.submitDrawing(parentId, node.drawing,
 		function (newNodeId) {
 			node.node_id = newNodeId;
 			node.is_finished = true;
