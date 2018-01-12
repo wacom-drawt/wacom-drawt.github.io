@@ -51,9 +51,6 @@ function update() {
 
 	// Exit any old nodes.
 	nodes.exit().remove();
-
-	console.log(">>>>>>>>>>>>> nodes <<<<<<<<<<<<<<<");
-	console.log(nodes);
 	
 	// Enter any new nodes.
 	nodes.enter().append("circle")
