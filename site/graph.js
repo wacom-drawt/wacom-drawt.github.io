@@ -1,6 +1,12 @@
+// Use this function when addressing tree, we might move the tree someplace else
+// and we'll change it via this function.
+function getRoot(){
+	return window.root; //TODO: we shouldn't save the tree on global scope..
+}
+
 function update() {
 
-	var nodes = flatten(root),
+	var nodes = flatten(getRoot()),
 		links = d3.layout.tree().links(nodes);
 
 	// Restart the force layout.
@@ -43,6 +49,9 @@ function update() {
 		return d.id;
 	});//.style("fill", color);
 
+	console.log('==========================================================');
+	console.log(node);
+
 	// Exit any old nodes.
 	node.exit().remove();
 
@@ -62,7 +71,6 @@ function update() {
 			return "url(#" + d.node_id + ")";
 		})
         // .style("fill", color)
-        //.on("click", centralizeRoot)
 		.on("click", handleMouseClick)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
@@ -243,6 +251,7 @@ function transition(svg, nodeToFocus) {
 
 }
 
+//TODO: decide whether we want to use ths or not. (currently not being used)
 function centralizeRoot(d) {
 
     d3.select('svg').call(transition, d);

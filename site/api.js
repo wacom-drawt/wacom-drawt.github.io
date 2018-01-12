@@ -112,8 +112,8 @@ function getGraphFromResponse(treeFromResponse, rootId) {
 
 function fixNodeIds(tree) {
 	//prefix IDs with "node_" - https://stackoverflow.com/questions/70579/what-are-valid-values-for-the-id-attribute-in-html
-	let NODE_PREFIX = 'node_';
-	let fixedTree = tree.map(function (node) {
+	var NODE_PREFIX = 'node_';
+	var fixedTree = tree.map(function (node) {
 		node.id = NODE_PREFIX + node.node_id;
 		return node;
 	});
