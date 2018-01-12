@@ -82,11 +82,19 @@ function update() {
 	d3.selectAll("circle")
 		.filter(function (d, i) {
 			return d.is_finished;
+		}).append("circle")
+		.attr("class", "node")
+		.attr("cx", function (d) {
+			return d.x;
 		})
-		// .style("fill", "#000")
+		.attr("cy", function (d) {
+			return d.y;
+		})
+		.attr("r", function (d) {
+			return Math.sqrt(getSize(d) * 50);
+		})
+		.style("fill", "#000")
 		.style("fill-opacity", 0.6)
-
-
 }
 
 function getSize(d) {
