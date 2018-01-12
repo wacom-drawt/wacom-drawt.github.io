@@ -71,7 +71,7 @@ function update() {
 		.on("click", handleMouseClick)
         .on("mouseenter", handleMouseEnter)
         .on("mouseout", handleMouseOut)
-        .call(drag).attr("[is_finished=true]", function(n){
+        .call(drag).attr("[is_finished=false]", function(n){
 		console.log('FINISHED NODE: ');
 		console.log(n);
 	});
