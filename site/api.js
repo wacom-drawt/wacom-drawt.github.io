@@ -84,7 +84,7 @@ function ApiService() {
 function getGraphFromResponse(treeFromResponse, rootId) {
 
 	//let tree = fixNodeIds(treeFromResponse); //TODO: uncomment after "submit" uses new ids as well
-	let tree = treeFromResponse;
+	var tree = treeFromResponse;
 
 	//children_node_ids
 	if (!rootId) {
