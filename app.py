@@ -17,9 +17,9 @@ CORS(app)
 @app.route('/get_graph', methods=['GET'])
 def get_graph():
     global G, GRAPH_LOCKED
-    while GRAPH_LOCKED:
-        time.sleep(1)
-    GRAPH_LOCKED = True
+    #while GRAPH_LOCKED:
+    #    time.sleep(1)
+    #GRAPH_LOCKED = True
     print ("in get_graph")
     if 'node_id' in request.args:
         main_node_id = request.args.get('node_id')
@@ -34,7 +34,7 @@ def get_graph():
     print(G.export_to_dict(full_photo=False))
 
     resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
-    GRAPH_LOCKED = False
+    #GRAPH_LOCKED = False
     return resp
 
 
@@ -95,9 +95,9 @@ def submit_node():
     if 'parent_node_id' not in request.form:
         return "submit: missing node_id"
 
-    while GRAPH_LOCKED:
-        time.sleep(1)
-    GRAPH_LOCKED = True
+    #while GRAPH_LOCKED:
+    #    time.sleep(1)
+    #GRAPH_LOCKED = True
     parent_node_id = request.form.get('parent_node_id')
     print("parent_node_id I got from client: %s" % parent_node_id)
     new_node = G.add_node(user_id="0000", drawing=request.form.get('drawing'), \
@@ -110,25 +110,8 @@ def submit_node():
     print("printing graph state")
     print(G.export_to_dict(full_photo=False))
 
-    GRAPH_LOCKED = False
+    #GRAPH_LOCKED = False
     return node_id
-
-
-@app.route('/secret_doom_button', methods=["GET"])
-def reset_graph():
-    global G, GRAPH_LOCKED
-    while GRAPH_LOCKED:
-        time.sleep(1)
-    GRAPH_LOCKED = True
-
-    G = Graph()
-    node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
-    node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
-                       is_finished=False)
-    resp = make_response("graph reset was successful")
-    GRAPH_LOCKED = False
-    return resp
-
 
 @app.route('/<path:path>')
 def send(path):
@@ -138,10 +121,10 @@ def send(path):
 
 
 G = Graph()
-GRAPH_LOCKED = False
+#GRAPH_LOCKED = False
 node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
 node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
-                   is_finished=False)
+                   is_finished=True)
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
