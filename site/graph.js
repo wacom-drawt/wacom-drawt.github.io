@@ -16,7 +16,7 @@ function update() {
 		.nodes(nodesArray)
 		.links(linksArray)
 	force.linkDistance(function (link) {
-		var factor = isMock ? 7 : 10;
+		var factor = (drawt && drawt.isMock) ? 7 : 10;
 		return (link.source.weight + link.target.weight) * factor;
 	})
 	//.distance(100)
