@@ -274,6 +274,7 @@ function transition(svg, nodeToFocus) {
 
 		return "translate(" + translateX + "," + translateY + ")scale(" + k + ")";
 	}
+
 	// TODO: raaz left this comment: show button
 	// TODO: raaz left this comment: give center position: nodeToFocus.x, nodeToFocus.y
 	isZoomedAfterClick = false;
@@ -285,25 +286,31 @@ function centralizeRoot(d) {
 	d3.select('svg').call(transition, d);
 }
 
-function addNodeToTree(node, parentId){
-	function addNodeToParentRec(currNode){
-		if(currNode.node_id == parentId){
+function addNodeToTree(node, parentId) {
+	function addNodeToParentRec(currNode) {
+		if (currNode.node_id == parentId) {
 			currNode.children.push(node);
 			return true;
 		}
 
-		currNode.children.forEach(function(childNode){
-				if(addNodeToParentRec(childNode)){
-					return true;
-				}
+		currNode.children.forEach(function (childNode) {
+			if (addNodeToParentRec(childNode)) {
+				return true;
+			}
 		});
 		return false;
 	}
+
 	addNodeToParentRec(getRoot());
-	if(drawt && drawt.isDebug){
-		console.log('Root after adding offline node: ');
-		console.log(getRoot());
-	}
-	update();
 	saveImagesAsPatternsInCanvas(svg, getRoot());
+
+	api.submitDrawing(parentId, dataURL,
+		function (newNodeId) {
+			update();
+			node.node_id = newNodeId;
+		}, function () {
+			if (drawt && drawt.isDebug) {
+				console.log('failed adding new picture..');
+			}
+		});
 }

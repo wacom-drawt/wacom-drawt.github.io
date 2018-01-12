@@ -237,27 +237,18 @@ function saveDrawingToPng() {
 	$('#editor').fadeOut();
 	$('#loaderContainer').fadeIn();
 
-	api.submitDrawing(parentId, dataURL,
-		function (newNodeId) {
-			$('#loaderContainer').fadeOut();
-			var newNode = {
-				"node_id": newNodeId,
-				"user_id": 2, //TODO: get real user id
-				"state": "done",
-				"parent_node_id": parentId,
-				"drawing": dataURL,
-				"is_finished": true,
-				"children": []
-			};
-			modalOpener.toggleModalElement();
-			addNodeToTree(newNode, parentId);
-			//setTimeout(init, 1000);
-		}, function () {
-			if (drawt && drawt.isDebug) {
-				console.log('failed adding new picture..');
-			}
-			modalOpener.toggleModalElement();
-		});
+	var newNode = {
+		"node_id": null,
+		"user_id": 2, //TODO: get real user id
+		"state": "done",
+		"parent_node_id": parentId,
+		"drawing": dataURL,
+		"is_finished": false,
+		"children": []
+	};
+	addNodeToTree(newNode, parentId);
+	$('#loaderContainer').fadeOut();
+	modalOpener.toggleModalElement();
 }
 
 
