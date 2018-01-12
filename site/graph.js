@@ -20,6 +20,14 @@ function update() {
 	//.distance(100)
 		.start();
 
+	updateLinks(linksArray);
+	updateNodes(nodesArray);
+	setFinishedNodesClickAction();
+	setUnfinishedNodesColor();
+
+}
+
+function updateLinks(linksArray) {
 	// Update the links…
 	links = links.data(linksArray, function (d) {
 		return d.target.id;
@@ -43,8 +51,10 @@ function update() {
 		.attr("y2", function (d) {
 			return d.target.y;
 		});
+}
 
-	// Update the nodes…
+function updateNodes(nodesArray) {
+// Update the nodes…
 	nodes = nodes.data(nodesArray, function (d) {
 		return d.id;
 	});//.style("fill", color);
@@ -68,33 +78,28 @@ function update() {
 			return "url(#" + d.node_id + ")";
 		})
 		.call(drag)
+}
 
-	// Set click events
+
+function setFinishedNodesClickAction() {
 	d3.selectAll("circle")
 		.filter(function (d, i) {
-			return !d.is_finished;
+			return d.is_finished;
 		})
 		.on("click", handleMouseClick)
 		.on("mouseenter", handleMouseEnter)
 		.on("mouseout", handleMouseOut);
+}
 
-	// Set unclickable fill color
+//TODO: finish this function
+function setUnfinishedNodesColor() {
 	d3.selectAll("circle")
 		.filter(function (d, i) {
-			return d.is_finished;
-		}).append("circle")
-		.attr("class", "node")
-		.attr("cx", function (d) {
-			return d.x;
+			return !d.is_finished;
 		})
-		.attr("cy", function (d) {
-			return d.y;
-		})
-		.attr("r", function (d) {
-			return Math.sqrt(getSize(d) * 50);
-		})
-		.style("fill", "#000")
-		.style("fill-opacity", 0.6)
+	// PROBLEM: THIS OVERRIDES BG IMAGE..
+	//.style("fill", "#000")
+	//.style("fill-opacity", 0.6)
 }
 
 function getSize(d) {
