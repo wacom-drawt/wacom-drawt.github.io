@@ -291,8 +291,9 @@ function addNodeToTree(node, parentId) {
 		if (currNode.node_id == parentId) {
 			currNode.children.push(node);
 			return true;
+		} else if(!currNode.children.length){
+			return false;
 		}
-
 		currNode.children.forEach(function (childNode) {
 			if (addNodeToParentRec(childNode)) {
 				return true;
