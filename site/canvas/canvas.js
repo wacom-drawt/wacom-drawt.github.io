@@ -233,14 +233,14 @@ function saveDrawingToPng() {
 
 	var api = api || new ApiService();
 	var dataURL = WILL.getImage();
-	var parentId = window.newNodesParent.node_id;
+	var parentId = window.newNodesParent.node_id; //TODO: save global vars somewhere else!!!! godammit
 	$('#editor').fadeOut();
 	$('#loaderContainer').fadeIn();
 
 	var newNode = {
 		"node_id": null,
 		"user_id": 2, //TODO: get real user id
-		"state": "done",
+		"state": "done", //TODO: what is the difference between state and is_finished?
 		"parent_node_id": parentId,
 		"drawing": dataURL,
 		"is_finished": false,

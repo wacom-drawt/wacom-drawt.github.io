@@ -287,6 +287,8 @@ function centralizeRoot(d) {
 }
 
 function addNodeToTree(node, parentId) {
+
+	// Recursively find parent and update //TODO: keep reference to parent instead!
 	function addNodeToParentRec(currNode) {
 		if (currNode.node_id == parentId) {
 			currNode.children.push(node);
@@ -304,13 +306,17 @@ function addNodeToTree(node, parentId) {
 
 	addNodeToParentRec(getRoot());
 	saveImagesAsPatternsInCanvas(svg, getRoot());
+	update();
 
 	api.submitDrawing(parentId, node.drawing,
+		//on success
 		function (newNodeId) {
 			node.node_id = newNodeId;
 			node.is_finished = true;
 			update();
-		}, function () {
+		},
+		//on failure
+		function () {
 			if (drawt && drawt.isDebug) {
 				console.log('failed adding new picture..');
 			}
