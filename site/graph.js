@@ -97,7 +97,7 @@ function tick() {
 			return d.target.y;
 		});
 
-	node.attr("cx", function (d) {
+	nodes.attr("cx", function (d) {
 		return d.x;
 	})
 		.attr("cy", function (d) {
