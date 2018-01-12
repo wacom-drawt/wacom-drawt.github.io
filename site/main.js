@@ -57,7 +57,8 @@ svg.append("rect")
 	.attr("fill", bgColor);
 
 var link = svg.selectAll(".link"),
-	node = svg.selectAll(".node");
+	node = svg.selectAll(".node"),
+	test = svg.selectAll(".node");
 
 function init() {
 
