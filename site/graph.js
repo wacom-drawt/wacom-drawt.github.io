@@ -1,6 +1,6 @@
 // Use this function when addressing tree, we might move the tree someplace else
 // and we'll change it via this function.
-function getRoot(){
+function getRoot() {
 	return window.root; //TODO: we shouldn't save the tree on global scope..
 }
 
@@ -68,19 +68,21 @@ function update() {
 			return "url(#" + d.node_id + ")";
 		})
 		.call(drag)
-		.call(function (node) {
-			if (node.is_finished) {
-				console.log('FINISHED NODE: ');
-				console.log(node);
-				node
-					.on("click", handleMouseClick)
-					.on("mouseenter", handleMouseEnter)
-					.on("mouseout", handleMouseOut)
-			} else {
-				console.log('UNFINISHED NODE: ');
-				console.log(node);
-				node.style("fill", color);
-			}
+		.call(function (nodes) {
+			nodes.forEach(function (node) {
+				if (node.is_finished) {
+					console.log('FINISHED NODE: ');
+					console.log(node);
+					node
+						.on("click", handleMouseClick)
+						.on("mouseenter", handleMouseEnter)
+						.on("mouseout", handleMouseOut)
+				} else {
+					console.log('UNFINISHED NODE: ');
+					console.log(node);
+					node.style("fill", color);
+				}
+			});
 		});
 
 }
@@ -178,20 +180,24 @@ function handleMouseEnter(d, i) {
 	var drawing = {};
 	drawing["hovered_drawing_" + d.node_id] = d.drawing;
 	console.log(drawing);
-    if (isZoomedAfterClick) { return;}
-    d3.select(this).transition()
-        .ease("elastic")
-        .duration("500")
-        .attr("r", Math.sqrt(getSize(d)*50)*2);
+	if (isZoomedAfterClick) {
+		return;
+	}
+	d3.select(this).transition()
+		.ease("elastic")
+		.duration("500")
+		.attr("r", Math.sqrt(getSize(d) * 50) * 2);
 }
 
 function handleMouseOut(d, i) {
-    if (isZoomedAfterClick) { return;}
-    d3.select(this).transition()
-        .ease("quad")
-        .delay("100")
-        .duration("200")
-        .attr("r", Math.sqrt(getSize(d)*50));
+	if (isZoomedAfterClick) {
+		return;
+	}
+	d3.select(this).transition()
+		.ease("quad")
+		.delay("100")
+		.duration("200")
+		.attr("r", Math.sqrt(getSize(d) * 50));
 }
 
 // Returns a list of all nodes under the root.
@@ -212,32 +218,35 @@ var scaleZoom = 100;
 
 function transition(svg, nodeToFocus) {
 
-    if (isZoomedAfterClick) {scaleZoom = 400};
+	if (isZoomedAfterClick) {
+		scaleZoom = 400
+	}
+	;
 
-    isZoomedAfterClick = true;
+	isZoomedAfterClick = true;
 
-    var svgW = $('svg').width();
-    var svgH = $('svg').height();
+	var svgW = $('svg').width();
+	var svgH = $('svg').height();
 
-    start = [svgW / 2, svgH / 2, 100];
-    end = [nodeToFocus.x, nodeToFocus.y, scaleZoom];
+	start = [svgW / 2, svgH / 2, 100];
+	end = [nodeToFocus.x, nodeToFocus.y, scaleZoom];
 
 
-    // change is zoomed to false
-    // make original node smalled with end
+	// change is zoomed to false
+	// make original node smalled with end
 
-    var i = d3.interpolateZoom(start, end);
-    svg
-        .attr("transform", transform(start))
-        .transition()
-        .delay(250)
-        .duration(i.duration * 2)
-        .attrTween("transform", function () {
-            return function (t) {
-                return transform(i(t));
-            };
-        });
-    ;
+	var i = d3.interpolateZoom(start, end);
+	svg
+		.attr("transform", transform(start))
+		.transition()
+		.delay(250)
+		.duration(i.duration * 2)
+		.attrTween("transform", function () {
+			return function (t) {
+				return transform(i(t));
+			};
+		});
+	;
 
 	function transform(p) {
 		var zoom = p[2];
@@ -250,18 +259,18 @@ function transition(svg, nodeToFocus) {
 		return "translate(" + translateX + "," + translateY + ")scale(" + k + ")";
 	}
 
-    // show button
+	// show button
 
-    // give center position: nodeToFocus.x, nodeToFocus.y
+	// give center position: nodeToFocus.x, nodeToFocus.y
 
-    isZoomedAfterClick = false;
+	isZoomedAfterClick = false;
 
 }
 
 //TODO: decide whether we want to use ths or not. (currently not being used)
 function centralizeRoot(d) {
 
-    d3.select('svg').call(transition, d);
+	d3.select('svg').call(transition, d);
 
 
 }
