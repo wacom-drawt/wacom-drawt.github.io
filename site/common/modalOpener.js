@@ -1,4 +1,4 @@
-ModalOpener = function(){
+ModalOpener = function () {
 	this.MODAL_OPENER_ID = "#modalOpener";
 	this.types = {
 		EDITOR: 1,
@@ -6,15 +6,18 @@ ModalOpener = function(){
 	this.openModal = function (settings) {
 		$('#loaderContainer').fadeOut();
 		$('#editor').fadeIn();
-		var $opener = $("#modalOpener");
-		$opener.click();
-		var size = Math.min(window.innerWidth, window.innerHeight)*0.9;
+		this.toggleModalElement()
+		var size = Math.min(window.innerWidth, window.innerHeight) * 0.9;
 		WILL.init(size, size, settings.node.drawing);
 		window.newNodesParent = settings.node;
-		console.log("will initiated");
-		console.log('opening editor modal');
+		if (drawt && drawt.isDebug) {
+			console.log("will initiated");
+			console.log('opening editor modal');
+		}
 	}
 
-	
-
+	this.toggleModalElement = function () {
+		var $opener = $("#modalOpener");
+		$opener.click();
+	}
 }

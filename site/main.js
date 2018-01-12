@@ -1,3 +1,4 @@
+// Global Objects
 var api = new ApiService();
 var modalOpener = new ModalOpener();
 var drawt = new Drawt();
@@ -12,24 +13,29 @@ function Drawt(){
 	this.isDebug = !!d;
 }
 
+//TODO: move all global graph related vars to "graphSettings" global object, maybe inside "drawt"
 var width = window.innerWidth,
 	height = window.innerHeight,
 	bgColor = "#3f3f3f",
 	centered,
 	root;
 
+//TODO: move all global graph related vars to "graphSettings" global object, maybe inside "drawt"
 var force = d3.layout.force()
 	.size([width, height])
 	.on("tick", tick);
 
+//TODO: move all global graph related vars to "graphSettings" global object, maybe inside "drawt"
 var active = d3.select(null);
 
+//TODO: move all global graph related vars to "graphSettings" global object, maybe inside "drawt"
 var svg = d3.select("body").append("svg")
 	.attr("width", width)
 	.attr("height", height)
 	.call(d3.behavior.zoom().on("zoom", zoomed))
 	.append("g")
 
+//TODO: move all global graph related vars to "graphSettings" global object, maybe inside "drawt"
 var drag = d3.behavior.drag()
 	.origin(function (d) {
 		return d;
@@ -67,6 +73,7 @@ svg.append("rect")
 	.attr("height", height)
 	.attr("fill", bgColor);
 
+//TODO: move all global graph related vars to "graphSettings" global object, maybe inside "drawt"
 var links = svg.selectAll(".link"),
 	nodes = svg.selectAll(".node");
 

@@ -29,18 +29,14 @@ WILL = {
 			this.pressurePathBuilder.setNormalizationConfig(0.195, 0.88);
 			this.pressurePathBuilder.setPropertyConfig(Module.PropertyName.Width, 2.05, 34.53, 0.72, NaN, Module.PropertyFunction.Power, 1.19, false);
 		}
-		
+
 		this.color = Module.Color.BLACK;
 		this.strokeRenderer = new Module.StrokeRenderer(this.canvas, this.canvas);
 		this.strokeRenderer.configure({brush: this.brush, color: this.color});
 	},
 
 	initImageLayer: function () {
-		console.log('setting canvas bg image');
 		var url = this.oldImage;
-		// var url = location.toString();
-		// url = url.substring(0, url.lastIndexOf("/")) + "/image.jpg";
-
 		this.imageLayer = this.canvas.createLayer({width: this.canvas.width, height: this.canvas.height});
 
 		Module.GLTools.prepareTexture(
@@ -155,17 +151,17 @@ WILL = {
 
 
 		if (this.inputPhase == Module.InputPhase.Begin)
-            this.smoothener.reset();
+			this.smoothener.reset();
 
-        var pathBuilderValue = isNaN(this.pressure) ? Date.now() / 1000 : this.pressure;
+		var pathBuilderValue = isNaN(this.pressure) ? Date.now() / 1000 : this.pressure;
 
-        var pathPart = this.pathBuilder.addPoint(this.inputPhase, pos, pathBuilderValue);
-        var smoothedPathPart = this.smoothener.smooth(pathPart, this.inputPhase == Module.InputPhase.End);
-        var pathContext = this.pathBuilder.addPathPart(smoothedPathPart);
+		var pathPart = this.pathBuilder.addPoint(this.inputPhase, pos, pathBuilderValue);
+		var smoothedPathPart = this.smoothener.smooth(pathPart, this.inputPhase == Module.InputPhase.End);
+		var pathContext = this.pathBuilder.addPathPart(smoothedPathPart);
 
-        this.pathPart = pathContext.getPathPart();
-        this.path = pathContext.getPath();
-		
+		this.pathPart = pathContext.getPathPart();
+		this.path = pathContext.getPath();
+
 	},
 
 	drawPath: function () {
@@ -243,46 +239,24 @@ function saveDrawingToPng() {
 
 	api.submitDrawing(parentId, dataURL,
 		function (newNodeId) {
-		$('#loaderContainer').fadeOut();
-		var newNode = {
-			"node_id": newNodeId,
-			"user_id": 2, //TODO: get real user id
-			"state": "done",
-			"parent_node_id": parentId,
-			"drawing": dataURL,
-			"is_finished": true,
-			"children": []
-		};
-		//TODO: separate toggle modal to it's own function (and not click)
-		var $opener = $("#modalOpener");
-		$opener.click();
-		setTimeout(init, 1000);
-	}, function () {
-		console.log('failed adding new picture..');
-		var $opener = $("#modalOpener");
-		$opener.click();
-	});
-
-	//
-	// var canvas = document.getElementById("canvas");
-	// var img = canvas.toDataURL("image/png");
-
-	// console.log(dataURL);
-	// $.ajax({
-	//    type: "POST",
-	//    url: "https://drawtwacom.herokuapp.com/submit",
-	//    data: {
-	//     drawing: dataURL,
-	//     //drawing: "dataURL",
-	//     node_id: "0"
-	//    }
-	// }).done(function(o) {
-	// console.log('saved');
-	// // If you want the file to be visible in the browser
-	// // - please modify the callback in javascript. All you
-	// // need is to return the url to the file, you just saved
-	// // and than put the image in your browser.
-	// });
+			$('#loaderContainer').fadeOut();
+			var newNode = {
+				"node_id": newNodeId,
+				"user_id": 2, //TODO: get real user id
+				"state": "done",
+				"parent_node_id": parentId,
+				"drawing": dataURL,
+				"is_finished": true,
+				"children": []
+			};
+			modalOpener.toggleModalElement();
+			setTimeout(init, 1000);
+		}, function () {
+			if (drawt && drawt.isDebug) {
+				console.log('failed adding new picture..');
+			}
+			modalOpener.toggleModalElement();
+		});
 }
 
 

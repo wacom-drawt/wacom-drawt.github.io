@@ -274,19 +274,13 @@ function transition(svg, nodeToFocus) {
 
 		return "translate(" + translateX + "," + translateY + ")scale(" + k + ")";
 	}
-
-	// show button
-
-	// give center position: nodeToFocus.x, nodeToFocus.y
-
+	// TODO: raaz left this comment: show button
+	// TODO: raaz left this comment: give center position: nodeToFocus.x, nodeToFocus.y
 	isZoomedAfterClick = false;
 
 }
 
 //TODO: decide whether we want to use ths or not. (currently not being used)
 function centralizeRoot(d) {
-
 	d3.select('svg').call(transition, d);
-
-
 }
