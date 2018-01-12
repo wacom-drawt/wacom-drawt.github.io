@@ -300,5 +300,10 @@ function addNodeToTree(node, parentId){
 		return false;
 	}
 	addNodeToParentRec(getRoot());
+	if(drawt && drawt.isDebug){
+		console.log('Root after adding offline node: ');
+		console.log(getRoot());
+	}
 	update();
+	saveImagesAsPatternsInCanvas(svg, getRoot());
 }
