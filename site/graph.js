@@ -69,6 +69,7 @@ function update() {
 		})
 		.call(drag)
 		.call(function (nodes) {
+			console.log(nodes);
 			nodes.forEach(function (node) {
 				if (node.is_finished) {
 					console.log('FINISHED NODE: ');
