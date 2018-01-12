@@ -72,7 +72,7 @@ function update() {
 	// Set click events
 	d3.selectAll("circle")
 		.filter(function (d, i) {
-			return d.is_finished;
+			return !d.is_finished;
 		})
 		.on("click", handleMouseClick)
 		.on("mouseenter", handleMouseEnter)
@@ -81,7 +81,7 @@ function update() {
 	// Set unclickable fill color
 	d3.selectAll("circle")
 		.filter(function (d, i) {
-			return !d.is_finished;
+			return d.is_finished;
 		})
 		.style("fill", "#000")
 		.style("fill-opacity", 0.6)
