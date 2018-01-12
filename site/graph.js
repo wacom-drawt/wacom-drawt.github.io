@@ -306,8 +306,9 @@ function addNodeToTree(node, parentId) {
 
 	api.submitDrawing(parentId, dataURL,
 		function (newNodeId) {
-			update();
 			node.node_id = newNodeId;
+			node.is_finished = true;
+			update();
 		}, function () {
 			if (drawt && drawt.isDebug) {
 				console.log('failed adding new picture..');
