@@ -61,27 +61,36 @@
 
 		#editor button {
 			background-color: #3f3f3f;
-			border: none;
-			color: white;
-			padding: 20px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			margin: 4px 2px;
-			border-radius: 30px;
-			position: absolute;
-			left: 10px;
-			top: 280px;
+		    border: none;
+		    color: white;
+		    text-align: center;
+		    text-decoration: none;
+		    position: absolute;
+		    border-radius: 5px;
+		    height: 35px;
+		    width: 35px;
+		}
+
+		#editor button:hover {
+			background-color: #00aeff;
 		}
 
 		#editor .saveButton {
-			position: absolute;
-			left: -10px;
-			top: -10px;
-			border-radius: 0;
-			font-size: 10px;
+			left: 5px;
+			top: 5px;
+			padding-bottom: 5px;
 		}
+
+		#editor .brushButton {
+		    right: 5px;
+		    top: 5px;
+		}
+
+		#editor .eraserButton {
+		    right: 44px;
+		    top: 5px;
+		}
+		
 
 		.modal-content {
 			height: 90vh;
@@ -127,14 +136,13 @@
 		}*/
 
 		.spinner {
-			margin: 100px auto;
-			width: 50px;
-			height: 40px;
-			text-align: center;
-			font-size: 10px;
 			position: absolute;
-			z-index: 99999;
-			margin-left: 25%;
+		    top: 45%;
+		    left: 45%;
+		    width: 50px;
+		    height: 40px;
+		    font-size: 10px;
+		    z-index: 99999;
 		}
 
 		.spinner > div {
@@ -191,7 +199,6 @@
 			background: white;
 			width: 100%;
 			height: 100%;
-			position: absolute;
 			z-index: 99;
 		}
 
@@ -261,8 +268,15 @@
 			</div>
 			<div id="editor">
 				<canvas id="canvas" oncontextmenu="WILL.clear(); event.preventDefault();"></canvas>
-				<button id="brush_button" onclick="changeDrawColor()"></button>
-				<button class="saveButton" id="saveButton" onclick="saveDrawingToPng()">submit</button>
+				<button class="brushButton" id="brush_button" onclick="useBrush()">
+					<img src="imgs/brush.svg"></img>
+				</button>
+				<button class="eraserButton" id="eraserButton" onclick="useEraser()">
+					<img src="imgs/eraser.svg"></img>
+				</button>
+				<button class="saveButton" id="saveButton" onclick="saveDrawingToPng()">
+					<img src="imgs/save.svg"></img>
+				</button>
 			</div>
 		</div>
 	</div>

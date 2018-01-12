@@ -29,7 +29,8 @@ WILL = {
 			this.pressurePathBuilder.setNormalizationConfig(0.195, 0.88);
 			this.pressurePathBuilder.setPropertyConfig(Module.PropertyName.Width, 2.05, 34.53, 0.72, NaN, Module.PropertyFunction.Power, 1.19, false);
 		}
-
+		
+		this.color = Module.Color.BLACK;
 		this.strokeRenderer = new Module.StrokeRenderer(this.canvas, this.canvas);
 		this.strokeRenderer.configure({brush: this.brush, color: this.color});
 	},
@@ -176,13 +177,8 @@ WILL = {
 		// this.canvas.clear(this.backgroundColor);
 	},
 
-	changeColor: function () {
-		if (this.color == Module.Color.WHITE) {
-			this.color = Module.Color.BLACK;
-		}
-		else {
-			this.color = Module.Color.WHITE;
-		}
+	changeColor: function (newColor) {
+		this.color = newColor;
 		this.strokeRenderer.configure({brush: this.brush, color: this.color});
 	},
 
@@ -229,17 +225,12 @@ Module.addPostScript(function () {
 });
 
 
-function changeDrawColor() {
-	// var property = document.getElementById(button);
-	//     if (count == 0) {
-	//         property.style.backgroundColor = "#3f3f3f"
-	//         count = 1;
-	//     }
-	//     else {
-	//         property.style.backgroundColor = "#ffffff"
-	//         count = 0;
-	//     }
-	WILL.changeColor();
+function useBrush() {
+	WILL.changeColor(Module.Color.BLACK);
+}
+
+function useEraser() {
+	WILL.changeColor(Module.Color.WHITE);
 }
 
 function saveDrawingToPng() {
