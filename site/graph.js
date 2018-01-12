@@ -6,13 +6,13 @@ function getRoot(){
 
 function update() {
 
-	var nodes = flatten(getRoot()),
-		links = d3.layout.tree().links(nodes);
+	var nodesArray = flatten(getRoot()),
+		linksArray = d3.layout.tree().links(nodesArray);
 
 	// Restart the force layout.
 	force
-		.nodes(nodes)
-		.links(links)
+		.nodes(nodesArray)
+		.links(linksArray)
 	force.linkDistance(function (link) {
 		var factor = isMock ? 7 : 10;
 		return (link.source.weight + link.target.weight) * factor;
@@ -21,15 +21,15 @@ function update() {
 		.start();
 
 	// Update the links…
-	link = link.data(links, function (d) {
+	links = links.data(linksArray, function (d) {
 		return d.target.id;
 	});
 
 	// Exit any old links.
-	link.exit().remove();
+	links.exit().remove();
 
 	// Enter any new links.
-	link.enter().insert("line", ".node")
+	links.enter().insert("line", ".node")
 		.attr("class", "link")
 		.attr("x1", function (d) {
 			return d.source.x;
@@ -45,17 +45,15 @@ function update() {
 		});
 
 	// Update the nodes…
-	console.log(">>>>>>>>>>>>> node: <<<<<<<<<<<<<<<");
-	console.log(node);
-	node = node.data(nodes, function (d) {
+	nodes = nodes.data(nodesArray, function (d) {
 		return d.id;
 	});//.style("fill", color);
 	
 	// Exit any old nodes.
-	node.exit().remove();
+	nodes.exit().remove();
 
 	// Enter any new nodes.
-	node.enter().append("circle")
+	nodes.enter().append("circle")
 		.attr("class", "node")
 		.attr("cx", function (d) {
 			return d.x;
@@ -86,7 +84,7 @@ function getSize(d) {
 }
 
 function tick() {
-	link.attr("x1", function (d) {
+	links.attr("x1", function (d) {
 		return d.source.x;
 	})
 		.attr("y1", function (d) {

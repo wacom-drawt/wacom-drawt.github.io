@@ -29,8 +29,8 @@ var drag = d3.behavior.drag()
 
 function zoomed() {
 	svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-	link.style("stroke-width", 1 + (d3.event.scale * 0.000000001))
-	node.style("stroke-width", 1 + (d3.event.scale * 0.000000001));
+	links.style("stroke-width", 1 + (d3.event.scale * 0.000000001))
+	nodes.style("stroke-width", 1 + (d3.event.scale * 0.000000001));
 }
 
 function dragstarted(d) {
@@ -56,9 +56,8 @@ svg.append("rect")
 	.attr("height", height)
 	.attr("fill", bgColor);
 
-var link = svg.selectAll(".link"),
-	node = svg.selectAll(".node"),
-	test = svg.selectAll(".node");
+var links = svg.selectAll(".link"),
+	nodes = svg.selectAll(".node");
 
 function init() {
 
