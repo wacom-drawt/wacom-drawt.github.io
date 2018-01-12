@@ -52,6 +52,9 @@ function update() {
 	// Exit any old nodes.
 	nodes.exit().remove();
 
+	console.log(">>>>>>>>>>>>> nodes <<<<<<<<<<<<<<<");
+	console.log(nodes);
+	
 	// Enter any new nodes.
 	nodes.enter().append("circle")
 		.attr("class", "node")
@@ -66,21 +69,16 @@ function update() {
 		})
 		.attr("fill", function (d) {
 			return "url(#" + d.node_id + ")";
-		}).each(function (node) {
-
-		node
-			.on("click", handleMouseClick)
-			.on("mouseenter", handleMouseEnter)
-			.on("mouseout", handleMouseOut)
-
-	});
+		})
+		.call(drag)
+		.filter(function(d, i){
+			return d.is_finished;
+		})
+		.on("click", handleMouseClick)
+		.on("mouseenter", handleMouseEnter)
+		.on("mouseout", handleMouseOut);
 	// .style("fill", color)
-	// .on("click", handleMouseClick)
-	// .on("mouseenter", handleMouseEnter)
-	// .on("mouseout", handleMouseOut)
-	// .call(drag);
 
-	//.attribute ("[is_finished=true]", function(n){
 }
 
 function getSize(d) {
