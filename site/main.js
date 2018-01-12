@@ -1,5 +1,16 @@
 var api = new ApiService();
 var modalOpener = new ModalOpener();
+var drawt = new Drawt();
+
+function Drawt(){
+	// Check if sample
+	var url_string = window.location.href
+	var url = new URL(url_string);
+	var s = url.searchParams.get("sample");
+	var d = url.searchParams.get("debug");
+	this.isMock = !!s;
+	this.isDebug = !!d;
+}
 
 var width = window.innerWidth,
 	height = window.innerHeight,
@@ -60,13 +71,6 @@ var links = svg.selectAll(".link"),
 	nodes = svg.selectAll(".node");
 
 function init() {
-
-	// Check if sample
-	var url_string = window.location.href
-	var url = new URL(url_string);
-	var c = url.searchParams.get("sample");
-	isMock = !!c;
-	
 	api.getTree(
 		//on success
 		function (resp) {
@@ -76,10 +80,11 @@ function init() {
 		},
 		//on failure
 		function (resp) {
-			console.log('Request for tree failed :(');
-			console.log(resp);
-		}, isMock);
+			 if (drawt && drawt.isDebug) {
+				 console.log('Request for tree failed :(');
+				 console.log(resp);
+			 }
+		}, drawt.isMock);
 }
-
 
 init();

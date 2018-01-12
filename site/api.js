@@ -15,7 +15,9 @@ function ApiService() {
 			onSuccess(tree);
 		};
 		xhr.onerror = function () {
-			console.log('Problem getting graph from server');
+			 if (drawt && drawt.isDebug) {
+				 console.log('Problem getting graph from server');
+			 }
 		};
 		xhr.send();
 	};
