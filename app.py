@@ -1,4 +1,5 @@
 import json
+import os
 import time
 import pickle
 import urllib
@@ -119,12 +120,20 @@ def send(path):
 
 
 
-
+"""
 G = Graph()
 #GRAPH_LOCKED = False
 node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
 node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
                    is_finished=True)
+node3 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
+                   is_finished=True)
+print("the current directory is: %s" % os.path.realpath('.'))
+pickle.dump(G, file('./initial_graph.pkl','wb'))
+"""
+print("this file is here: %s" % __file__)
+print("the current directory is: %s" % os.path.realpath('.'))
+G = pickle.load(file('./initial_graph.pkl','rb'))
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
