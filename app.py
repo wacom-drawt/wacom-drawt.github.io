@@ -2,6 +2,7 @@ import json
 import os
 import time
 import pickle
+from shutil import copyfile
 import urllib
 from flask import Flask, render_template, request, make_response, send_from_directory
 from flask_cors import CORS, cross_origin
@@ -24,9 +25,9 @@ def load_graph():
 
 
 def save_graph(G):
-    print("started saving graph at time:", time.time())
+    print("started saving graph at time:", time.ctime())
     pickle.dump(G, open("current_graph.pkl", "wb"))
-    print("saved graph at time:", time.time())
+    print("saved graph at time:", time.ctime())
     print(G.export_to_dict(full_photo=False))
 
 
@@ -125,6 +126,12 @@ def submit_node():
     print(G.export_to_dict(full_photo=False))
 
     return node_id
+
+
+@app.route('/reset_graph', methods=['GET'])
+def reset_graph():
+    print ("in reset_graph")
+    copyfile("initial_graph.pkl", "current_graph.pkl")
 
 @app.route('/<path:path>')
 def send(path):
