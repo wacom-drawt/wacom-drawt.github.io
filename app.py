@@ -38,10 +38,10 @@ def get_graph():
     else: # no center specified - center around the root
         main_node_id = '0'
 
+    G = load_graph()
+
     if main_node_id not in G.nodes: # node specified non-existent
         main_node_id = '0'
-
-    G = load_graph()
 
     print(G.nodes.keys())
     print("printing in get_graph for debug")
