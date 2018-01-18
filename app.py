@@ -34,6 +34,8 @@ def save_graph(G):
 @app.route('/get_graph', methods=['GET'])
 def get_graph():
     print ("in get_graph")
+    time.sleep(0.5)
+
     if 'node_id' in request.args:
         main_node_id = request.args.get('node_id')
     else: # no center specified - center around the root
