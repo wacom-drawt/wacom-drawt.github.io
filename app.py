@@ -17,17 +17,17 @@ CORS(app)
 
 
 def load_graph():
-    print("started loading graph from file at time:", time.ctime())
+    print("started loading graph from file at time:", time.ctime(), "to be exact:", time.time())
     G = pickle.load(open("current_graph.pkl","rb"))
-    print("loaded graph from file at time:", time.ctime())
+    print("loaded graph from file at time:", time.ctime(), "to be exact:", time.time())
     print(G.export_to_dict(full_photo=False))
     return G
 
 
 def save_graph(G):
-    print("started saving graph at time:", time.ctime())
+    print("started saving graph at time:", time.ctime(), "to be exact:", time.time())
     pickle.dump(G, open("current_graph.pkl", "wb"))
-    print("saved graph at time:", time.ctime())
+    print("saved graph at time:", time.ctime(), "to be exact:", time.time())
     print(G.export_to_dict(full_photo=False))
 
 
