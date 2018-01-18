@@ -146,6 +146,7 @@ pickle.dump(G, file('./initial_graph.pkl','wb'))
 print("this file is here: %s" % __file__)
 print("the current directory is: %s" % os.path.realpath('.'))
 #G = pickle.load(open('./current_graph.pkl','rb'))
+#this is just a comment for redeployment on Heroku
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
