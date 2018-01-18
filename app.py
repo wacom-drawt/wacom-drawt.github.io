@@ -133,7 +133,7 @@ pickle.dump(G, file('./initial_graph.pkl','wb'))
 """
 print("this file is here: %s" % __file__)
 print("the current directory is: %s" % os.path.realpath('.'))
-G = pickle.load(file('./initial_graph.pkl','rb'))
+G = pickle.load(open('./initial_graph.pkl','rb'))
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
