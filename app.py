@@ -15,12 +15,23 @@ app = Flask(__name__)
 CORS(app)
 
 
+def load_graph():
+    print("started loading graph from file at time:", time.ctime())
+    G = pickle.load(open("current_graph.pkl","rb"))
+    print("loaded graph from file at time:", time.ctime())
+    print(G.export_to_dict(full_photo=False))
+    return G
+
+
+def save_graph(G):
+    print("started saving graph at time:", time.time())
+    pickle.dump(G, open("current_graph.pkl", "wb"))
+    print("saved graph at time:", time.time())
+    print(G.export_to_dict(full_photo=False))
+
+
 @app.route('/get_graph', methods=['GET'])
 def get_graph():
-    global G, GRAPH_LOCKED
-    #while GRAPH_LOCKED:
-    #    time.sleep(1)
-    #GRAPH_LOCKED = True
     print ("in get_graph")
     if 'node_id' in request.args:
         main_node_id = request.args.get('node_id')
@@ -30,12 +41,13 @@ def get_graph():
     if main_node_id not in G.nodes: # node specified non-existent
         main_node_id = '0'
 
+    G = load_graph()
+
     print(G.nodes.keys())
-    print("printing graph state")
+    print("printing in get_graph for debug")
     print(G.export_to_dict(full_photo=False))
 
     resp = make_response(json.dumps({'node': main_node_id, 'graph': G.export_to_dict()}))
-    #GRAPH_LOCKED = False
     return resp
 
 
@@ -80,44 +92,43 @@ def branch_from_node():
 
 @app.route('/submit', methods=['POST', "OPTIONS"])
 def submit_node():
-    global G, GRAPH_LOCKED
     if request.method == "OPTIONS":
         resp = make_response()
         resp.headers['Access-Control-Allow-Credentials'] = "true"
         return resp
 
-    print ("in submit_node")
     #print("printing data I got from POST request")
     #print(dir(request))
     #print(request.form)
+
+    print ("in submit_node")
+
     if 'drawing' not in request.form:
         return "submit: missing drawing"
-
     if 'parent_node_id' not in request.form:
         return "submit: missing node_id"
 
-    #while GRAPH_LOCKED:
-    #    time.sleep(1)
-    #GRAPH_LOCKED = True
     parent_node_id = request.form.get('parent_node_id')
     print("parent_node_id I got from client: %s" % parent_node_id)
+
+    G = load_graph()
     new_node = G.add_node(user_id="0000", drawing=request.form.get('drawing'), \
                           parent_node_id=parent_node_id, is_finished=True)
+    save_graph(G)
 
     node_id = new_node.node_id
+    print("printing in submit for debug")
     print("new node_id: %s" % node_id)
     print(G.nodes.keys())
     print(node_id in G.nodes)
     print("printing graph state")
     print(G.export_to_dict(full_photo=False))
 
-    #GRAPH_LOCKED = False
     return node_id
 
 @app.route('/<path:path>')
 def send(path):
     return send_from_directory('site', path)
-
 
 
 """
@@ -131,9 +142,10 @@ node3 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node
 print("the current directory is: %s" % os.path.realpath('.'))
 pickle.dump(G, file('./initial_graph.pkl','wb'))
 """
+
 print("this file is here: %s" % __file__)
 print("the current directory is: %s" % os.path.realpath('.'))
-G = pickle.load(open('./initial_graph.pkl','rb'))
+#G = pickle.load(open('./current_graph.pkl','rb'))
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
