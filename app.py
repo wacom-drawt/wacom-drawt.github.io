@@ -132,6 +132,7 @@ def submit_node():
 def reset_graph():
     print ("in reset_graph")
     copyfile("initial_graph.pkl", "current_graph.pkl")
+    return "graph reset was successful!"
 
 @app.route('/<path:path>')
 def send(path):
