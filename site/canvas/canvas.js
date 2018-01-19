@@ -245,7 +245,8 @@ function saveDrawingToPng() {
 		"parent_node_id": parentId,
 		"drawing": dataURL,
 		"is_finished": false,
-		"children": []
+		"children": [],
+		"children_node_ids": []
 	};
 	addNodeToTree(newNode, parentId);
 	$('#loaderContainer').fadeOut();
