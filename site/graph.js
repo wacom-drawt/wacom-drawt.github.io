@@ -296,11 +296,11 @@ function addNodeToTree(node, parentId) {
 		} else if(!currNode.children.length){
 			return false;
 		}
-		currNode.children.forEach(function (childNode) {
-			if (addNodeToParentRec(childNode)) {
+		for (var i = 0; i < currNode.children.length; i++){
+			if (addNodeToParentRec(currNode.children[i])) {
 				return true;
 			}
-		});
+		}
 		return false;
 	}
 
