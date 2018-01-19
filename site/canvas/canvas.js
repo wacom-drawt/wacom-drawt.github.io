@@ -238,7 +238,7 @@ function saveDrawingToPng() {
 	$('#loaderContainer').fadeIn();
 
 	var newNode = {
-		"node_id": null,
+		"node_id": 'child_of_'+parentId,
 		"user_id": 2, //TODO: get real user id
 		"state": "done", //TODO: what is the difference between state and is_finished?
 		"parent_node_id": parentId,
