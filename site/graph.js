@@ -222,7 +222,7 @@ function flatten(root) {
 
 	function recurse(node) {
 		if (node.children) node.children.forEach(recurse);
-		if (!node.id) node.id = ++i;
+		if (!node.id) node.id = node.node_id;
 		nodes.push(node);
 	}
 
