@@ -99,7 +99,7 @@ function setUnfinishedNodesColor() {
 		.filter(function (d, i) {
 			return !d.is_finished;
 		})
-	// PROBLEM: THIS OVERRIDES BG IMAGE..
+	// PROBLEM: THIS OVERRIDES BG IMAGE (the drawing the user just made)..
 	//.style("fill", "#000")
 	//.style("fill-opacity", 0.6)
 }
