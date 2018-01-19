@@ -180,9 +180,9 @@ function handleMouseClick(d) {
 				type: modalOpener.types.EDITOR,
 				node: d
 			});
-		} else if (drawt && drawt.isDebug) {
-			console.log('didn\'t click node.');
-			console.log(d);
+		} else {
+			drawt.debug('didn\'t click node.');
+			drawt.debug(d);
 		}
 		update();
 	}
@@ -275,13 +275,13 @@ function transition(svg, nodeToFocus) {
 		return "translate(" + translateX + "," + translateY + ")scale(" + k + ")";
 	}
 
-	// TODO: raaz left this comment: show button
-	// TODO: raaz left this comment: give center position: nodeToFocus.x, nodeToFocus.y
+	// TODO: raaz left this comment: "show button"
+	// TODO: raaz left this comment: "give center position: nodeToFocus.x, nodeToFocus.y"
 	isZoomedAfterClick = false;
 
 }
 
-//TODO: decide whether we want to use ths or not. (currently not being used)
+//TODO: decide whether we want to use this or not. (currently not being used)
 function centralizeRoot(d) {
 	d3.select('svg').call(transition, d);
 }
@@ -304,7 +304,12 @@ function addNodeToTree(node, parentId) {
 		return false;
 	}
 
-	addNodeToParentRec(getRoot());
+	var isNodeAdded = addNodeToParentRec(getRoot());
+	if(!isNodeAdded){
+		drawt.debug('Failed adding node to graph!');
+		drawt.debug(node);
+		return;
+	}
 	saveImagesAsPatternsInCanvas(svg, getRoot());
 	update();
 
@@ -317,8 +322,6 @@ function addNodeToTree(node, parentId) {
 		},
 		//on failure
 		function () {
-			if (drawt && drawt.isDebug) {
-				console.log('failed adding new picture..');
-			}
+				drawt.debug('failed adding new picture..');
 		});
 }

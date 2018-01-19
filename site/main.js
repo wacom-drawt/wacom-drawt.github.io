@@ -3,7 +3,7 @@ var api = new ApiService();
 var modalOpener = new ModalOpener();
 var drawt = new Drawt();
 
-function Drawt(){
+function Drawt() {
 	// Check if sample
 	var url_string = window.location.href
 	var url = new URL(url_string);
@@ -11,6 +11,11 @@ function Drawt(){
 	var d = url.searchParams.get("debug");
 	this.isMock = !!s;
 	this.isDebug = !!d;
+	this.debug = function (msg) {
+		if (this.isDebug) {
+			console.log(msg);
+		}
+	}
 }
 
 //TODO: move all global graph related vars to "graphSettings" global object, maybe inside "drawt"
@@ -89,10 +94,9 @@ function init() {
 		},
 		//on failure
 		function (resp) {
-			 if (drawt && drawt.isDebug) {
-				 console.log('Request for tree failed :(');
-				 console.log(resp);
-			 }
+			drawt.debug('Request for tree failed :(');
+			drawt.debug(resp);
+
 		}, drawt.isMock);
 }
 
