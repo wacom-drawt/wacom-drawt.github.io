@@ -310,6 +310,8 @@ function addNodeToTree(node, parentId) {
 		drawt.debug(node);
 		return;
 	}
+
+	flatten(getRoot()); //Imprtant! here to give the node it's d3 id.
 	saveImagesAsPatternsInCanvas(svg, getRoot());
 	update();
 
@@ -317,7 +319,7 @@ function addNodeToTree(node, parentId) {
 		//on success
 		function (newNodeId) {
 			node.node_id = newNodeId;
-			node.id = parseInt(newNodeId);
+			//node.id = parseInt(newNodeId);
 			node.is_finished = true;
 			saveImagesAsPatternsInCanvas(svg, getRoot());
 			update();
