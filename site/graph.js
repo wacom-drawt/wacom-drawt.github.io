@@ -319,7 +319,8 @@ function addNodeToTree(node, parentId) {
 			node.node_id = newNodeId;
 			node.id = newNodeId;
 			node.is_finished = true;
-			//update();
+			saveImagesAsPatternsInCanvas(svg, getRoot());
+			update();
 		},
 		//on failure
 		function () {
