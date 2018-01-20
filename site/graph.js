@@ -143,7 +143,7 @@ function color(d) {
 function saveImagesAsPatternsInCanvas(canvasObj, root) {
 	var data = flatten(root);
 	var svg = canvasObj;
-	var prevDefs = svg.select("defs");
+	var prevDefs = d3.select("svg defs");
 	var defs = prevDefs.empty() ? svg.append("defs") : prevDefs;
 
 	defs
