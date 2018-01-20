@@ -140,20 +140,50 @@ function color(d) {
 }
 
 // Makes sure all nodes drawings are available as patterns
-function saveImagesAsPatternsInCanvas(canvasObj, root) {
-	var data = flatten(root);
-	var svg = canvasObj;
-	var prevDefs = d3.select("svg defs");
-	var defs = prevDefs.empty() ? svg.append("defs") : prevDefs;
+//
+function createThumbnails(canvasObj, root) {
 
-	defs
+	// Defaults
+	root = root || getRoot();
+	var svg = canvasObj || d3.select("svg");
+	var data = flatten(root);
+
+	svg
+		.append("defs")
 		.selectAll("pattern")
 		.data(data)
 		.enter()
 		.append("pattern")
 		// This id will help finding the image later
 		.attr('id', function (d, i) {
-			return "fill_" + d.node_id; //gotta have letter at begining of id
+			return "fill_" + d.node_id; //gotta have letter at beginning of id
+		})
+		// Image will start filling by this offset
+		.attr("viewBox", function (d, i) {
+			return "0 10 100 100";
+		})
+		// This will make the image
+		.attr("patternContentUnits", function (d, i) {
+			return "objectBoundingBox";
+		})
+		// Image size
+		.attr('width', '350%')
+		.attr('height', '350%')
+		.append("image")
+		.attr("xlink:href", function (d) {
+			return d.drawing;
+		})
+		.attr('width', 50)
+		.attr('height', 50);
+}
+
+function addThumbnail(node) {
+	var data = flatten(node);
+	d3.selectAll("defs")
+		.append("pattern")
+		.data(data)
+		.attr('id', function (d, i) {
+			return "fill_" + d.node_id; //gotta have letter at beginning of id
 		})
 		// Image will start filling by this offset
 		.attr("viewBox", function (d, i) {
@@ -313,7 +343,7 @@ function addNodeToTree(node, parentId) {
 		return;
 	}
 
-	saveImagesAsPatternsInCanvas(svg, getRoot());
+	addThumbnail(node);
 	update();
 
 	api.submitDrawing(parentId, node.drawing,
@@ -322,7 +352,7 @@ function addNodeToTree(node, parentId) {
 			node.node_id = newNodeId;
 			node.id = parseInt(newNodeId);
 			node.is_finished = true;
-			saveImagesAsPatternsInCanvas(svg, getRoot());
+			addThumbnail(node);
 			update();
 		},
 		//on failure

@@ -89,7 +89,7 @@ function init() {
 			root = resp;
 			console.log('ROOT AFTER INIT: ');
 			console.log(root);
-			saveImagesAsPatternsInCanvas(svg, root);
+			createThumbnails(svg, root);
 			update();
 		},
 		//on failure
