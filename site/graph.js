@@ -151,6 +151,10 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.data(data)
 		.enter()
 		.append("pattern")
+		// This id will help finding the image later
+		.attr('id', function (d, i) {
+			return d.node_id;
+		})
 		// Image will start filling by this offset
 		.attr("viewBox", function (d, i) {
 			return "0 10 100 100";
@@ -291,10 +295,10 @@ function addNodeToTree(node, parentId) {
 		if (currNode.node_id == parentId) {
 			currNode.children.push(node);
 			return true;
-		} else if(!currNode.children.length){
+		} else if (!currNode.children.length) {
 			return false;
 		}
-		for (var i = 0; i < currNode.children.length; i++){
+		for (var i = 0; i < currNode.children.length; i++) {
 			if (addNodeToParentRec(currNode.children[i])) {
 				return true;
 			}
@@ -303,7 +307,7 @@ function addNodeToTree(node, parentId) {
 	}
 
 	var isNodeAdded = addNodeToParentRec(getRoot());
-	if(!isNodeAdded){
+	if (!isNodeAdded) {
 		drawt.debug('Failed adding node to graph!');
 		drawt.debug(node);
 		return;
@@ -323,6 +327,6 @@ function addNodeToTree(node, parentId) {
 		},
 		//on failure
 		function () {
-				drawt.debug('failed adding new picture..');
+			drawt.debug('failed adding new picture..');
 		});
 }
