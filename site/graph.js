@@ -151,10 +151,6 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.data(data)
 		.enter()
 		.append("pattern")
-		// This id will help finding the image later
-		.attr('id', function (d, i) {
-			return d.node_id;
-		})
 		// Image will start filling by this offset
 		.attr("viewBox", function (d, i) {
 			return "0 10 100 100";
@@ -320,7 +316,7 @@ function addNodeToTree(node, parentId) {
 		//on success
 		function (newNodeId) {
 			node.node_id = newNodeId;
-			//node.id = parseInt(newNodeId);
+			node.id = parseInt(newNodeId);
 			node.is_finished = true;
 			saveImagesAsPatternsInCanvas(svg, getRoot());
 			update();
