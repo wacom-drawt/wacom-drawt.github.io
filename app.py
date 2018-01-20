@@ -7,7 +7,7 @@ import urllib
 from flask import Flask, render_template, request, make_response, send_from_directory
 from flask_cors import CORS, cross_origin
 from omer_zaks import omer_zaks
-from saved_images import GOOGLE_IMAGE, UNDER_CONSTRUCTION_IMAGE
+from saved_images import GOOGLE_IMAGE, UNDER_CONSTRUCTION_IMAGE, FIRST_KNOWN_IMAGE
 
 from drawing_graph import Graph, get_random_id
 from drawing_graph import User
@@ -141,17 +141,16 @@ def send(path):
     return send_from_directory('site', path)
 
 
-
-#G = Graph()
-#GRAPH_LOCKED = False
-#node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
-#node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
-#                   is_finished=True)
-#node3 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
-#                   is_finished=True)
-#print("the current directory is: %s" % os.path.realpath('.'))
-#pickle.dump(G, file('./initial_graph.pkl','wb'))
-
+"""
+G = Graph()
+node1 = G.add_node(user_id="0000", drawing=FIRST_KNOWN_IMAGE, parent_node_id=None, is_finished=True)
+node2 = G.add_node(user_id="0000", drawing=FIRST_KNOWN_IMAGE, parent_node_id=node1.node_id,
+                   is_finished=True)
+node3 = G.add_node(user_id="0000", drawing=FIRST_KNOWN_IMAGE, parent_node_id=node1.node_id,
+                   is_finished=True)
+print("the current directory is: %s" % os.path.realpath('.'))
+pickle.dump(G, file('./initial_graph.pkl','wb'))
+"""
 
 print("this file is here: %s" % __file__)
 print("the current directory is: %s" % os.path.realpath('.'))
