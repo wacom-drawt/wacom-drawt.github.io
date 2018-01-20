@@ -143,8 +143,10 @@ function color(d) {
 function saveImagesAsPatternsInCanvas(canvasObj, root) {
 	var data = flatten(root);
 	var svg = canvasObj;
+	var prevDefs = d3.select("svg > defs");
+	var defs = prevDefs.empty() ? svg.append("defs") : prevDefs;
 
-	svg.append("defs")
+	defs
 		.selectAll("pattern")
 		.data(data)
 		.enter()
@@ -311,7 +313,6 @@ function addNodeToTree(node, parentId) {
 		return;
 	}
 
-	flatten(getRoot()); //Imprtant! here to give the node it's d3 id.
 	saveImagesAsPatternsInCanvas(svg, getRoot());
 	update();
 
