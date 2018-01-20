@@ -77,7 +77,7 @@ function updateNodes(nodesArray) {
 			return Math.sqrt(getSize(d) * 50);
 		})
 		.attr("fill", function (d) {
-			return "url(#" + d.node_id + ")";
+			return "url(#node_" + d.node_id + ")";
 		})
 		.call(drag)
 }
@@ -153,7 +153,7 @@ function saveImagesAsPatternsInCanvas(canvasObj, root) {
 		.append("pattern")
 		// This id will help finding the image later
 		.attr('id', function (d, i) {
-			return d.node_id;
+			return "node_" + d.node_id; //gotta have letter at begining of id
 		})
 		// Image will start filling by this offset
 		.attr("viewBox", function (d, i) {
