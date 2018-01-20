@@ -141,22 +141,26 @@ def send(path):
     return send_from_directory('site', path)
 
 
-"""
-G = Graph()
+
+#G = Graph()
 #GRAPH_LOCKED = False
-node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
-node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
-                   is_finished=True)
-node3 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
-                   is_finished=True)
-print("the current directory is: %s" % os.path.realpath('.'))
-pickle.dump(G, file('./initial_graph.pkl','wb'))
-"""
+#node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
+#node2 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
+#                   is_finished=True)
+#node3 = G.add_node(user_id="0000", drawing=UNDER_CONSTRUCTION_IMAGE, parent_node_id=node1.node_id,
+#                   is_finished=True)
+#print("the current directory is: %s" % os.path.realpath('.'))
+#pickle.dump(G, file('./initial_graph.pkl','wb'))
+
 
 print("this file is here: %s" % __file__)
 print("the current directory is: %s" % os.path.realpath('.'))
 #G = load_graph()
 #save_graph(G)
+
+#G = Graph()
+#node1 = G.add_node(user_id="0000", drawing=GOOGLE_IMAGE, parent_node_id=None, is_finished=True)
+#pickle.dump(G, open('./initial_graph.pkl', 'wb'))
 
 #this is just a comment for redeployment on Heroku
 
